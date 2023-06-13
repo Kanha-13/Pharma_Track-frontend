@@ -1,0 +1,12 @@
+:root {
+  --login-container-bg: "#5C469C"
+}
+
+#login-container {
+  background-color: var(--login-container-bg);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

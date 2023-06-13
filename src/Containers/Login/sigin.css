@@ -1,0 +1,31 @@
+.login-child-container {
+  background-color: #ffffff;
+  width: 80%;
+  height: 90%;
+  display: flex;
+  flex-direction: row;
+}
+
+.login-child-container .left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+}
+
+.login-child-container .right {
+  height: 100%;
+  width: 40%;
+  display: flex;
+  background-color: #EBE8FC;
+}
+
+  .login-child-container .right p{
+    font-size: 2rem;
+  }
+.login-child-container .right img {
+  height: 15%;
+  width: 20%;
+  background-size: contain;
+}
