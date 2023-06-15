@@ -4,6 +4,7 @@ import COLORS from "../../Constants/colors";
 import Signup from './Signup';
 import Signin from './Sigin';
 import { useNavigate } from 'react-router-dom';
+import { DASHBOARD } from '../../Constants/routes_frontend';
 const Login = () => {
   const navigate = useNavigate()
   const loginContainer = useRef()
@@ -13,7 +14,7 @@ const Login = () => {
     const mytoken = process.env.REACT_APP_SESSION
     const session = localStorage.getItem(mytoken)
     if (session) {
-      navigate("/home")
+      navigate(DASHBOARD)
     }
     loginContainer.current.style.setProperty('--login-container-bg', COLORS.LOGIN_CONTAINER_BG);
   }, [])

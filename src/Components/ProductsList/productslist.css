@@ -1,0 +1,45 @@
+#productslist-container {
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+  height: 100%;
+  border-radius: 0.8vw;
+  border: 2px solid #D4ADFC;
+  align-items: center;
+  width: 43%;
+}
+
+#productslist-container table {
+  width: 90%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+#productslist-container table tbody button {
+  outline: none;
+  text-align: left;
+  font-size: 1em;
+  border: none;
+  background-color: transparent;
+}
+#productslist-container table tbody tr {
+  border-bottom: 3vh solid #ffffff;
+}
+
+#productslist-container table tbody tr:hover {
+  background-color: #D4ADFC;
+}
+
+#productslist-container table tbody tr:focus-within td {
+  background-color: #D4ADFC;
+}
+
+.close-animation {
+  max-height: 15%;
+  transition: max-height 0.50s ease-out;
+}
+
+.open-animation {
+  max-height: 100%;
+  transition: max-height 0.50s ease-out;
+}

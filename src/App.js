@@ -10,13 +10,18 @@ import Loading from "./Components/Loading/Loading";
 import Error from "./Containers/Error";
 
 import COLORS from "./Constants/colors";
-import { DEFAULT, HOME } from "./Constants/routes_frontend";
+import { DEFAULT, DASHBOARD, PRODUCTS, BILLINGS, VENDORS, DELIVERY, EXPIRY } from "./Constants/routes_frontend";
 
 import "./app.css"
 import StateStore from "./Store/store";
+import Products from "./Containers/Products";
+import Billing from "./Containers/Billing";
+import Vendors from "./Containers/Vendors";
+import Delivery from "./Containers/Delivery";
+import Expiry from "./Containers/Expiry";
 
 const Login = lazy(() => import("./Containers/Login"));
-const Home = lazy(() => import("./Containers/Home"));
+const Dashboard = lazy(() => import("./Containers/Dashboard"));
 
 const App = () => {
   const appContainer = useRef()
@@ -30,7 +35,12 @@ const App = () => {
           <Suspense fallback={<Loading />}>
             <Routes>
               <Route path={DEFAULT} element={<Login />} />
-              <Route path={HOME} element={<Home />} />
+              <Route path={DASHBOARD} element={<Dashboard />} />
+              <Route path={PRODUCTS} element={<Products />} />
+              <Route path={BILLINGS} element={<Billing />} />
+              <Route path={VENDORS} element={<Vendors />} />
+              <Route path={DELIVERY} element={<Delivery />} />
+              <Route path={EXPIRY} element={<Expiry />} />
               <Route path="/*" element={<Error />} />
             </Routes>
           </Suspense>

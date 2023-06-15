@@ -1,1 +1,7 @@
 export const LOGIN_API = "/userLogin"
+export const GET_ALL_PRODUCTS = "/products"
+export const GET_PRODUCT = "/product"
+export const POST_PRODUCT = "/product"
+export const GET_INVOICE_COUNT = "/invoice/count"
+export const CHECKOUT_PRODUCT = "/product/reduceStock"
+export const GET_VENDORS = "/getPartyList"

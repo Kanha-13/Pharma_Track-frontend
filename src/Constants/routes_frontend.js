@@ -1,2 +1,7 @@
 export const DEFAULT = "/"
-export const HOME = "/home"
+export const DASHBOARD = "/dashboard"
+export const PRODUCTS = "/products"
+export const BILLINGS = "/billing"
+export const VENDORS = "/vendors"
+export const DELIVERY = "/delivery"
+export const EXPIRY = "/expiry"
