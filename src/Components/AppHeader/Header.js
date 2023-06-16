@@ -1,18 +1,15 @@
 import { useEffect, useState } from 'react';
 import Ganpatiji from "../../images/ganpatiji.png"
 import './header.css'
+import { to_dd_monthname_yy } from '../../utils/DateConverter';
 const Header = () => {
-  const [date, setDate] = useState("")
-  useEffect(() => {
-    setDate(new Date().toLocaleDateString())
-  }, []);
   return (
     <div id='app-header-container'>
       <div className='app-header-title' >
         <img className='app-header-img' src={Ganpatiji} />
-        <h2>Agrawal Medical Store</h2>
+        <p>Agrawal Medical Store</p>
       </div>
-      <p className='header-date-time'>{date}</p>
+      <p className='header-date-time'>{to_dd_monthname_yy()}</p>
     </div>
   );
 }

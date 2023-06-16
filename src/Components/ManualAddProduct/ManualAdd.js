@@ -52,23 +52,23 @@ const ManualAdd = () => {
       padding: "3%", flexDirection: "column", flexWrap: "wrap", width: "100%", height: "100%", borderRadius: "0.8vw"
     }}>
       {/* <input type="" /> */}
-      <Card name={PRODUCT.ITEMNAME} label="Item Name" value={productDetail.itemName} onchange={onchange} type="text" />
-      <Card name={PRODUCT.COMPANY} label="Company Name" value={productDetail.company} onchange={onchange} type="text" />
-      <Card name={PRODUCT.CATEGORY} label="Category" value={productDetail.category} onchange={onchange} type="radio" />
-      <Card name={PRODUCT.MRP} label="MRP" value={productDetail.mrp} onchange={onchange} type="text" />
-      <Card name={PRODUCT.HSN} label="HSN / SAC" value={productDetail.hsn_sac} onchange={onchange} type="text" />
-      <Card name={PRODUCT.MNFDATE} label="Mnf Date" value={productDetail.mnfDate} onchange={onchange} type="month" />
-      <Card name={PRODUCT.EXPDATE} label="Exp Date" value={productDetail.expDate} onchange={onchange} type="month" />
-      <Card name={PRODUCT.PURDATE} label="Purchase Date" value={productDetail.purDate} onchange={onchange} type="date" />
-      <Card name={PRODUCT.PACKING} label="Packing" value={productDetail.pkg} onchange={onchange} type="number" productDetail={productDetail} />
-      <Card name={PRODUCT.QNT} label="Quantity" value={productDetail.qnty} onchange={onchange} type="number" />
-      <Card name={PRODUCT.RATE} label="Rate" value={productDetail.rate} onchange={onchange} type="text" />
-      <Card name={PRODUCT.GST} label="GST" value={productDetail.gst} onchange={onchange} type="number" />
-      <Card name={PRODUCT.NETRATE} label="Net Rate" value={productDetail.netRate} onchange={onchange} type="text" productDetail={productDetail} />
-      <Card name={PRODUCT.VENDOR} label="Vendor" value={productDetail.vendor} onchange={onchange} type="select" />
-      <Card name={PRODUCT.BILLNO} label="Bill Number" value={productDetail.billNo} onchange={onchange} type="text" />
-      <Card name={PRODUCT.BATCH} label="Batch Number" value={productDetail.batch} onchange={onchange} type="text" />
-      <Card name={PRODUCT.LOCATION} label="Storage Location" value={productDetail.location} onchange={onchange} type="text" />
+      <Card focus={true} require={true} w="25%" h="4%" name={PRODUCT.ITEMNAME} label="Item Name" value={productDetail.itemName} onchange={onchange} type="text" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.COMPANY} label="Company Name" value={productDetail.company} onchange={onchange} type="text" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.CATEGORY} label="Category" value={productDetail.category} onchange={onchange} type="radio" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.MRP} label="MRP" value={productDetail.mrp} onchange={onchange} type="text" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.HSN} label="HSN / SAC" value={productDetail.hsn_sac} onchange={onchange} type="text" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.MNFDATE} label="Mnf Date" value={productDetail.mnfDate} onchange={onchange} type="month" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.EXPDATE} label="Exp Date" value={productDetail.expDate} onchange={onchange} type="month" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.PURDATE} label="Purchase Date" value={productDetail.purDate} onchange={onchange} type="date" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.PACKING} label="Packing" value={productDetail.pkg} onchange={onchange} type="number" productDetail={productDetail} />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.QNT} label="Quantity" value={productDetail.qnty} onchange={onchange} type="number" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.RATE} label="Rate" value={productDetail.rate} onchange={onchange} type="text" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.GST} label="GST" value={productDetail.gst} onchange={onchange} type="number" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.NETRATE} label="Net Rate" value={productDetail.netRate} onchange={onchange} type="text" productDetail={productDetail} />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.VENDOR} label="Vendor" value={productDetail.vendor} onchange={onchange} type="select" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.BILLNO} label="Bill Number" value={productDetail.billNo} onchange={onchange} type="text" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.BATCH} label="Batch Number" value={productDetail.batch} onchange={onchange} type="text" />
+      <Card require={true} w="25%" h="4%" name={PRODUCT.LOCATION} label="Storage Location" value={productDetail.location} onchange={onchange} type="text" />
       <button type="submit" style={{
         color: "#ffffff", fontSize: "1.3em", textAlign: "center",
         backgroundColor: "#5E48E8", padding: "1.5% 1.5%", width: "28%",

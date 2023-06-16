@@ -1,10 +1,8 @@
-#loading-container {
-  position: absolute;
-  height: 100%;
+#message-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  left: 0;
-  top: 0;
+  height: 100%;
 }

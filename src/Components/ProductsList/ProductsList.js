@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 
 import "./productslist.css"
-import { datetoJSformat, getMonthYear } from "../../utils/DateConverter";
+import { datetoJSformat, getmmyy } from "../../utils/DateConverter";
 
-const ProductsList = ({ h = "100%", w = "43%", products = [], onclick, onchange }) => {
+const ProductsList = ({ h = "100%", w = "43%", showRate = false, products = [], onclick, onchange }) => {
   const [search, setSearch] = useState("");
   const [listClass, setClass] = useState("layout-body close-animation")
   const onchangeval = (val) => {
@@ -17,6 +17,7 @@ const ProductsList = ({ h = "100%", w = "43%", products = [], onclick, onchange 
   }
 
   useEffect(() => {
+
     if (products.length)
       setClass("layout-body open-animation")
     else
@@ -32,7 +33,7 @@ const ProductsList = ({ h = "100%", w = "43%", products = [], onclick, onchange 
         products.length > 0 ?
           <table>
             <thead style={{
-              backgroundColor: "#ffffff", height: "5vh",
+              backgroundColor: "#ebe8fc", height: "5vh",
               position: "sticky", top: "8vh",
               marginBottom: "10px", borderBottom: "1px solid gray"
             }}>
@@ -41,6 +42,7 @@ const ProductsList = ({ h = "100%", w = "43%", products = [], onclick, onchange 
                 <th style={{}}>Pack</th>
                 <th style={{}}>Batch</th>
                 <th style={{ paddingLeft: "5%" }}>MRP</th>
+                {showRate ? <th>Net.R</th> : <></>}
                 <th style={{}}>Exp. date</th>
                 <th style={{}}>Stock</th>
               </tr>
@@ -49,13 +51,14 @@ const ProductsList = ({ h = "100%", w = "43%", products = [], onclick, onchange 
               {
                 products.map((item, index) => {
                   return (
-                    <tr onClick={() => onselectproduct(item.itemName)} style={{ cursor: "pointer", height: "5vh" }}>
+                    <tr onClick={() => onselectproduct(item.itemName)} style={{ cursor: "pointer", height: "10vh" }}>
                       <td style={{ width: "30%" }}><button>{item.itemName}</button></td>
                       <td style={{ width: "15%" }}>{item.qnty}</td>
                       <td style={{ width: "15%", wordBreak: "break-word" }}>{item.batch}</td>
-                      <td style={{ width: "20%", paddingLeft: "5%" }}>{item.mrp}</td>
-                      <td style={{ width: "15%" }}>{getMonthYear(item.expDate)}</td>
-                      <td style={{ width: "10%" }}>{item.stock}</td>
+                      <td style={{ width: "15%", paddingLeft: "5%" }}>{item.mrp}</td>
+                      {showRate ? <th style={{ width: "8%" }}>{item.netRate}</th> : <></>}
+                      <td style={{ width: "15%" }}>{getmmyy(item.expDate)}</td>
+                      <td style={{ width: "15%" }}>{item.stock}</td>
                     </tr>
                   )
                 })

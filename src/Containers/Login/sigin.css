@@ -18,6 +18,9 @@
   height: 100%;
   width: 40%;
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   background-color: #EBE8FC;
 }
 
@@ -25,7 +28,6 @@
     font-size: 2rem;
   }
 .login-child-container .right img {
-  height: 15%;
-  width: 20%;
-  background-size: contain;
+  height: 50%;
+  background-size: cover;
 }

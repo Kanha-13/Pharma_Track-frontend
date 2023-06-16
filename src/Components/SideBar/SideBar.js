@@ -4,30 +4,42 @@ import Billing from "../../images/icons/billing.png"
 import Vendors from "../../images/icons/vendors.png"
 import Delivery from "../../images/icons/delivery.png"
 import Expiry from "../../images/icons/expiry.png"
+import LogOut from "../../images/icons/logout.png"
 
 import "./sidebar.css"
+import { handleLogout } from "../../apis/login"
+import { ROUTES } from "../../Constants/routes_frontend"
+import { useNavigate, useLocation } from "react-router-dom"
 
-const SideBar = ({ current, onswitch }) => {
+const SideBar = ({ onswitch }) => {
+  const location = useLocation();
+  const navigate = useNavigate()
   const getBg = (name) => {
-    if (current === name)
+    if (location.pathname === ROUTES.PROTECTED_ROUTER + name)
       return "#EBE8FC"
     else return "#ffffff"
   }
   const getColor = (name) => {
-    if (current === name)
+    if (location.pathname === ROUTES.PROTECTED_ROUTER + name)
       return "#5E48E8"
     else return "#8C8CA1"
-
+  }
+  const onlogout = () => {
+    alert("All unsaved changed will be lost!")
+    localStorage.clear("accessToken")
+    navigate(ROUTES.PUBLIC_ROUTER + ROUTES.LOGIN, { replace: true })
+    handleLogout();
   }
   return (
-    <div id="sidebar-container" style={{ height: "100%", width: "15vw", borderRight: "2px solid #D6D8E7", display: "flex", alignItems: "center", flexDirection: "column" }}>
-      <button onClick={() => {}} style={{ textAlign: "centre", fontSize: "1rem", color: "#ffffff", width: "80%", height: "5vh", cursor: "pointer", margin: "40px 0px 30px 0px", border: "none", backgroundColor: "#5E48E8", borderRadius: "0.2rem" }}> + Quick Add</button>
-      <button onClick={() => onswitch("dashboard")} style={{ textAlign: "left", fontSize: "1rem", color: getColor("dashboard"), width: "80%", height: "5vh", cursor: "pointer", marginTop: "20px", border: "none", backgroundColor: getBg("dashboard"), borderRadius: "0.2rem", display: "flex", alignItems: "center" }}><img style={{ height: "3vh", width: "3vh", backgroundSize: "contain", marginRight: "10px", }} src={DashBoardIcon} />Dashboard</button>
-      <button onClick={() => onswitch("products")} style={{ textAlign: "left", fontSize: "1rem", color: getColor("products"), width: "80%", height: "5vh", cursor: "pointer", marginTop: "20px", border: "none", backgroundColor: getBg("products"), borderRadius: "0.2rem", display: "flex", alignItems: "center" }}><img style={{ height: "3vh", width: "3vh", backgroundSize: "contain", marginRight: "10px" }} src={Products} />Products</button>
-      <button onClick={() => onswitch("billing")} style={{ textAlign: "left", fontSize: "1rem", color: getColor("billing"), width: "80%", height: "5vh", cursor: "pointer", marginTop: "20px", border: "none", backgroundColor: getBg("billing"), borderRadius: "0.2rem", display: "flex", alignItems: "center" }}><img style={{ height: "3vh", width: "3vh", backgroundSize: "contain", marginRight: "10px" }} src={Billing} />Billing</button>
-      <button onClick={() => onswitch("vendors")} style={{ textAlign: "left", fontSize: "1rem", color: getColor("vendors"), width: "80%", height: "5vh", cursor: "pointer", marginTop: "20px", border: "none", backgroundColor: getBg("vendors"), borderRadius: "0.2rem", display: "flex", alignItems: "center" }}><img style={{ height: "3vh", width: "3vh", backgroundSize: "contain", marginRight: "10px" }} src={Vendors} />Vendors</button>
-      <button onClick={() => onswitch("delivery")} style={{ textAlign: "left", fontSize: "1rem", color: getColor("delivery"), width: "80%", height: "5vh", cursor: "pointer", marginTop: "20px", border: "none", backgroundColor: getBg("delivery"), borderRadius: "0.2rem", display: "flex", alignItems: "center" }}><img style={{ height: "3vh", width: "3vh", backgroundSize: "contain", marginRight: "10px" }} src={Delivery} />Delivery</button>
-      <button onClick={() => onswitch("expiry")} style={{ textAlign: "left", fontSize: "1rem", color: getColor("expiry"), width: "80%", height: "5vh", cursor: "pointer", marginTop: "20px", border: "none", backgroundColor: getBg("expiry"), borderRadius: "0.2rem", display: "flex", alignItems: "center" }}><img style={{ height: "3vh", width: "3vh", backgroundSize: "contain", marginRight: "10px" }} src={Expiry} />Expiry</button>
+    <div id="sidebar-container">
+      <button className="nav-btn" onClick={() => { }} style={{ fontSize: "1rem", color: "#ffffff", width: "80%", height: "5vh", cursor: "pointer", margin: "4vh 0px 3vh 0px", backgroundColor: "#5E48E8", borderRadius: "0.2rem", justifyContent: "center" }}><span style={{ fontSize: "1.5rem", marginRight: "5px" }}>+ </span>Quick Add</button>
+      <button className="nav-btn" onClick={() => onswitch(ROUTES.DASHBOARD)} style={{ color: getColor(ROUTES.DASHBOARD), backgroundColor: getBg(ROUTES.DASHBOARD), }}><img src={DashBoardIcon} />Dashboard</button>
+      <button className="nav-btn" onClick={() => onswitch(ROUTES.PRODUCTS)} style={{ color: getColor(ROUTES.PRODUCTS), backgroundColor: getBg(ROUTES.PRODUCTS), }}><img src={Products} />Products</button>
+      <button className="nav-btn" onClick={() => onswitch(ROUTES.BILLINGS)} style={{ color: getColor(ROUTES.BILLINGS), backgroundColor: getBg(ROUTES.BILLINGS), }}><img src={Billing} />Billing</button>
+      <button className="nav-btn" onClick={() => onswitch(ROUTES.VENDORS)} style={{ color: getColor(ROUTES.VENDORS), backgroundColor: getBg(ROUTES.VENDORS), }}><img src={Vendors} />Vendors</button>
+      <button className="nav-btn" onClick={() => onswitch(ROUTES.DELIVERY)} style={{ color: getColor(ROUTES.DELIVERY), backgroundColor: getBg(ROUTES.DELIVERY), }}><img src={Delivery} />Delivery</button>
+      <button className="nav-btn" onClick={() => onswitch(ROUTES.EXPIRY)} style={{ color: getColor(ROUTES.EXPIRY), backgroundColor: getBg(ROUTES.EXPIRY), }}><img src={Expiry} />Expiry</button>
+      <button id="logout-btn" onClick={onlogout}><img src={LogOut} />Log out</button>
     </div >
   );
 }

@@ -63,7 +63,7 @@ const Products = () => {
         {
           mode === -1 ?
             <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }} >
-              <ProductsList mh="400%" h="100%" w="100%" onchange={onchange} onclick={onclickproduct} products={productsList} />
+              <ProductsList showRate={true} mh="400%" h="100%" w="100%" onchange={onchange} onclick={onclickproduct} products={productsList} />
               {isSearchActive ? <></> : <div style={{
                 display: "flex", alignItems: "start", justifyContent: "space-around"
                 , width: "100%", height: "80%", marginTop: "10%"

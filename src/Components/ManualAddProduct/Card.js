@@ -2,7 +2,8 @@ import { useContext, useEffect, useState } from "react"
 import { PRODUCT } from "../../Schema/products"
 import { StateContext } from "../../Store/store"
 
-const Card = ({ productDetail, label = "", name = "", value = "", type = "text", onchange }) => {
+const Card = ({ require = false, w = "25%", h = "15%", productDetail,
+ label = "", name = "", value = "", type = "text", onchange,focus=false }) => {
   const { vendors } = useContext(StateContext)
   const [selectedCategory, setCategory] = useState("tablet")
   const [typee, setTyp] = useState(type);
@@ -52,16 +53,19 @@ const Card = ({ productDetail, label = "", name = "", value = "", type = "text",
 
   return (
     <div style={{
+      position: "relative",
       color: "#5E48E8", border: "2px solid #D6D8E7", display: "flex", flexDirection: "column",
-      justifyContent: "center", padding: "1.5%", width: "25%", borderRadius: "0.8vw", margin: "1.5%"
+      justifyContent: "center", padding: "1.5%", width: w, height: h, borderRadius: "0.8vw", margin: "1.5%"
     }}>
       <p style={{
-        padding: "0px 3px", margin: "-10% 1% 2% 1%", width: "45%",
-        backgroundColor: "#ffffff", textAlign: "center"
+        padding: "0px 2%",
+        position: "absolute",
+        top: -25, left: 20,
+        backgroundColor: "#ffffff", textAlign: "left"
       }}>{label}</p>
       {
         name === PRODUCT.VENDOR ?
-          <select required style={{ outline: "none", fontSize: "1.3rem", border: "none", margin: "0%", cursor: "pointer" }} onChange={(e) => onchange(name, e.target.value)}>
+          <select required={require} style={{ outline: "none", fontSize: "1.15rem", border: "none", margin: "0%", cursor: "pointer" }} onChange={(e) => onchange(name, e.target.value)}>
             <option value="" style={{ cursor: "pointer" }}>Select vendor</option>
             {
               vendors.map((vendor) => <option style={{ cursor: "pointer" }} value={vendor.partyName}>{vendor.partyName}</option>)
@@ -71,15 +75,15 @@ const Card = ({ productDetail, label = "", name = "", value = "", type = "text",
             <div style={{ width: "100%" }}>
               <button type="button" onClick={() => onclickbutton("bottle")} style={{
                 cursor: "pointer", color: getcolor("bottle"), width: "50%", border: "none",
-                backgroundColor: getbg("bottle"), fontSize: "1.3rem"
+                backgroundColor: getbg("bottle"), fontSize: "1.15rem"
               }}>Bottle</button>
               <button type="button" onClick={() => onclickbutton("tablet")} style={{
                 cursor: "pointer", color: getcolor("tablet"), width: "50%", border: "none",
-                backgroundColor: getbg("tablet"), fontSize: "1.3rem"
+                backgroundColor: getbg("tablet"), fontSize: "1.15rem"
               }}>Tablet</button>
             </div> :
-            <input placeholder={label} autoFocus={name === PRODUCT.ITEMNAME} required value={value} type={typee} onChange={(e) => onchange(name, e.target.value)}
-              style={{ fontSize: "1.3rem", cursor: "pointer", border: "none", outline: "none" }} />
+            <input placeholder={label} autoFocus={focus} required={require} value={value} type={typee} onChange={(e) => onchange(name, e.target.value)}
+              style={{ fontSize: "1.15rem", cursor: "pointer", border: "none", outline: "none" }} />
       }
     </div>
   );

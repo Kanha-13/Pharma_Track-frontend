@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Ganpatiji from "../../images/ganpatiji.png"
+import Ganpatiji from "../../images/ganpatiji.svg"
 import { useNavigate } from "react-router-dom";
 
 const Signup = ({ tosignin }) => {

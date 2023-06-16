@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
-import { datetoJSformat, getMonthYear } from "../../utils/DateConverter";
+import { datetoJSformat, getmmyy } from "../../utils/DateConverter";
 import { prodCheckout } from "../../apis/products";
 import { getInvoiceCount } from "../../apis/billing";
 
@@ -87,7 +87,7 @@ const Quotation = ({ onremoveItem, itemsIncart = [], onchangeqnty, onReset }) =>
                     <td style={{ width: "25%" }}>{item.itemName}</td>
                     <td style={{ width: "15%" }}>{item.batch}</td>
                     <td style={{ width: "10%" }}>{item.mrp}</td>
-                    <td style={{ width: "15%" }}>{getMonthYear(item.expDate)}</td>
+                    <td style={{ width: "15%" }}>{getmmyy(item.expDate)}</td>
                     <input className="quotation-soldqnty" autoFocus={itemsIncart.length - 1 === index} type="number" min={1}
                       max={item.stock} value={item.soldQnt}
                       onChange={(e) => onchangeqnty(index, e.target.value)} />

@@ -13,9 +13,9 @@
 .header-date-time {
   color: #0C134F;
   margin: 0px;
-  padding: 5px 5px;
-  font-size: 1.5rem;
-  font-weight: bolder;
+  padding: 5px 1vw;
+  font-size: 1.2rem;
+  font-weight: 500;
 }
 
 .app-header-title {
@@ -24,7 +24,7 @@
   align-items: center;
 }
 
-.app-header-title h2 {
+.app-header-title p {
   font-size: 1.5rem;
 }
 

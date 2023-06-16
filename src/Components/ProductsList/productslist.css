@@ -27,11 +27,17 @@
 }
 
 #productslist-container table tbody tr:hover {
-  background-color: #D4ADFC;
+  background-color: #D6D8E7;
+}
+#productslist-container table tbody tr th{
+  background-color: transparent;
 }
 
 #productslist-container table tbody tr:focus-within td {
-  background-color: #D4ADFC;
+  background-color: #D6D8E7;
+}
+#productslist-container table tbody tr:focus-within th {
+  background-color: #D6D8E7;
 }
 
 .close-animation {

@@ -7,6 +7,7 @@ import ProductsList from "../../Components/ProductsList/ProductsList";
 import { getProductWithInitials } from "../../apis/products";
 import { StateContext } from "../../Store/store";
 import { ACTION } from "../../Store/constants";
+import Loading from "../../Components/Loading/Loading";
 
 const Billing = () => {
   const { products, dispatch } = useContext(StateContext)
@@ -78,7 +79,7 @@ const Billing = () => {
   return (
     <Layout>
       {
-        loading ? <div style={{ display: "flex", justifyContent: "center", alignItems: "center", fontSize: "2rem", width: "100%", height: "100%" }}>Loading...</div> :
+        loading ? <Loading /> :
           <div id="billing-container" className="layout-body">
             <ProductsList onchange={onchange} onclick={onclickproduct} products={productsList} />
             <hr margi="2%" color="#D6D8E7" />
