@@ -1,21 +1,19 @@
-import { useEffect, useState, lazy } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import Layout from "../../Components/Layout/Layout";
 import DashboardCard from "../../Components/Dashboard/Card";
 import AlertIcon from "../../images/icons/alert.png"
 
 import "./index.css"
-import { ROUTES } from "../../Constants/routes_frontend";
 import Loading from "../../Components/Loading/Loading";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true)
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     setTimeout(() => {
       setLoading(false)
     }, 1000);
-  },[])
+  }, [])
   return (
     <Layout>
       {
