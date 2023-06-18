@@ -43,6 +43,7 @@ const App = () => {
           <Routes>
             <Route path={ROUTES.PUBLIC_ROUTER} element={<PublicRouter />}>
               <Route path={ROUTES.LOGIN} element={<Login />} />
+              <Route path="" element={<Error />} />
             </Route>
             <Route path={ROUTES.PROTECTED_ROUTER} element={<ProtectedRouter />}>
               <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
@@ -53,7 +54,9 @@ const App = () => {
               <Route path={ROUTES.VENDORS_INFO} element={<Vendors />} />
               <Route path={ROUTES.DELIVERY} element={<Delivery />} />
               <Route path={ROUTES.EXPIRY} element={<Expiry />} />
+              <Route path="" element={<Error />} />
             </Route>
+            <Route path="/*" element={<Error />} />
           </Routes>
         </Suspense>
       </StateStore>

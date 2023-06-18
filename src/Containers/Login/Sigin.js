@@ -20,6 +20,8 @@ const Signin = ({ tosignup }) => {
       if (res.token) {
         localStorage.setItem("accessToken", res.token)
         navigate(ROUTES.PROTECTED_ROUTER + ROUTES.DASHBOARD, { replace: true, state: { accessToken: res.token, } });
+      }else{
+        alert("Something wrong in the server!")
       }
     } catch (error) {
       if (error.response?.data.Error_message)
