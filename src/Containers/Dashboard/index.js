@@ -10,7 +10,7 @@ import Loading from "../../Components/Loading/Loading";
 
 const Dashboard = () => {
   const [loading, setLoading] = useState(true)
-  const { state } = useLocation();
+  
   useEffect(()=>{
     setTimeout(() => {
       setLoading(false)

@@ -25,8 +25,8 @@ const SideBar = ({ onswitch }) => {
     else return "#8C8CA1"
   }
   const onlogout = () => {
-    alert("All unsaved changed will be lost!")
-    localStorage.clear("accessToken")
+    alert("All unsaved changes are lost!")
+    localStorage.clear(process.env.REACT_APP_SESSION)
     navigate(ROUTES.PUBLIC_ROUTER + ROUTES.LOGIN, { replace: true })
     handleLogout();
   }
