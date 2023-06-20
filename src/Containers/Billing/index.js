@@ -1,28 +1,27 @@
-import { useContext, useEffect, useState } from "react";
-import Layout from "../../Components/Layout/Layout";
+import { useState } from "react";
+import { useStore } from "../../Store/store";
+import { ACTION } from "../../Store/constants";
+import { getProductWithInitials } from "../../apis/products";
 
-import './index.css'
+import Layout from "../../Components/Layout/Layout";
 import Quotation from "../../Components/Quotation/Quotation";
 import ProductsList from "../../Components/ProductsList/ProductsList";
-import { getProductWithInitials } from "../../apis/products";
-import { StateContext } from "../../Store/store";
-import { ACTION } from "../../Store/constants";
-import Loading from "../../Components/Loading/Loading";
+
+import './index.css'
 
 const Billing = () => {
-  const { products, dispatch } = useContext(StateContext)
+  const { products, dispatch } = useStore();
   const [productsList, setProductsList] = useState([])//this product list is the filtered list
   const [inCart, setCart] = useState([])
-  const [loading, setLoading] = useState(true)
 
-  const checkIfProdAlreadyExist = (item) => {
-    return !inCart.filter((cart) => cart.itemName === item).length
+  const checkIfProdAlreadyExist = (itemId) => {
+    return !inCart.filter((cart) => cart._id === itemId).length
   }
 
-  const onclickproduct = (itemname) => {
-    const selectedProd = productsList.filter((prod) => prod.itemName === itemname)[0];
+  const onclickproduct = (itemId) => {
+    const selectedProd = productsList.filter((prod) => prod._id === itemId)[0];
     selectedProd.soldQnt = 1
-    if (checkIfProdAlreadyExist(itemname))
+    if (checkIfProdAlreadyExist(itemId))
       setCart([...inCart, selectedProd]);
   }
 
@@ -37,6 +36,7 @@ const Billing = () => {
   }
 
   const onchange = (val) => {
+    val = val.trim()
     if (val === "") {
       setProductsList([])
       return
@@ -60,32 +60,19 @@ const Billing = () => {
     setCart([])
     setProductsList([])
     dispatch(ACTION.SET_PRODUCTS, [])
-    setLoading(true)
-    setTimeout(() => {
-      setLoading(false)
-    }, 400);
   }
 
   const onremoveItem = (itemName) => {
     setCart(inCart.filter((item) => item.itemName !== itemName))
   }
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 400);
-  }, [])
-
   return (
     <Layout>
-      {
-        loading ? <Loading /> :
-          <div id="billing-container" className="layout-body">
-            <ProductsList onchange={onchange} onclick={onclickproduct} products={productsList} />
-            <hr margi="2%" color="#D6D8E7" />
-            <Quotation onremoveItem={onremoveItem} onReset={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />
-          </div>
-      }
+      <div id="billing-container" className="layout-body borderbox">
+        <ProductsList onchange={onchange} onclick={onclickproduct} products={productsList} />
+        <hr margi="2%" color="#D6D8E7" />
+        <Quotation onremoveItem={onremoveItem} onReset={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />
+      </div>
     </Layout>
   );
 }

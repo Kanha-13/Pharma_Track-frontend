@@ -23,7 +23,7 @@ const VendorList = ({ vendors = [], onAdd }) => {
     setList(vendors)
   }, [vendors])
   return (
-    <div id="vendorlist-container" className="layout-body">
+    <div id="vendorlist-container" className="borderbox">
       <div style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center", width: "100%", height: "100%" }}>
         <Header onaddclick={onAdd} onchange={filterSearch} />
         <Body onClick={onclickvendor} vendors={vendorlist} />

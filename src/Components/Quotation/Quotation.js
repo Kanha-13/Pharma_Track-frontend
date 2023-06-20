@@ -57,7 +57,7 @@ const Quotation = ({ onremoveItem, itemsIncart = [], onchangeqnty, onReset }) =>
     updateInvoiceNumber()
   }, [])
   return (
-    <div id="quotation-container" className="layout-body" style={{
+    <div id="quotation-container" className="borderbox" style={{
 
     }}>
       <h2 style={{ margin: "1% 0%" }}>Invoice #{invoiceNumber}</h2>

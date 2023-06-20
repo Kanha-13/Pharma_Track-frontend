@@ -25,7 +25,6 @@ const ProtectedRouter = () => {
   }
 
   useEffect(() => {
-    console.log("user fall in protected router!")
     routeResolver()
   }, [])
   return (

@@ -2,32 +2,76 @@ import { useEffect, useRef, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 
 import "./productslist.css"
-import { datetoJSformat, getmmyy } from "../../utils/DateConverter";
+import { getmmyy } from "../../utils/DateConverter";
 
 const ProductsList = ({ h = "100%", w = "43%", showRate = false, products = [], onclick, onchange }) => {
   const [search, setSearch] = useState("");
-  const [listClass, setClass] = useState("layout-body close-animation")
+  const [currentIndex, setCurrentIndex] = useState(0);//-1 means none selected
+  const [listClass, setClass] = useState("borderbox close-animation");
+
   const onchangeval = (val) => {
     onchange(val)
     setSearch(val)
   }
 
-  const onselectproduct = (itemName) => {
-    onclick(itemName)
+  const handleEnterPress = () => {
+    console.log(currentIndex, "enter")
+    if (currentIndex !== -1)
+      onclick(products[currentIndex]._id)
+  }
+
+  const onselectproduct = (pId) => {
+    onclick(pId)
+  }
+
+  const handleListNav = (direction) => {
+    if (direction === "down") {
+      if (currentIndex < products.length - 1)
+        setCurrentIndex((prev) => prev + 1)
+      else if (currentIndex === products.length - 1)
+        setCurrentIndex(0)
+    }
+    else {
+      if (currentIndex > 0)
+        setCurrentIndex((prev) => prev - 1)
+      else if (currentIndex === 0)
+        setCurrentIndex(products.length - 1)
+    }
   }
 
   useEffect(() => {
+    if (currentIndex !== -1) {
+      const rows = document.getElementsByClassName("prod-row") || []
+      try {
+        products.map((row, index) => {
+          if (index === currentIndex) rows[index].style.backgroundColor = "#D6D8E7"
+          else rows[index].style.backgroundColor = "transparent"
+        })
+      } catch (error) { }
+    }
+  }, [currentIndex])
 
+  useEffect(() => {
+    const rows = document.getElementsByClassName("prod-row") || []
+    try {
+      products.map((row, index) => {
+        if (index === 0) rows[index].style.backgroundColor = "#D6D8E7"
+        else rows[index].style.backgroundColor = "transparent"
+      })
+    } catch (error) { }
+  }, [products])
+
+  useEffect(() => {
     if (products.length)
-      setClass("layout-body open-animation")
+      setClass("borderbox open-animation")
     else
-      setClass("layout-body close-animation")
+      setClass("borderbox close-animation")
   }, [products])
 
   return (
     <div id="productslist-container" style={{ height: h, width: w }} className={listClass}>
       <div style={{ backgroundColor: "#ffffff", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "8vh", width: "100%", position: "sticky", top: "0px" }}>
-        <SearchBar onchange={onchangeval} h="3vh" w="90%" placeholder="Search product..." val={search} />
+        <SearchBar onEnter={handleEnterPress} onNav={handleListNav} onchange={onchangeval} h="3vh" w="90%" placeholder="Search product..." val={search} />
       </div>
       {
         products.length > 0 ?
@@ -51,7 +95,7 @@ const ProductsList = ({ h = "100%", w = "43%", showRate = false, products = [], 
               {
                 products.map((item, index) => {
                   return (
-                    <tr onClick={() => onselectproduct(item.itemName)} style={{ cursor: "pointer", height: "10vh" }}>
+                    <tr key={`${item._id}-product-list`} className="prod-row" onClick={() => onselectproduct(item._id)} style={{ cursor: "pointer", height: "10vh" }}>
                       <td style={{ width: "30%" }}><button>{item.itemName}</button></td>
                       <td style={{ width: "15%" }}>{item.qnty}</td>
                       <td style={{ width: "15%", wordBreak: "break-word" }}>{item.batch}</td>

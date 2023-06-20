@@ -1,4 +1,4 @@
-import React, { useState, createContext } from "react";
+import React, { useState, createContext, useContext } from "react";
 import { ACTION } from "./constants";
 const StateStore = (props) => {
 
@@ -39,4 +39,5 @@ const StateStore = (props) => {
 }
 
 export const StateContext = createContext();
+export const useStore = () => useContext(StateContext);
 export default StateStore;

@@ -1,0 +1,24 @@
+#manualadd-prod-container {
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-radius: 0.8vw;
+}
+
+#submit-add-prod {
+  color: #ffffff;
+  font-size: 1.3em;
+  text-align: center;
+  background-color: #7763f2;
+  padding: 1.5%;
+  width: 28%;
+  border-radius: 0.8vw;
+  margin: 1.5%;
+  cursor: pointer;
+  border: none;
+}
+
+#submit-add-prod:focus {
+  background-color: #5E48E8;
+}

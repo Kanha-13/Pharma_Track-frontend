@@ -12,7 +12,6 @@ const PublicRouter = () => {
     else return false
   }
   useEffect(() => {
-    console.log("user in public router!")
     if (checkSession())
       navigate(ROUTES.PROTECTED_ROUTER + ROUTES.DASHBOARD, { replace: true })
     else {

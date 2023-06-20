@@ -14,7 +14,7 @@ const Expiry = () => {
 
   return (
     <Layout>
-      <div id="expiry-container" className="layout-body">
+      <div id="expiry-container" className="layout-body borderbox">
         <div style={{ marginBottom: "2%", display: "flex", width: "100%", height: "30%", justifyContent: "space-around", alignItems: "center" }}>
           <DashboardCard count="10" h="" onclick={() => { }} label="Expired" />
           <DashboardCard count="10" h="" onclick={() => { }} label="Expiry soon" />

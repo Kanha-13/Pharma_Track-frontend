@@ -1,15 +1,20 @@
-export const LOGIN_API = "/userLogin"
-export const SIGNUP_API = "/userSignUp"
-export const VERIFY_OTP = "/userOTPverification"
-export const RESET_PASSWORD_VERIFY_OTP = "/resetPasswordOTPverification"
-export const SUBMIT_NEW_PASSWORD = "/newPasswordReset"
-export const RESEND_OTP = "/resendUserOTP"
-export const FORGET_PASSWORD = "/forgetPassword"
-export const GET_ALL_PRODUCTS = "/products"
-export const GET_PRODUCT = "/product"
-export const POST_PRODUCT = "/product"
-export const GET_INVOICE_COUNT = "/invoice/count"
-export const CHECKOUT_PRODUCT = "/product/reduceStock"
-export const GET_VENDORS = "/getPartyList"
-export const ADD_VENDORS = "/partyManage"
-export const LOGOUT = "/logOut"
+export const API = {
+  LOGIN_API: "/userLogin",
+  SIGNUP_API: "/userSignUp",
+  VERIFY_OTP: "/userOTPverification",
+  RESET_PASSWORD_VERIFY_OTP: "/resetPasswordOTPverification",
+  SUBMIT_NEW_PASSWORD: "/newPasswordReset",
+  RESEND_OTP: "/resendUserOTP",
+  FORGET_PASSWORD: "/forgetPassword",
+  GET_ALL_PRODUCTS: "/products",
+  GET_PRODUCT: "/product",
+  UPDATE_PRODUCT: "/product",
+  POST_PRODUCT: "/product",
+  GET_INVOICE_COUNT: "/invoice/count",
+  CHECKOUT_PRODUCT: "/product/reduceStock",
+  GET_VENDORS: "/getPartyList",
+  ADD_VENDORS: "/partyManage",
+  LOGOUT: "/logOut"
+}
+
+ 

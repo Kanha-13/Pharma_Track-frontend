@@ -1,0 +1,5 @@
+export const PRODUCT_CATEGORY = {
+  TABLET: "TABLET",
+  BOTTLE: "BOTTLE",
+  TUBE: "TUBE"
+}

@@ -1,0 +1,7 @@
+#prodInfo-container{
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-radius: 0.8vw;
+}

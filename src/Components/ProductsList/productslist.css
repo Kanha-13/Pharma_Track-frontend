@@ -4,7 +4,7 @@
   overflow: auto;
   height: 100%;
   border-radius: 0.8vw;
-  border: 2px solid #D4ADFC;
+  border: 2px solid #D6D8E7;
   align-items: center;
   width: 43%;
 }
@@ -42,7 +42,7 @@
 
 .close-animation {
   max-height: 15%;
-  transition: max-height 0.50s ease-out;
+  transition: max-height 0.30s ease-out;
 }
 
 .open-animation {

@@ -2,7 +2,7 @@ import './message.css'
 import NewVendor from '../../../images/illustrations/newVendor.jpg'
 const Message = ({onAdd}) => {
   return (
-    <div id="message-container" className="layout-body">
+    <div id="message-container" className="borderbox">
       <p style={{ fontSize: "2rem" }}>No Vendors in the list</p>
       <img style={{ height: "60%", backgroundSize: "cover" }} src={NewVendor} />
       <button onClick={onAdd} style={{

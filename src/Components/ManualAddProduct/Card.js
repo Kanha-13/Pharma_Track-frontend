@@ -1,90 +1,66 @@
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { PRODUCT } from "../../Schema/products"
-import { StateContext } from "../../Store/store"
 
-const Card = ({ require = false, w = "25%", h = "15%", productDetail,
- label = "", name = "", value = "", type = "text", onchange,focus=false }) => {
-  const { vendors } = useContext(StateContext)
-  const [selectedCategory, setCategory] = useState("tablet")
+import KEY from "../../Constants/keyCode";
+import { PRODUCT_CATEGORY } from "../../Constants/productCategories";
+
+const Card = (props) => {
+  let { require = false, w = "25%", h = "15%", productDetail,
+    label = "", name = "", value = "", type = "text", onchange, focus = false, options = [] } = props
   const [typee, setTyp] = useState(type);
-  const onclickbutton = (val) => {
-    setCategory(val)
-    if (val === "bottle")
-      onchange(name, "bottle")
-    else
-      onchange(name, "tablet")
-  }
-
-  const getbg = (val) => {
-    if (val === selectedCategory)
-      return "#5e48e8"
-    else
-      return "#ffffff"
-  }
-
-  const getcolor = (val) => {
-    if (val === selectedCategory)
-      return "#ffffff"
-    else
-      return "#000000"
-  }
 
   useEffect(() => {
-    if (productDetail?.category === "tablet" && name === PRODUCT.PACKING)
+    if (productDetail?.category === PRODUCT_CATEGORY.TABLET && name === PRODUCT.PACKING)
       setTyp("number")
-    else if (productDetail?.category === "bottle" && name === PRODUCT.PACKING)
+    else if (productDetail?.category === PRODUCT_CATEGORY.BOTTLE && name === PRODUCT.PACKING)
       setTyp("text")
   }, [productDetail?.category])
 
-  useEffect(() => {
 
-    if (name === PRODUCT.NETRATE) {
-      const rate = parseFloat(productDetail?.rate)
-      const gst = parseFloat(productDetail?.gst)
-
-      let calcNetRate = ((rate * gst) / 100) + rate || rate || 0
-      onchange(PRODUCT.NETRATE, calcNetRate)
+  const checkForEnterKey = (event) => {
+    if (event.keyCode === KEY.ENTER) {
+      event.preventDefault();
+      if (event.target.value === "")
+        return alert("Cannot be blank!")
+      const inputs = Array.from(document.getElementsByClassName('custom-input-fields'));
+      const currentIndex = inputs.indexOf(event.target);
+      const nextIndex = currentIndex + 1;
+      if (nextIndex < inputs.length + 1) {
+        const nextInput = inputs[nextIndex];
+        try { nextInput.focus(); } catch (error) { }
+      }
     }
-  }, [productDetail?.rate, productDetail?.gst])
+  }
 
-  useEffect(() => {
-    console.log(vendors)
-  }, [])
+  const getInputType = () => {
+    switch (type) {
+      case "select":
+        return <select value={value} className="custom-input-fields" onKeyDown={checkForEnterKey}
+          required={require} style={{
+            outline: "none", fontSize: "1.15rem", border: "none",
+            margin: "0%", cursor: "pointer"
+          }} onChange={(e) => onchange(name, e.target.value)}>
+          {
+            options.map((option) => <option key={option.name} style={{ cursor: "pointer" }}
+              value={option.value}>{option.name}</option>)
+          }
+        </select>
+      default:
+        return <input className="custom-input-fields" onKeyDown={checkForEnterKey} placeholder={label}
+          autoFocus={focus} required={require} value={value} type={typee}
+          onChange={(e) => onchange(name, e.target.value)} />
+    }
+  }
 
   return (
-    <div style={{
-      position: "relative",
-      color: "#5E48E8", border: "2px solid #D6D8E7", display: "flex", flexDirection: "column",
-      justifyContent: "center", padding: "1.5%", width: w, height: h, borderRadius: "0.8vw", margin: "1.5%"
-    }}>
+    <div className="manualadd-inputs-div" style={{ height: h, width: w }}>
       <p style={{
         padding: "0px 2%",
         position: "absolute",
         top: -25, left: 20,
         backgroundColor: "#ffffff", textAlign: "left"
       }}>{label}</p>
-      {
-        name === PRODUCT.VENDOR ?
-          <select required={require} style={{ outline: "none", fontSize: "1.15rem", border: "none", margin: "0%", cursor: "pointer" }} onChange={(e) => onchange(name, e.target.value)}>
-            <option value="" style={{ cursor: "pointer" }}>Select vendor</option>
-            {
-              vendors.map((vendor) => <option style={{ cursor: "pointer" }} value={vendor.partyName}>{vendor.partyName}</option>)
-            }
-          </select> :
-          type === "radio" ?
-            <div style={{ width: "100%" }}>
-              <button type="button" onClick={() => onclickbutton("bottle")} style={{
-                cursor: "pointer", color: getcolor("bottle"), width: "50%", border: "none",
-                backgroundColor: getbg("bottle"), fontSize: "1.15rem"
-              }}>Bottle</button>
-              <button type="button" onClick={() => onclickbutton("tablet")} style={{
-                cursor: "pointer", color: getcolor("tablet"), width: "50%", border: "none",
-                backgroundColor: getbg("tablet"), fontSize: "1.15rem"
-              }}>Tablet</button>
-            </div> :
-            <input placeholder={label} autoFocus={focus} required={require} value={value} type={typee} onChange={(e) => onchange(name, e.target.value)}
-              style={{ fontSize: "1.15rem", cursor: "pointer", border: "none", outline: "none" }} />
-      }
+      {getInputType()}
     </div>
   );
 }

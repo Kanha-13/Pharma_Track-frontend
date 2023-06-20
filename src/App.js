@@ -1,8 +1,7 @@
 import { useEffect, useRef, lazy, Suspense } from "react";
 import {
   Route,
-  Routes,
-  useNavigate
+  Routes
 } from "react-router-dom";
 
 import Loading from "./Components/Loading/Loading";
@@ -21,16 +20,15 @@ import Expiry from "./Containers/Expiry";
 import VendorForm from "./Components/Vendors/VendorForm/VendorForm";
 import PublicRouter from "./utils/PublicRouter/PublicRouter";
 import ProtectedRouter from "./utils/ProtectedRouter/ProtectedRouter";
+import Stocks from "./Containers/Stocks";
+import ManualAdd from "./Components/ManualAddProduct/ManualAdd";
+import ProductInfo from "./Containers/ProductInfo";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
 
 const App = () => {
   const appContainer = useRef();
-
-  useEffect(() => {
-    console.log("user fall in App.js")
-  }, [])
 
   useEffect(() => {
     appContainer.current.style.setProperty('--app-bg', COLORS.APP_BG);
@@ -48,6 +46,9 @@ const App = () => {
             <Route path={ROUTES.PROTECTED_ROUTER} element={<ProtectedRouter />}>
               <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
               <Route path={ROUTES.PRODUCTS} element={<Products />} />
+              <Route path={ROUTES.PRODUCT_ADD_MANUAL} element={<ManualAdd />} />
+              <Route path={ROUTES.PRODUCT_INFO} element={<ProductInfo />} />
+              <Route path={ROUTES.STOCKS} element={<Stocks />} />
               <Route path={ROUTES.BILLINGS} element={<Billing />} />
               <Route path={ROUTES.VENDORS} element={<Vendors />} />
               <Route path={ROUTES.VENDORS_ADD} element={<VendorForm />} />
