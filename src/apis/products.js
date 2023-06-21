@@ -26,6 +26,11 @@ export const udpateProduct = async (pId,data) => {
   return res.data
 }
 
+export const deleteProduct = async (pId) => {
+  const res = await axios_instance.delete(`${API.DELETE_PRODUCT}?item=${pId}`)
+  return res.data
+}
+
 export const prodCheckout = async (data) => {
   const res = await axios_instance.post(`${API.CHECKOUT_PRODUCT}`, data)
   return res.data

@@ -9,6 +9,7 @@ export const API = {
   GET_ALL_PRODUCTS: "/products",
   GET_PRODUCT: "/product",
   UPDATE_PRODUCT: "/product",
+  DELETE_PRODUCT: "/product",
   POST_PRODUCT: "/product",
   GET_INVOICE_COUNT: "/invoice/count",
   CHECKOUT_PRODUCT: "/product/reduceStock",

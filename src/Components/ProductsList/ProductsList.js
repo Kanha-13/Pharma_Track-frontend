@@ -3,10 +3,11 @@ import SearchBar from "../SearchBar/SearchBar";
 
 import "./productslist.css"
 import { getmmyy } from "../../utils/DateConverter";
+import { checkForScroll, scrollElement } from "../../utils/dom";
 
-const ProductsList = ({ h = "100%", w = "43%", showRate = false, products = [], onclick, onchange }) => {
+const ProductsList = ({ header = [], h = "100%", w = "43%", data = [], onclick, onchange }) => {
   const [search, setSearch] = useState("");
-  const [currentIndex, setCurrentIndex] = useState(0);//-1 means none selected
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [listClass, setClass] = useState("borderbox close-animation");
 
   const onchangeval = (val) => {
@@ -15,9 +16,8 @@ const ProductsList = ({ h = "100%", w = "43%", showRate = false, products = [], 
   }
 
   const handleEnterPress = () => {
-    console.log(currentIndex, "enter")
-    if (currentIndex !== -1)
-      onclick(products[currentIndex]._id)
+    if (data.length)
+      onclick(data[currentIndex]._id)
   }
 
   const onselectproduct = (pId) => {
@@ -26,47 +26,50 @@ const ProductsList = ({ h = "100%", w = "43%", showRate = false, products = [], 
 
   const handleListNav = (direction) => {
     if (direction === "down") {
-      if (currentIndex < products.length - 1)
+      if (currentIndex < data.length - 1)
         setCurrentIndex((prev) => prev + 1)
-      else if (currentIndex === products.length - 1)
+      else if (currentIndex === data.length - 1)
         setCurrentIndex(0)
     }
     else {
       if (currentIndex > 0)
         setCurrentIndex((prev) => prev - 1)
       else if (currentIndex === 0)
-        setCurrentIndex(products.length - 1)
+        setCurrentIndex(data.length - 1)
     }
   }
 
   useEffect(() => {
-    if (currentIndex !== -1) {
-      const rows = document.getElementsByClassName("prod-row") || []
-      try {
-        products.map((row, index) => {
-          if (index === currentIndex) rows[index].style.backgroundColor = "#D6D8E7"
-          else rows[index].style.backgroundColor = "transparent"
-        })
-      } catch (error) { }
-    }
+    const rows = document.getElementsByClassName("prod-row") || []
+    try {
+      data.map((row, index) => {
+        if (index === currentIndex) {
+          if (!checkForScroll("product-data-container", rows[index]))
+            scrollElement("product-data-container", rows[index])
+          rows[index].style.backgroundColor = "#D6D8E7"
+        }
+        else rows[index].style.backgroundColor = "transparent"
+      })
+    } catch (error) { }
   }, [currentIndex])
 
   useEffect(() => {
+    setCurrentIndex(0)
     const rows = document.getElementsByClassName("prod-row") || []
     try {
-      products.map((row, index) => {
+      data.map((row, index) => {
         if (index === 0) rows[index].style.backgroundColor = "#D6D8E7"
         else rows[index].style.backgroundColor = "transparent"
       })
     } catch (error) { }
-  }, [products])
+  }, [data])
 
   useEffect(() => {
-    if (products.length)
+    if (data.length)
       setClass("borderbox open-animation")
     else
       setClass("borderbox close-animation")
-  }, [products])
+  }, [data])
 
   return (
     <div id="productslist-container" style={{ height: h, width: w }} className={listClass}>
@@ -74,41 +77,36 @@ const ProductsList = ({ h = "100%", w = "43%", showRate = false, products = [], 
         <SearchBar onEnter={handleEnterPress} onNav={handleListNav} onchange={onchangeval} h="3vh" w="90%" placeholder="Search product..." val={search} />
       </div>
       {
-        products.length > 0 ?
-          <table>
-            <thead style={{
-              backgroundColor: "#ebe8fc", height: "5vh",
-              position: "sticky", top: "8vh",
-              marginBottom: "10px", borderBottom: "1px solid gray"
-            }}>
-              <tr>
-                <th style={{}}>Item</th>
-                <th style={{}}>Pack</th>
-                <th style={{}}>Batch</th>
-                <th style={{ paddingLeft: "5%" }}>MRP</th>
-                {showRate ? <th>Net.R</th> : <></>}
-                <th style={{}}>Exp. date</th>
-                <th style={{}}>Stock</th>
-              </tr>
-            </thead>
-            <tbody >
-              {
-                products.map((item, index) => {
-                  return (
-                    <tr key={`${item._id}-product-list`} className="prod-row" onClick={() => onselectproduct(item._id)} style={{ cursor: "pointer", height: "10vh" }}>
-                      <td style={{ width: "30%" }}><button>{item.itemName}</button></td>
-                      <td style={{ width: "15%" }}>{item.qnty}</td>
-                      <td style={{ width: "15%", wordBreak: "break-word" }}>{item.batch}</td>
-                      <td style={{ width: "15%", paddingLeft: "5%" }}>{item.mrp}</td>
-                      {showRate ? <th style={{ width: "8%" }}>{item.netRate}</th> : <></>}
-                      <td style={{ width: "15%" }}>{getmmyy(item.expDate)}</td>
-                      <td style={{ width: "15%" }}>{item.stock}</td>
-                    </tr>
-                  )
-                })
-              }
-            </tbody>
-          </table> : <></>}
+        data.length > 0 ?
+          <>
+            <table style={{ height: "5vh", width: "90%" }}>
+              <thead style={{
+                backgroundColor: "#ebe8fc", height: "5vh",
+                marginBottom: "10px", borderBottom: "1px solid gray"
+              }}>
+                <tr >
+                  {header.map((head) => <th style={{ width: head.colSize }}>{head.name}</th>)}
+                </tr>
+              </thead>
+            </table>
+            <div id="product-data-container" style={{ width: "90%", maxHeight: "65vh", overflow: "auto" }}>
+              <table style={{ width: "100%" }}>
+                <tbody>
+                  {
+                    data.map((item, index) => {
+                      return (
+                        <tr key={`${item._id}-product-list`} className="prod-row" onClick={() => onselectproduct(item._id)} style={{ cursor: "pointer", height: "10vh" }}>
+                          {
+                            header.map((head) => <td style={{ width: head.colSize }}>{item[head.value] || "NILL"}</td>)
+                          }
+                        </tr>
+                      )
+                    })
+                  }
+                </tbody>
+              </table>
+            </div>
+          </> : <></>}
     </div>
   );
 }

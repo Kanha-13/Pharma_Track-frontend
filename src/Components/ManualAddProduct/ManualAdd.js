@@ -1,15 +1,16 @@
 import { useState } from "react";
-import Card from "./Card";
 import { PRODUCT, productdetail } from "../../Schema/products";
 import { addProdManually } from "../../apis/products";
 import { useStore } from "../../Store/store";
 import { ACTION } from "../../Store/constants";
+import { ProductCategories } from "../../Constants/productCategories";
+
+import Layout from "../Layout/Layout";
+import Card from "./Card";
 
 import './manualadd.css'
 import './card.css'
-import Layout from "../Layout/Layout";
-import { PRODUCT_CATEGORY } from "../../Constants/productCategories";
-import { useNavigate } from "react-router-dom";
+
 const ManualAdd = () => {
   const { dispatch } = useStore();
   const [productDetail, setProductDetail] = useState(productdetail);
@@ -30,13 +31,6 @@ const ManualAdd = () => {
     }
   }
 
-  const getCategoriesOption = () => {
-    const keys = Object.keys(PRODUCT_CATEGORY)
-    return keys.map((key) => {
-      return { name: key, value: PRODUCT_CATEGORY[key] };
-    })
-  }
-
   return (
     <Layout>
       <div id="manualadd-prod-container" className="layout-body borderbox" >
@@ -45,7 +39,7 @@ const ManualAdd = () => {
         </div>
         <Card focus={true} require={true} w="25%" h="4%" name={PRODUCT.ITEMNAME} label="Item Name" value={productDetail.itemName} onchange={onchange} type="text" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.COMPANY} label="Company Name" value={productDetail.company} onchange={onchange} type="text" />
-        <Card require={true} w="25%" h="4%" name={PRODUCT.CATEGORY} label="Category" value={productDetail.category} onchange={onchange} type="select" options={getCategoriesOption()} />
+        <Card require={true} w="25%" h="4%" name={PRODUCT.CATEGORY} label="Category" value={productDetail.category} onchange={onchange} type="select" options={ProductCategories} />
         <Card require={true} w="25%" h="4%" name={PRODUCT.HSN} label="HSN / SAC" value={productDetail.hsn_sac} onchange={onchange} type="text" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.PACKING} label="Packing" value={productDetail.pkg} onchange={onchange} type="number" productDetail={productDetail} />
         <Card require={true} w="25%" h="4%" name={PRODUCT.GST} label="GST" value={productDetail.gst} onchange={onchange} type="number" />

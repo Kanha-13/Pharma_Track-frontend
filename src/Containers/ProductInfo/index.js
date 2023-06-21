@@ -1,22 +1,23 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { getProduct, udpateProduct } from "../../apis/products";
+import { useStore } from "../../Store/store";
+import { deleteProduct, getProduct, udpateProduct } from "../../apis/products";
 import { ROUTES } from "../../Constants/routes_frontend";
 import { PRODUCT, productdetail } from "../../Schema/products";
 import { validateUpdateRequest } from "../../utils/product";
+import { ACTION } from "../../Store/constants";
+import { ProductCategories } from "../../Constants/productCategories";
 
 import Layout from "../../Components/Layout/Layout";
+import Card from "../../Components/ManualAddProduct/Card";
 
 import './index.css'
-import Card from "../../Components/ManualAddProduct/Card";
-import { PRODUCT_CATEGORY } from "../../Constants/productCategories";
-import { useStore } from "../../Store/store";
-import { ACTION } from "../../Store/constants";
 
 const ProductInfo = () => {
   const navigate = useNavigate()
   const { dispatch } = useStore();
   const [searchParams] = useSearchParams();
+  const [deletePop, setDeletePop] = useState(0);
   const [productDetail, setProductDetail] = useState(productdetail);
 
   const onchange = (name, value) => {
@@ -32,6 +33,16 @@ const ProductInfo = () => {
     }
   }
 
+  const onDelete = async () => {
+    try {
+      const res = await deleteProduct(productDetail._id, productDetail)
+      dispatch(ACTION.SET_PRODUCTS, [])
+      alert("Product deleted successfully!")
+      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCTS)
+    } catch (error) {
+      alert("Unable to delete product!")
+    }
+  }
   const onUpdate = async () => {
     try {
       if (validateUpdateRequest(productDetail)) {
@@ -44,13 +55,6 @@ const ProductInfo = () => {
     } catch (error) {
       console.log(error)
     }
-  }
-
-  const getCategoriesOption = () => {
-    const keys = Object.keys(PRODUCT_CATEGORY)
-    return keys.map((key) => {
-      return { name: key, value: PRODUCT_CATEGORY[key] };
-    })
   }
 
   useEffect(() => {
@@ -66,12 +70,23 @@ const ProductInfo = () => {
         </div>
         <Card focus={true} require={true} w="25%" h="4%" name={PRODUCT.ITEMNAME} label="Item Name" value={productDetail.itemName} onchange={onchange} type="text" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.COMPANY} label="Company Name" value={productDetail.company} onchange={onchange} type="text" />
-        <Card require={true} w="25%" h="4%" name={PRODUCT.CATEGORY} label="Category" value={productDetail.category} onchange={onchange} type="select" options={getCategoriesOption()} />
+        <Card require={true} w="25%" h="4%" name={PRODUCT.CATEGORY} label="Category" value={productDetail.category} onchange={onchange} type="select" options={ProductCategories} />
         <Card require={true} w="25%" h="4%" name={PRODUCT.HSN} label="HSN / SAC" value={productDetail.hsn_sac} onchange={onchange} type="text" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.PACKING} label="Packing" value={productDetail.pkg} onchange={onchange} type="number" productDetail={productDetail} />
         <Card require={true} w="25%" h="4%" name={PRODUCT.GST} label="GST" value={productDetail.gst} onchange={onchange} type="number" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.LOCATION} label="Storage Location" value={productDetail.location} onchange={onchange} type="text" />
         <button id="submit-add-prod" className="custom-input-fields" onClick={onUpdate} type="submit">Update Product</button>
+        <button id="submit-delete-prod" onClick={() => setDeletePop(1)} type="submit">Delete Product</button>
+        {
+          deletePop ?
+            <div id="delete-pop">
+              <div id="delete-pop-box">
+                <label >Do you really want to delete {productDetail.itemName}</label>
+                <button autoFocus={true} style={{ backgroundColor: "#4de671" }} onClick={() => setDeletePop(false)}>Cancel</button>
+                <button style={{ backgroundColor: "#ff4343" }} onClick={onDelete}>Delete</button>
+              </div>
+            </div> : <></>
+        }
       </div>
     </Layout>
   );

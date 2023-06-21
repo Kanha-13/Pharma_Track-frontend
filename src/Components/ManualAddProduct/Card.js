@@ -2,20 +2,10 @@ import { useEffect, useState } from "react"
 import { PRODUCT } from "../../Schema/products"
 
 import KEY from "../../Constants/keyCode";
-import { PRODUCT_CATEGORY } from "../../Constants/productCategories";
 
 const Card = (props) => {
-  let { require = false, w = "25%", h = "15%", productDetail,
+  let { require = false, w = "25%", h = "15%",
     label = "", name = "", value = "", type = "text", onchange, focus = false, options = [] } = props
-  const [typee, setTyp] = useState(type);
-
-  useEffect(() => {
-    if (productDetail?.category === PRODUCT_CATEGORY.TABLET && name === PRODUCT.PACKING)
-      setTyp("number")
-    else if (productDetail?.category === PRODUCT_CATEGORY.BOTTLE && name === PRODUCT.PACKING)
-      setTyp("text")
-  }, [productDetail?.category])
-
 
   const checkForEnterKey = (event) => {
     if (event.keyCode === KEY.ENTER) {
@@ -41,13 +31,13 @@ const Card = (props) => {
             margin: "0%", cursor: "pointer"
           }} onChange={(e) => onchange(name, e.target.value)}>
           {
-            options.map((option) => <option key={option.name} style={{ cursor: "pointer" }}
-              value={option.value}>{option.name}</option>)
+            options.map((option) => <option key={option.label} style={{ cursor: "pointer" }}
+              value={option.value}>{option.label}</option>)
           }
         </select>
       default:
         return <input className="custom-input-fields" onKeyDown={checkForEnterKey} placeholder={label}
-          autoFocus={focus} required={require} value={value} type={typee}
+          autoFocus={focus} required={require} value={value} type={type}
           onChange={(e) => onchange(name, e.target.value)} />
     }
   }

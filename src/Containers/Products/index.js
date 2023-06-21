@@ -13,6 +13,7 @@ import QRScan from "../../images/illustrations/qrScan.jpg"
 import AddInfoIllustration from "../../images/illustrations/addInfo.svg"
 
 import './index.css'
+import { ProductListHeader } from "../../Constants/product";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -55,6 +56,7 @@ const Products = () => {
     }
   }
 
+
   useEffect(() => {
     setTimeout(() => {
       if (productsList.length)
@@ -67,7 +69,9 @@ const Products = () => {
   return (
     <Layout>
       <div id="products-container" className="layout-body borderbox">
-        <ProductsList showRate={true} mh="400%" h="100%" w="100%" onchange={onchange} onclick={onclickproduct} products={productsList} />
+        <ProductsList header={ProductListHeader} data={productsList}
+          mh="400%" h="100%" w="100%"
+          onchange={onchange} onclick={onclickproduct} />
         {
           isSearchActive ? <></> :
             <div style={{
@@ -76,7 +80,7 @@ const Products = () => {
             }}>
               <Card onclick={toManualAdd} title="Manual method" image={AddInfoIllustration} btnLabel=" + Add product manually" />
               <p style={{ alignSelf: "center", color: "#8C8CA1", fontSize: "2rem", fontWeight: "bold" }}>OR</p>
-              <Card onclick={()=>alert("Work under construction!")} title="Scan QR code" image={QRScan} btnLabel="Scan code" />
+              <Card onclick={() => alert("Work under construction!")} title="Scan QR code" image={QRScan} btnLabel="Scan code" />
             </div>
         }
       </div>

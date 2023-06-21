@@ -1,16 +1,15 @@
 #productslist-container {
   display: flex;
   flex-direction: column;
-  overflow: auto;
   height: 100%;
   border-radius: 0.8vw;
   border: 2px solid #D6D8E7;
+  overflow: hidden;
   align-items: center;
   width: 43%;
 }
 
 #productslist-container table {
-  width: 90%;
   text-align: left;
   border-collapse: collapse;
 }
@@ -22,6 +21,7 @@
   border: none;
   background-color: transparent;
 }
+
 #productslist-container table tbody tr {
   border-bottom: 3vh solid #ffffff;
 }
@@ -29,13 +29,15 @@
 #productslist-container table tbody tr:hover {
   background-color: #D6D8E7;
 }
-#productslist-container table tbody tr th{
+
+#productslist-container table tbody tr th {
   background-color: transparent;
 }
 
 #productslist-container table tbody tr:focus-within td {
   background-color: #D6D8E7;
 }
+
 #productslist-container table tbody tr:focus-within th {
   background-color: #D6D8E7;
 }

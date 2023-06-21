@@ -8,6 +8,7 @@ import { useStore } from "../../Store/store";
 import Card from "../../Components/ManualAddProduct/Card";
 import { PRODUCT, productdetail } from "../../Schema/products";
 import { STOCK } from "../../Schema/stock";
+import { StockListHeader } from "../../Constants/stock";
 
 const Stocks = () => {
   const { products, dispatch } = useStore();
@@ -75,7 +76,8 @@ const Stocks = () => {
   return (
     <Layout>
       <div id="stocks-container" className="layout-body borderbox">
-        <ProductsList showRate={true} mh="400%" h="100%" w="100%" onchange={onchange} onclick={onclickproduct} products={productsList} />
+        <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
+         onclick={onclickproduct} header={StockListHeader} data={productsList} />
         {
           isSearchActive ? <></> :
             <div style={{
