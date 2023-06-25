@@ -4,10 +4,12 @@ const StateStore = (props) => {
 
   const [products, setProducts] = useState([])
   const [vendors, setVendors] = useState([])
+  const [stocks, setStocks] = useState([])
 
   const states = {
     products,
-    vendors
+    vendors,
+    stocks
   }
 
   const dispatch = (type, payload) => {
@@ -19,6 +21,10 @@ const StateStore = (props) => {
 
       case ACTION.SET_VENDORS:
         setVendors(payload)
+        break;
+
+      case ACTION.SET_STOCKS:
+        setStocks(payload)
         break;
 
       default:

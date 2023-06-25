@@ -39,6 +39,22 @@ const ProductsList = ({ header = [], h = "100%", w = "43%", data = [], onclick, 
     }
   }
 
+  const getValue = (item, value) => {
+    if (value === "gst")
+      return item[value] + " %"
+    if (item.category === "TABLET") {
+      if (value === "pkg")
+        return item[value] + " TABS"
+      if (value === "category")
+        return "Strips/Tabs"
+      if (value === "qnty" && item.qnty)
+        return `${parseInt(item.qnty / item.pkg)} / ${item.qnty % item.pkg}`
+      return item[value] || "NILL"
+    }
+    else
+      return item[value] || "NILL"
+  }
+
   useEffect(() => {
     const rows = document.getElementsByClassName("prod-row") || []
     try {
@@ -97,7 +113,7 @@ const ProductsList = ({ header = [], h = "100%", w = "43%", data = [], onclick, 
                       return (
                         <tr key={`${item._id}-product-list`} className="prod-row" onClick={() => onselectproduct(item._id)} style={{ cursor: "pointer", height: "10vh" }}>
                           {
-                            header.map((head) => <td style={{ width: head.colSize }}>{item[head.value] || "NILL"}</td>)
+                            header.map((head) => <td style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
                           }
                         </tr>
                       )

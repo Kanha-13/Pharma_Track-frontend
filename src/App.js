@@ -23,6 +23,7 @@ import ProtectedRouter from "./utils/ProtectedRouter/ProtectedRouter";
 import Stocks from "./Containers/Stocks";
 import ManualAdd from "./Components/ManualAddProduct/ManualAdd";
 import ProductInfo from "./Containers/ProductInfo";
+import StockInfo from "./Containers/StockInfo";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
@@ -49,6 +50,7 @@ const App = () => {
               <Route path={ROUTES.PRODUCT_ADD_MANUAL} element={<ManualAdd />} />
               <Route path={ROUTES.PRODUCT_INFO} element={<ProductInfo />} />
               <Route path={ROUTES.STOCKS} element={<Stocks />} />
+              <Route path={ROUTES.STOCK_INFO} element={<StockInfo />} />
               <Route path={ROUTES.BILLINGS} element={<Billing />} />
               <Route path={ROUTES.VENDORS} element={<Vendors />} />
               <Route path={ROUTES.VENDORS_ADD} element={<VendorForm />} />

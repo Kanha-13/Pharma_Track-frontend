@@ -22,7 +22,7 @@ export const to_dd_monthname_yy = (date) => {
   if (date)
     return `${new Date(date).getDate()} ${getMonthName(new Date(date).getMonth() + 1)} ${new Date(date).getFullYear() % 1000}`
   else
-    return `${new Date().getDate()} ${getMonthName(new Date().getMonth() + 1)} ${new Date().getFullYear() % 1000}`
+    return `${new Date().getDate()} ${getMonthName(new Date().getMonth() + 1)} ${new Date().getFullYear()}`
 }
 
 

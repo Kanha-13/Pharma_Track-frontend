@@ -3,11 +3,12 @@ export const STOCK = {
   MRP: "mrp",
   EXPDATE: "expDate",
   QNT: "qnty",
-  RATE: "rate",
-  NETRATE: "netRate",
   BATCH: "batch",
+  STIRPS: "strips",
+  TABS: "tabs",
+  PKG: "pkg"
 }
 
-export const stockDetail = {
-  itemName: "", pId: "", mrp: "", gst: "", expDate: "", qnty: "", rate: "", batch: ""
+export const stockdetail = {
+  itemName: "", pId: "", mrp: "", gst: "", expDate: "", qnty: "", batch: "", strips: "", tabs: "", pkg: ""
 }
