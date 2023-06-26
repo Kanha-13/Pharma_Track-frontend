@@ -4,16 +4,12 @@ import { useStore } from "../../Store/store";
 import { ACTION } from "../../Store/constants";
 import { getProductWithInitials } from "../../apis/products";
 import { ROUTES } from "../../Constants/routes_frontend";
+import { ProductListHeader } from "../../Constants/product";
 
 import Layout from "../../Components/Layout/Layout";
 import ProductsList from "../../Components/ProductsList/ProductsList";
-import Card from "../../Components/Products/Card";
-
-import QRScan from "../../images/illustrations/qrScan.jpg"
-import AddInfoIllustration from "../../images/illustrations/addInfo.svg"
 
 import './index.css'
-import { ProductListHeader } from "../../Constants/product";
 
 const Products = () => {
   const navigate = useNavigate();
@@ -56,6 +52,9 @@ const Products = () => {
     }
   }
 
+  const onaddclick = () => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD)
+  }
 
   useEffect(() => {
     setTimeout(() => {
@@ -69,20 +68,13 @@ const Products = () => {
   return (
     <Layout>
       <div id="products-container" className="layout-body borderbox">
+        <div style={{ width: "100%",height:"5vh", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px",display:"flex",marginBottom:"5vh" }}>
+          <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left" }}>Products</p>
+          <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={onaddclick}>Add Products</button>
+        </div>
         <ProductsList header={ProductListHeader} data={productsList}
           mh="400%" h="100%" w="100%"
           onchange={onchange} onclick={onclickproduct} />
-        {
-          isSearchActive ? <></> :
-            <div style={{
-              display: "flex", alignItems: "start",
-              justifyContent: "space-around", width: "100%", height: "65%", marginTop: "5%"
-            }}>
-              <Card onclick={toManualAdd} title="Manual method" image={AddInfoIllustration} btnLabel=" + Add product manually" />
-              <p style={{ alignSelf: "center", color: "#8C8CA1", fontSize: "2rem", fontWeight: "bold" }}>OR</p>
-              <Card onclick={() => alert("Work under construction!")} title="Scan QR code" image={QRScan} btnLabel="Scan code" />
-            </div>
-        }
       </div>
     </Layout>
   );

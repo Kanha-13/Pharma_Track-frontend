@@ -3,12 +3,12 @@ import {
   Route,
   Routes
 } from "react-router-dom";
+import { ROUTES } from "./Constants/routes_frontend";
 
 import Loading from "./Components/Loading/Loading";
 import Error from "./Containers/Error";
 
 import COLORS from "./Constants/colors";
-import { ROUTES } from "./Constants/routes_frontend";
 
 import "./app.css"
 import StateStore from "./Store/store";
@@ -17,13 +17,16 @@ import Billing from "./Containers/Billing";
 import Vendors from "./Containers/Vendors";
 import Delivery from "./Containers/Delivery";
 import Expiry from "./Containers/Expiry";
-import VendorForm from "./Components/Vendors/VendorForm/VendorForm";
 import PublicRouter from "./utils/PublicRouter/PublicRouter";
 import ProtectedRouter from "./utils/ProtectedRouter/ProtectedRouter";
 import Stocks from "./Containers/Stocks";
 import ManualAdd from "./Components/ManualAddProduct/ManualAdd";
 import ProductInfo from "./Containers/ProductInfo";
 import StockInfo from "./Containers/StockInfo";
+import StocksAdd from "./Containers/StockAdd";
+import ProductAdd from "./Containers/ProductAdd";
+import VebdorAdd from "./Containers/VendorAdd";
+import VendorInfo from "./Containers/VendorInfo";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
@@ -47,14 +50,16 @@ const App = () => {
             <Route path={ROUTES.PROTECTED_ROUTER} element={<ProtectedRouter />}>
               <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
               <Route path={ROUTES.PRODUCTS} element={<Products />} />
+              <Route path={ROUTES.PRODUCT_ADD} element={<ProductAdd />} />
               <Route path={ROUTES.PRODUCT_ADD_MANUAL} element={<ManualAdd />} />
               <Route path={ROUTES.PRODUCT_INFO} element={<ProductInfo />} />
               <Route path={ROUTES.STOCKS} element={<Stocks />} />
+              <Route path={ROUTES.STOCK_ADD} element={<StocksAdd />} />
               <Route path={ROUTES.STOCK_INFO} element={<StockInfo />} />
               <Route path={ROUTES.BILLINGS} element={<Billing />} />
               <Route path={ROUTES.VENDORS} element={<Vendors />} />
-              <Route path={ROUTES.VENDORS_ADD} element={<VendorForm />} />
-              <Route path={ROUTES.VENDORS_INFO} element={<Vendors />} />
+              <Route path={ROUTES.VENDORS_ADD} element={<VebdorAdd />} />
+              <Route path={ROUTES.VENDORS_INFO} element={<VendorInfo />} />
               <Route path={ROUTES.DELIVERY} element={<Delivery />} />
               <Route path={ROUTES.EXPIRY} element={<Expiry />} />
               <Route path="" element={<Error />} />

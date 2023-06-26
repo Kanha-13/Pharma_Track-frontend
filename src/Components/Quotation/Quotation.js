@@ -82,15 +82,15 @@ const Quotation = ({ onremoveItem, itemsIncart = [], onchangeqnty, onReset }) =>
                 item.qnty = item.category === "bottle" ? 1 : item.qnty
 
                 return (
-                  <tr key={`${index}-quotation`} style={{  }}>
+                  <tr key={`${item.stockId}-quotation`} style={{  }}>
                     <td style={{ width: "5%" }}>{index + 1}</td>
                     <td style={{ width: "25%" }}>{item.itemName}</td>
                     <td style={{ width: "15%" }}>{item.batch}</td>
                     <td style={{ width: "10%" }}>{item.mrp}</td>
                     <td style={{ width: "15%" }}>{getmmyy(item.expDate)}</td>
-                    <input className="quotation-soldqnty" autoFocus={itemsIncart.length - 1 === index} type="number" min={1}
+                    {/* <input className="quotation-soldqnty" autoFocus={itemsIncart.length - 1 === index} type="number" min={1}
                       max={item.stock} value={item.soldQnt}
-                      onChange={(e) => onchangeqnty(index, e.target.value)} />
+                      onChange={(e) => onchangeqnty(index, e.target.value)} /> */}
                     <td style={{ width: "10%" }}>{parseFloat(item.soldQnt * (item.mrp / item.qnty)).toFixed(2)}</td>
                     <td onClick={() => onremoveItem(item.itemName)}
                       style={{ width: "5%" }}><button tabIndex={-1} className="removeCartBtn">X</button></td>

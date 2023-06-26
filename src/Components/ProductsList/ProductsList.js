@@ -1,11 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../SearchBar/SearchBar";
 
 import "./productslist.css"
-import { getmmyy } from "../../utils/DateConverter";
 import { checkForScroll, scrollElement } from "../../utils/dom";
 
-const ProductsList = ({ header = [], h = "100%", w = "43%", data = [], onclick, onchange }) => {
+const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = [], onclick, onchange }) => {
   const [search, setSearch] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [listClass, setClass] = useState("borderbox close-animation");
@@ -88,7 +87,7 @@ const ProductsList = ({ header = [], h = "100%", w = "43%", data = [], onclick, 
   }, [data])
 
   return (
-    <div id="productslist-container" style={{ height: h, width: w }} className={listClass}>
+    <div id="productslist-container" style={{ display: show ? "flex" : "none", height: h, width: w }} className={listClass}>
       <div style={{ backgroundColor: "#ffffff", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "8vh", width: "100%", position: "sticky", top: "0px" }}>
         <SearchBar onEnter={handleEnterPress} onNav={handleListNav} onchange={onchangeval} h="3vh" w="90%" placeholder="Search product..." val={search} />
       </div>
@@ -101,7 +100,7 @@ const ProductsList = ({ header = [], h = "100%", w = "43%", data = [], onclick, 
                 marginBottom: "10px", borderBottom: "1px solid gray"
               }}>
                 <tr >
-                  {header.map((head) => <th style={{ width: head.colSize }}>{head.name}</th>)}
+                  {header.map((head) => <th key={head.name+"in productlist"} style={{ width: head.colSize }}>{head.name}</th>)}
                 </tr>
               </thead>
             </table>
@@ -113,7 +112,7 @@ const ProductsList = ({ header = [], h = "100%", w = "43%", data = [], onclick, 
                       return (
                         <tr key={`${item._id}-product-list`} className="prod-row" onClick={() => onselectproduct(item._id)} style={{ cursor: "pointer", height: "10vh" }}>
                           {
-                            header.map((head) => <td style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
+                            header.map((head) => <td key={head.name+"in-prod-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
                           }
                         </tr>
                       )

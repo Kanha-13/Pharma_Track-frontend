@@ -1,10 +1,10 @@
 export const VENDOR={
-  VENDOR_NAME:"partyName",
+  VENDOR_NAME:"vendorName",
   VENDOR_ADDRESS:"address",
   VENDOR_MOBILE:"mobileNo"
 }
-export const vendorDetail={
-  partyName: "",
+export const vendordetail={
+  vendorName: "",
   address: "",
   mobileNo: ""
 }

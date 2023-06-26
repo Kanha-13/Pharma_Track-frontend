@@ -19,7 +19,7 @@ const Vendors = () => {
   const fetchallvendors = async () => {
     try {
       const res = await getVendors()
-      dispatch(ACTION.SET_VENDORS, res)
+      dispatch(ACTION.SET_VENDORS, res.data)
     } catch (error) {
       alert("Something went wrong!")
     }
@@ -27,6 +27,9 @@ const Vendors = () => {
 
   const onAddNewClick = () => {
     navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD)
+  }
+  const onclickvendor = (vendorId) => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_INFO + "id=" + vendorId)
   }
 
   useEffect(() => {
@@ -38,7 +41,7 @@ const Vendors = () => {
     <Layout>
       <div id="vendor-container" className="layout-body borderbox">
         {
-          vendors.length ? <VendorList vendors={vendors} onAdd={onAddNewClick} /> :
+          vendors.length ? <VendorList onclick={onclickvendor} vendors={vendors} onAdd={onAddNewClick} /> :
             <Message onAdd={onAddNewClick} />
         }
       </div>

@@ -17,19 +17,20 @@ export const API = {
   POST_PRODUCT: "/product",
 
   //stock
-  GET_STOCKS_INITIAL:'/stocks',
-  GET_STOCK:'/stock',
-  ADD_STOCK:'/stock',
+  GET_STOCKS_INITIAL: '/stocks',
+  GET_STOCK: '/stock',
+  ADD_STOCK: '/stock',
 
   //billing
   GET_INVOICE_COUNT: "/invoice/count",
   CHECKOUT_PRODUCT: "/product/reduceStock",
-  
-  //vendor
-  GET_VENDORS: "/getPartyList",
-  ADD_VENDORS: "/partyManage",
 
+  //vendor
+  GET_VENDORS: "/vendors",
+  GET_VENDOR: "/vendor/",
+  ADD_VENDOR: "/vendor",
+  UPDATE_VENDOR: "/vendor",
+  DELETE_VENDOR: "/vendor/"
 
 }
 
- 

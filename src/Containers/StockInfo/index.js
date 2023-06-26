@@ -22,9 +22,6 @@ const StockInfo = () => {
     setStockInfo(res.data)
   }
 
-  const onselectproduct = () => {
-
-  }
   const getValue = (item, value) => {
     if (value === "expDate")
       return getmmyy(item[value])
@@ -40,28 +37,33 @@ const StockInfo = () => {
   return (
     <Layout>
       <div id="stockInfo-container" className="layout-body borderbox">
-        <p style={{ width: "90%", paddingBottom: "1vh", borderBottom: "1px solid #000000", fontWeight: "500", fontSize: "1.4rem" }}>Stock Detail</p>
-        <div style={{ width: "90%", display: "flex", flexDirection: "row", marginBottom: "2vh" }}>
+        <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "5vh" }}>Stock Detail</p>
+        <div style={{ width: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap", marginBottom: "2vh" }}>
           <div style={{ display: "flex", flexDirection: "column", width: "15%" }}>
-            <p style={{ fontWeight:"600", margin: "0px 0px 5px 0px" }}>Product Name</p>
-            <p style={{ fontWeight:"600", margin: "0px 0px 5px 0px" }}>Company</p>
-            <p style={{ fontWeight:"600", margin: "0px 0px 5px 0px" }}>HSN</p>
-            <p style={{ fontWeight:"600", margin: "0px 0px 5px 0px" }}>Stock</p>
-            <p style={{ fontWeight:"600", margin: "0px 0px 5px 0px" }}>GST</p>
-            <p style={{ fontWeight:"600", margin: "0px 0px 5px 0px" }}>Pkg</p>
-            <p style={{ fontWeight:"600", margin: "0px 0px 5px 0px" }}>Location</p>
+            <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>Product Name</p>
+            <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>Company</p>
+            <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>HSN</p>
+            <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>Stock</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", width: "30%", justifyContent: "space-between" }}>
-            <input value={productInfo?.itemName} />
-            <input value={productInfo?.company} />
-            <input value={productInfo?.hsn_sac} />
-            <input value={productInfo?.qnty} />
-            <input value={productInfo?.gst} />
-            <input value={productInfo?.pkg} />
-            <input value={productInfo?.location} />
+            <input style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.itemName} />
+            <input style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.company} />
+            <input style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.hsn_sac} />
+            <input style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.qnty} />
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", width: "15%" }}>
+            <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>GST</p>
+            <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>Pkg</p>
+            <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>Location</p>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", width: "30%", justifyContent: "" }}>
+            <input style={{ border: "none", userSelect: "none", outline: "none",margin: "0px 0px 4px 0px" }} value={productInfo?.gst} />
+            <input style={{ border: "none", userSelect: "none", outline: "none",margin: "0px 0px 4px 0px" }} value={productInfo?.pkg} />
+            <input style={{ border: "none", userSelect: "none", outline: "none",margin: "0px 0px 4px 0px" }} value={productInfo?.location} />
+
           </div>
         </div>
-        <table style={{ height: "5vh", width: "90%", borderCollapse: "collapse" }}>
+        <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
           <thead style={{
             backgroundColor: "#ebe8fc", height: "5vh",
             marginBottom: "10px", borderBottom: "1px solid gray"
@@ -73,7 +75,7 @@ const StockInfo = () => {
         </table>
         {
           stockInfo.length > 0 ?
-            <div id="stock-data-container" style={{ width: "90%", maxHeight: "65vh", overflow: "auto" }}>
+            <div id="stock-data-container" style={{ width: "100%", maxHeight: "65vh", overflow: "auto" }}>
               <table style={{ width: "100%", borderCollapse: "collapse" }}>
                 <tbody style={{ borderCollapse: "collapse" }}>
                   {

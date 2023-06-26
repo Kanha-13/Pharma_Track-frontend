@@ -30,7 +30,7 @@ const Layout = (props) => {
         break;
       case KEY.F2:
         event.preventDefault();
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.STOCKS)
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.STOCK_ADD)
         break;
       case KEY.F3:
         event.preventDefault();

@@ -9,10 +9,7 @@ const SelectProduct = ({ label, onchange, onclick, focus, type, checkForEnterKey
   const handleClick = () => {
     // onchange()
   }
-
   
-
-
   return (
     <div className="manualadd-inputs-div" style={{ height: h, width: w }}>
       <p style={{

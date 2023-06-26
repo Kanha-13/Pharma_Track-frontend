@@ -34,7 +34,7 @@ const ManualAdd = () => {
   return (
     <Layout>
       <div id="manualadd-prod-container" className="layout-body borderbox" >
-        <div style={{ width: "93%", marginLeft: "1.5vw", paddingLeft: "2vw", borderBottom: "1px solid gray", paddingBottom: "5px" }}>
+        <div style={{ width: "100%",borderBottom: "2px solid #D6D8E7", paddingBottom: "5px" }}>
           <p style={{ margin: "0px", fontSize: "1.5em" }}>Add Product</p>
         </div>
         <Card focus={true} require={true} w="25%" h="4%" name={PRODUCT.ITEMNAME} label="Item Name" value={productDetail.itemName} onchange={onchange} type="text" />
