@@ -20,6 +20,7 @@ export const API = {
   GET_STOCKS_INITIAL: '/stocks',
   GET_STOCK: '/stock',
   ADD_STOCK: '/stock',
+  DELETE_STOCK: '/stock',
 
   //billing
   GET_INVOICE_COUNT: "/invoice/count",
@@ -33,7 +34,13 @@ export const API = {
   DELETE_VENDOR: "/vendor/",
 
   //vendor
-  GET_EXPIRY: "/stocks/expiry"
+  GET_EXPIRY: "/stocks/expiry",
+
+  //Settlement
+  ADD_SETTLEMENT: '/settlement',
+  GET_SETTLEMENTS: '/settlements',
+  UPDATE_SETTLEMENT: '/settlement/',
+  DELETE_SETTLEMENT: '/settlement/',
   
 }
 

@@ -3,6 +3,7 @@ import SearchBar from "../SearchBar/SearchBar";
 
 import "./productslist.css"
 import { checkForScroll, scrollElement } from "../../utils/dom";
+import { getmmyy } from "../../utils/DateConverter";
 
 const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = [], onclick, onchange }) => {
   const [search, setSearch] = useState("");
@@ -39,6 +40,8 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = 
   }
 
   const getValue = (item, value) => {
+    if (value === "expDate")
+      return getmmyy(item[value])
     if (value === "gst")
       return item[value] + " %"
     if (item.category === "TABLET") {
@@ -100,7 +103,7 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = 
                 marginBottom: "10px", borderBottom: "1px solid gray"
               }}>
                 <tr >
-                  {header.map((head) => <th key={head.name+"in productlist"} style={{ width: head.colSize }}>{head.name}</th>)}
+                  {header.map((head) => <th key={head.name + "in productlist"} style={{ width: head.colSize }}>{head.name}</th>)}
                 </tr>
               </thead>
             </table>
@@ -112,7 +115,7 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = 
                       return (
                         <tr key={`${item._id}-product-list`} className="prod-row" onClick={() => onselectproduct(item._id)} style={{ cursor: "pointer", height: "10vh" }}>
                           {
-                            header.map((head) => <td key={head.name+"in-prod-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
+                            header.map((head) => <td key={head.name + "in-prod-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
                           }
                         </tr>
                       )

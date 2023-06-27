@@ -82,8 +82,8 @@ const ProductInfo = () => {
             <div id="delete-pop">
               <div id="delete-pop-box">
                 <label >Do you really want to delete {productDetail.itemName}</label>
-                <button autoFocus={true} style={{ backgroundColor: "#4de671" }} onClick={() => setDeletePop(false)}>Cancel</button>
-                <button style={{ backgroundColor: "#ff4343" }} onClick={onDelete}>Delete</button>
+                <button autoFocus={true} style={{ backgroundColor: "#3fc05e" }} onClick={() => setDeletePop(false)}>Cancel</button>
+                <button style={{ backgroundColor: "#ef3737" }} onClick={onDelete}>Delete</button>
               </div>
             </div> : <></>
         }

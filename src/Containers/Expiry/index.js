@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
-import DashboardCard from "../../Components/Dashboard/Card";
-import Layout from "../../Components/Layout/Layout";
-import SearchBar from "../../Components/SearchBar/SearchBar";
-
-import './index.css'
 import { getExpiry } from "../../apis/expiry";
 import { useStore } from "../../Store/store";
 import { ACTION } from "../../Store/constants";
-import ProductsList from "../../Components/ProductsList/ProductsList";
 import { ExpiryListHeader } from "../../Constants/expiry";
+import { deleteStock } from "../../apis/stock";
+import { useNavigate } from "react-router-dom";
+
+import ProductsList from "../../Components/ProductsList/ProductsList";
+import ExpiryMenu from "../../Components/ExpiryMenu/ExpiryMenu";
+import Layout from "../../Components/Layout/Layout";
+
+import './index.css'
+import { ROUTES } from "../../Constants/routes_frontend";
 
 const Expiry = () => {
-  const { expiredStocks, nearExpiryStocks, dispatch } = useStore();
+  const { expiredStocks, nearExpiryStocks, dispatch, currentSettlement } = useStore();
+  const navigate = useNavigate();
+  const [isMenuOpen, setMenu] = useState(false);
+  const [currentStock, setCurrentStock] = useState({})
   const [search, setSearch] = useState("");
 
   const fetchExpiredStocks = async () => {
@@ -23,7 +29,6 @@ const Expiry = () => {
     try {
       let expired = await getExpiry(queryForExpired)
       let nearExpiry = await getExpiry(queryForNearExpiry)
-
       expired = expired.data.map((row, index) => {
         return {
           ...row,
@@ -56,7 +61,34 @@ const Expiry = () => {
     setSearch(value)
   }
 
-  const onclickproduct = () => { }
+  const onclickproduct = (stockId) => {
+    setCurrentStock([...nearExpiryStocks, ...expiredStocks].filter((stock) => stock._id === stockId)[0])
+    setMenu(true)
+  }
+
+  const handleMenuClose = async () => {
+    setMenu(false)
+  }
+
+  const handleReturnForSettlement = async () => {
+    setMenu(false)
+    dispatch(ACTION.SET_CURRENT_SETTLEMENT, currentStock)
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.ADD_SETTLEMENT)
+  }
+
+
+  const handleStockDelete = async () => {
+    setMenu(false)
+    try {
+      const res = await deleteStock(currentStock._id)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const tosettlements = () => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.GET_SETTLEMENT)
+  }
 
   useEffect(() => {
     if (expiredStocks.length === 0 && nearExpiryStocks.length === 0)
@@ -76,9 +108,11 @@ const Expiry = () => {
             <p style={{ margin: "0px", fontWeight: "bold" }}>Expiry soon: </p>
             <p style={{ margin: "0px" }}> {nearExpiryStocks.length || 0}</p>
           </div>
+          <button onClick={tosettlements} style={{ backgroundColor: "#5e48e8", border: "none", marginLeft: "auto", cursor: "pointer", width: "25vh", fontSize: "1.1rem", height: "5vh", color: "#ffffff", borderRadius: "0.4vw" }}>Pending Settlement</button>
         </div>
         <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
           onclick={onclickproduct} header={ExpiryListHeader} data={[...nearExpiryStocks, ...expiredStocks]} />
+        {isMenuOpen ? <ExpiryMenu stockDetail={currentStock} onSettle={handleReturnForSettlement} onClose={handleMenuClose} onDelete={handleStockDelete} /> : <></>}
       </div>
     </Layout>
   );

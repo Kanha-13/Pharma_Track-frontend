@@ -17,6 +17,9 @@ export const ROUTES = {
   DELIVERY: "delivery",
   EXPIRY: "expiry",
 
+  ADD_SETTLEMENT: "settlement",
+  GET_SETTLEMENT: "settlements",
+
   PROTECTED_ROUTER: "/admin/",
   PUBLIC_ROUTER: "/",
 }

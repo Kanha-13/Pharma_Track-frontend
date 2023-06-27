@@ -21,6 +21,8 @@
 
 #delete-pop button{
   cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
   display: inline-block;
   width: 50%;
   height: 15%;

@@ -27,6 +27,8 @@ import StocksAdd from "./Containers/StockAdd";
 import ProductAdd from "./Containers/ProductAdd";
 import VebdorAdd from "./Containers/VendorAdd";
 import VendorInfo from "./Containers/VendorInfo";
+import SettlementAdd from "./Containers/SettlementAdd";
+import Settlements from "./Containers/Settlements";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
@@ -62,6 +64,8 @@ const App = () => {
               <Route path={ROUTES.VENDORS_INFO} element={<VendorInfo />} />
               <Route path={ROUTES.DELIVERY} element={<Delivery />} />
               <Route path={ROUTES.EXPIRY} element={<Expiry />} />
+              <Route path={ROUTES.GET_SETTLEMENT} element={<Settlements />} />
+              <Route path={ROUTES.ADD_SETTLEMENT} element={<SettlementAdd />} />
               <Route path="" element={<Error />} />
             </Route>
             <Route path="/*" element={<Error />} />

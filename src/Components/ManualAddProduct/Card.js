@@ -5,7 +5,7 @@ import KEY from "../../Constants/keyCode";
 
 const Card = (props) => {
   let { require = false, w = "25%", h = "15%",
-    label = "", name = "", value = "", type = "text", onchange, focus = false, options = [] } = props
+    label = "", name = "", value = "",max="",min=0, type = "text", onchange, focus = false, options = [] } = props
 
   const checkForEnterKey = (event) => {
     if (event.keyCode === KEY.ENTER) {
@@ -25,7 +25,7 @@ const Card = (props) => {
   const getInputType = () => {
     switch (type) {
       case "select":
-        return <select value={value} className="custom-input-fields" onKeyDown={checkForEnterKey}
+        return <select autoFocus={focus} value={value} className="custom-input-fields" onKeyDown={checkForEnterKey}
           required={require} style={{
             outline: "none", fontSize: "1.15rem", border: "none",
             margin: "0%", cursor: "pointer"
@@ -36,7 +36,7 @@ const Card = (props) => {
           }
         </select>
       default:
-        return <input className="custom-input-fields" onKeyDown={checkForEnterKey} placeholder={label}
+        return <input min={min} className="custom-input-fields" max={max} onKeyDown={checkForEnterKey} placeholder={label}
           autoFocus={focus} required={require} value={value} type={type}
           onChange={(e) => onchange(name, e.target.value)} />
     }

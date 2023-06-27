@@ -7,13 +7,17 @@ const StateStore = (props) => {
   const [stocks, setStocks] = useState([])
   const [expiredStocks, setExpiredStocks] = useState([])
   const [nearExpiryStocks, setNearExpiryStocks] = useState([])
+  const [currentSettlement, setCurrentSettlementDetial] = useState({})
+  const [settlements, setSettlements] = useState([])
 
   const states = {
     products,
     vendors,
     stocks,
     expiredStocks,
-    nearExpiryStocks
+    nearExpiryStocks,
+    currentSettlement,
+    settlements,
   }
 
   const dispatch = (type, payload) => {
@@ -34,8 +38,17 @@ const StateStore = (props) => {
       case ACTION.SET_EXPIRED_STOCKS:
         setExpiredStocks(payload)
         break;
+
       case ACTION.SET_NEAR_EXPIRY_STOCKS:
         setNearExpiryStocks(payload)
+        break;
+
+      case ACTION.SET_CURRENT_SETTLEMENT:
+        setCurrentSettlementDetial(payload)
+        break;
+
+      case ACTION.SET_SETTLEMENTS:
+        setSettlements(payload)
         break;
 
       default:
