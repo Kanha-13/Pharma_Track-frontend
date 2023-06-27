@@ -35,7 +35,6 @@ const ManualAdd = () => {
   const fetchallvendors = async () => {
     try {
       const res = await getVendors()
-      console.log(res)
       dispatch(ACTION.SET_VENDORS, res)
     } catch (error) {
       alert("Something went wrong!")

@@ -77,7 +77,6 @@ const Billing = () => {
   const handleBatchChoose = (stock) => {
     const selectedPrduct = productsList.filter((prod, index) => prod._id === currentPID)[0]
     selectedPrduct.stockId = stock._id
-    console.log(inCart)
     setCart([...inCart, selectedPrduct])
     return
   }

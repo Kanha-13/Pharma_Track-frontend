@@ -26,8 +26,6 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
     switch (event.keyCode) {
       case KEY.ARROW_DOWN:
         event.preventDefault();
-        console.log("in handler2")
-        console.log(currentIndex)
         if (currentIndex < batchList.length - 1)
           setIndex(prev => prev + 1)
         else

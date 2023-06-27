@@ -1,5 +1,4 @@
 export const checkIfAllDataPresent = (data) => {
-  console.log(data)
   if (!data.pId)
     return false
   if (!data.mrp)

@@ -18,8 +18,14 @@ const StockInfo = () => {
     setProductInfo(res)
   }
   const fetchStockDetail = async (pId) => {
-    const res = await getStockInfo(pId);
-    setStockInfo(res.data)
+    let res = await getStockInfo(pId);
+    res = res.data.map((row,index)=>{
+      return {
+        ...row,
+        vendorName: row.vendorDetail[0]?.vendorName,
+      }
+    })
+    setStockInfo(res)
   }
 
   const getValue = (item, value) => {

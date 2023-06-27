@@ -6,7 +6,6 @@ export const handleLoginSubmit = async (data) => {
   return res.data
 }
 
-
 export const handleSignupSubmit = async (data) => {
   const res = await axios_instance.post(API.SIGNUP_API, data)
   return res.data

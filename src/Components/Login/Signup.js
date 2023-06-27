@@ -27,7 +27,6 @@ const Signup = ({ onSwitch, prefill }) => {
       alert(res.data?.message || "Otp sent to your email!")
       onSwitch(2, data)
     } catch (error) {
-      console.log(error)
       if (error.response?.data)
         alert(error.response?.data)
       else

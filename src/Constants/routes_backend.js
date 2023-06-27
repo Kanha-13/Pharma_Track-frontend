@@ -30,7 +30,10 @@ export const API = {
   GET_VENDOR: "/vendor/",
   ADD_VENDOR: "/vendor",
   UPDATE_VENDOR: "/vendor",
-  DELETE_VENDOR: "/vendor/"
+  DELETE_VENDOR: "/vendor/",
 
+  //vendor
+  GET_EXPIRY: "/stocks/expiry"
+  
 }
 

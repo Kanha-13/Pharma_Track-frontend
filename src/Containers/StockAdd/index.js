@@ -101,10 +101,6 @@ const StocksAdd = () => {
     )
   }
 
-  useEffect(() => {
-    console.log(isFocusNext)
-  }, [isFocusNext])
-
   return (
     <Layout>
       <div id="stocks-container" className="layout-body borderbox">
