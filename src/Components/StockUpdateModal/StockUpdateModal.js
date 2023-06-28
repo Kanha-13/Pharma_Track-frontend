@@ -32,7 +32,7 @@ const StockUpdateModal = ({ oncancel, onupdate, ondelete, info }) => {
     const format = vendorss.map((vendor) => {
       return { label: vendor.vendorName, value: vendor._id }
     })
-    setvendors(format);
+    setvendors([{ label: "Select vendor", value: "" }, ...format]);
   }
 
   const fetchVendors = async () => {
@@ -55,9 +55,9 @@ const StockUpdateModal = ({ oncancel, onupdate, ondelete, info }) => {
     <div style={{ position: "absolute", width: "91%", height: "81%", backgroundColor: "#ffffff", borderRadius: "0.4vw", top: "12.5vh", left: "4.2vw", display: "flex", flexWrap: "wrap" }}>
       <Card focus={true} require={true} w="25%" h="4%" name={STOCK.BATCH} label="Batch" value={stockInfo.batch} onchange={onchange} type="text" />
       <Card require={true} w="25%" h="4%" name={STOCK.EXPDATE} label="Exp. Date" value={getyyyymm(stockInfo.expDate)} onchange={onchange} type="month" />
-      <Card require={true} w="25%" h="4%" name={STOCK.QNT} label="Qnty." value={stockInfo.qnty} onchange={()=>{}} type="text" />
+      <Card require={true} w="25%" h="4%" name={STOCK.QNT} label="Qnty." value={stockInfo.qnty} onchange={() => { }} type="text" />
       <Card require={true} w="25%" h="4%" name={STOCK.MINQNTY} label="Min Qnty." value={stockInfo.minQnty} onchange={onchange} type="number" />
-      <Card require={true} w="25%" h="4%" name={STOCK.VID} label="Vendor" value={stockInfo.vId} onchange={onchange} type="select" options={vendorslist} />
+      <Card require={false} w="25%" h="4%" name={STOCK.VID} label="Vendor" value={stockInfo.vId} onchange={onchange} type="select" options={vendorslist} />
       <button style={{ height: "8vh" }} id="submit-add-prod" className="custom-input-fields" onClick={onUpdate} type="submit">Update Stock</button>
       <button style={{ height: "8vh", backgroundColor: "#acabb4" }} id="submit-add-prod" onClick={onCancel} type="submit">Cancel</button>
       <button style={{ height: "8vh" }} id="submit-delete-prod" onClick={() => setDeletePop(1)} type="submit">Delete Product</button>

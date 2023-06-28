@@ -6,7 +6,7 @@ import { getSettlements } from "../../apis/settlement";
 
 import './index.css'
 import { SettlementsListHeader } from "../../Schema/settlement";
-import { getmmyy, toddmmyy } from "../../utils/DateConverter";
+import { toddmmyy } from "../../utils/DateConverter";
 
 const Settlements = () => {
   const { settlements, dispatch } = useStore();

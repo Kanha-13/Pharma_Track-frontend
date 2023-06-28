@@ -18,8 +18,8 @@ const SettlementAdd = () => {
   const [settlementDetail, setSettlement] = useState(currentSettlement)
   const [vendorslist, setVendorlist] = useState([]);
 
-  const formatevendorslist = () => {
-    const vendorsoption = vendors.map((vendor) => {
+  const formatevendorslist = (vendorss) => {
+    const vendorsoption = vendorss.map((vendor) => {
       return { label: vendor.vendorName, value: vendor._id }
     })
     setVendorlist([{ label: "Select Vendor", value: "" }, ...vendorsoption])
@@ -28,10 +28,7 @@ const SettlementAdd = () => {
   const fetchVendorsList = async () => {
     try {
       const res = await getVendors();
-      const vendorsoption = res.data.map((vendor) => {
-        return { label: vendor.vendorName, value: vendor._id }
-      })
-      setVendorlist([{ label: "Select Vendor", value: "" }, ...vendorsoption])
+      formatevendorslist(res.data)
       dispatch(ACTION.SET_VENDORS, res.data)
     } catch (error) {
       alert("Unable to get vendors list!")
@@ -74,7 +71,7 @@ const SettlementAdd = () => {
   }
 
   useEffect(() => {
-    if (vendors.length) { formatevendorslist() }
+    if (vendors.length) { formatevendorslist(vendors) }
     else
       fetchVendorsList();
   }, [])
