@@ -18,9 +18,10 @@ export const API = {
 
   //stock
   GET_STOCKS_INITIAL: '/stocks',
-  GET_STOCK: '/stock',
+  GET_STOCK: '/stock/',
   ADD_STOCK: '/stock',
-  DELETE_STOCK: '/stock',
+  UPDATE_STOCK: '/stock/',
+  DELETE_STOCK: '/stock/',
 
   //billing
   GET_INVOICE_COUNT: "/invoice/count",

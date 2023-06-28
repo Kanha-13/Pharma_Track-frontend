@@ -12,11 +12,16 @@ export const addStockDetial = async (data) => {
 // }
 
 export const getStockInfo = async (pId) => {
-  const res = await axios_instance.get(`${API.GET_STOCK}/${pId}`)
+  const res = await axios_instance.get(API.GET_STOCK + pId)//using product id because fetching info of stock for a particular product
   return res.data
 }
 
-export const deleteStock = async (stockId) => {
-  const res = await axios_instance.delete(`${API.DELETE_STOCK}/${stockId}`)
+export const updateStockDetial = async (data) => {
+  const res = await axios_instance.patch(API.UPDATE_STOCK + data._id, data)
+  return res.data
+}
+
+export const deleteStock = async (stockId) => {// it won't reduce stock, rather completely delete its entry from db
+  const res = await axios_instance.delete(API.DELETE_STOCK + stockId)
   return res.data
 }

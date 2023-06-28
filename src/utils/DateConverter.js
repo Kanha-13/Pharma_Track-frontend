@@ -2,6 +2,11 @@ export const datetoJSformat = (date) => {
   return new Date(date).toLocaleDateString()
 }
 
+export const getyyyymm = (date) => {
+  const month = new Date(date).getMonth() + 1
+  return `${new Date(date).getFullYear()}-${parseInt(month / 10)}${(month % 10)}`
+}
+
 export const getmmyy = (date) => {
   return `${new Date(date).getMonth() + 1}/${new Date(date).getFullYear() % 1000}`
 }

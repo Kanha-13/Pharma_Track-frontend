@@ -1,17 +1,26 @@
 import { useEffect, useState } from "react";
-import { getStockInfo } from "../../apis/stock";
+import { deleteStock, getStockInfo, updateStockDetial } from "../../apis/stock";
 import { StockInfoHeader } from "./Constants";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import Layout from "../../Components/Layout/Layout";
 import './index.css'
 import { getmmyy } from "../../utils/DateConverter";
 import { getProduct } from "../../apis/products";
+import ProductsList from "../../Components/ProductsList/ProductsList";
+import StockUpdateModal from "../../Components/StockUpdateModal/StockUpdateModal";
+import { useStore } from "../../Store/store";
+import { ACTION } from "../../Store/constants";
+import { ROUTES } from "../../Constants/routes_frontend";
 
 const StockInfo = () => {
+  const { dispatch } = useStore();
+  const navigate = useNavigate()
   const [productInfo, setProductInfo] = useState({})
   const [stockInfo, setStockInfo] = useState([])
+  const [currentStock, setCurrentStock] = useState({})
   const [searchParams] = useSearchParams();
+  const [isModal, setModal] = useState(false)
 
   const fetchProductInfo = async (pId) => {
     const res = await getProduct(pId);
@@ -19,13 +28,51 @@ const StockInfo = () => {
   }
   const fetchStockDetail = async (pId) => {
     let res = await getStockInfo(pId);
-    res = res.data.map((row,index)=>{
+    res = res.data.map((row, index) => {
       return {
         ...row,
         vendorName: row.vendorDetail[0]?.vendorName,
       }
     })
     setStockInfo(res)
+  }
+
+  const ondelete = async (stockId) => {
+    try {
+      const res = await deleteStock(stockId)
+      setModal(false);
+      dispatch(ACTION.SET_PRODUCTS, []);
+      dispatch(ACTION.SET_STOCKS, []);
+      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.STOCKS);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onupdate = async (newdata) => {
+    try {
+      const res = await updateStockDetial(newdata)
+      setModal(false);
+      dispatch(ACTION.SET_PRODUCTS, []);
+      dispatch(ACTION.SET_STOCKS, []);
+      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.STOCKS);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const oncancel = () => {
+    setModal(false)
+  }
+
+  const onchange = () => {
+
+  }
+
+  const onclickstock = (stockId) => {
+    setModal(true)
+    const stock = stockInfo.filter((e, index) => e._id === stockId)
+    setCurrentStock(stock[0])
   }
 
   const getValue = (item, value) => {
@@ -52,10 +99,10 @@ const StockInfo = () => {
             <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>Stock</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", width: "30%", justifyContent: "space-between" }}>
-            <input style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.itemName} />
-            <input style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.company} />
-            <input style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.hsn_sac} />
-            <input style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.qnty} />
+            <input readOnly style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.itemName} />
+            <input readOnly style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.company} />
+            <input readOnly style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.hsn_sac} />
+            <input readOnly style={{ border: "none", userSelect: "none", outline: "none" }} value={productInfo?.qnty} />
           </div>
           <div style={{ display: "flex", flexDirection: "column", width: "15%" }}>
             <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>GST</p>
@@ -63,13 +110,15 @@ const StockInfo = () => {
             <p style={{ fontWeight: "600", margin: "0px 0px 5px 0px" }}>Location</p>
           </div>
           <div style={{ display: "flex", flexDirection: "column", width: "30%", justifyContent: "" }}>
-            <input style={{ border: "none", userSelect: "none", outline: "none",margin: "0px 0px 4px 0px" }} value={productInfo?.gst} />
-            <input style={{ border: "none", userSelect: "none", outline: "none",margin: "0px 0px 4px 0px" }} value={productInfo?.pkg} />
-            <input style={{ border: "none", userSelect: "none", outline: "none",margin: "0px 0px 4px 0px" }} value={productInfo?.location} />
+            <input readOnly style={{ border: "none", userSelect: "none", outline: "none", margin: "0px 0px 4px 0px" }} value={`${productInfo?.gst} %`} />
+            <input readOnly style={{ border: "none", userSelect: "none", outline: "none", margin: "0px 0px 4px 0px" }} value={productInfo?.pkg} />
+            <input readOnly style={{ border: "none", userSelect: "none", outline: "none", margin: "0px 0px 4px 0px" }} value={productInfo?.location} />
 
           </div>
         </div>
-        <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
+        <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
+          onclick={onclickstock} header={StockInfoHeader} data={stockInfo} />
+        {/* <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
           <thead style={{
             backgroundColor: "#ebe8fc", height: "5vh",
             marginBottom: "10px", borderBottom: "1px solid gray"
@@ -98,8 +147,9 @@ const StockInfo = () => {
                 </tbody>
               </table>
             </div> : <></>
-        }
+        } */}
       </div>
+      {isModal ? <StockUpdateModal info={currentStock} onupdate={onupdate} oncancel={oncancel} ondelete={ondelete} /> : <></>}
     </Layout>
   );
 }

@@ -6,7 +6,10 @@ export const STOCK = {
   BATCH: "batch",
   STIRPS: "strips",
   TABS: "tabs",
-  PKG: "pkg"
+  PKG: "pkg",
+  VID:"vId",
+  MAXQNTY:"maxQnty",
+  MINQNTY:"minQnty"
 }
 
 export const stockdetail = {

@@ -22,7 +22,6 @@ const StateStore = (props) => {
 
   const dispatch = (type, payload) => {
     switch (type) {
-
       case ACTION.SET_PRODUCTS:
         setProducts(payload)
         break;
