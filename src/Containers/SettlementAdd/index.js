@@ -54,6 +54,9 @@ const SettlementAdd = () => {
       const data = {
         pId: settlementDetail.productDetail[0]._id,
         sId: settlementDetail._id,
+        batch: settlementDetail.batch,
+        mrp: settlementDetail.mrp,
+        expDate: settlementDetail.expDate,
         vId: settlementDetail.vId,
         type: settlementDetail.type,
         date: settlementDetail.date,

@@ -15,13 +15,13 @@ const Settlements = () => {
       let res = await getSettlements() || [];
       res = res.data.map((row) => {
         let product = row.productDetail[0]
-        let stock = row.stockDetail[0]
         let vendor = row.vendorDetail[0]
         return {
           _id: row._id,
           itemName: product.itemName,
-          batch: stock.batch,
-          mrp: stock.mrp,
+          batch: row.batch,
+          mrp: row.mrp,
+          expDate: row.expDate,
           vendorName: vendor.vendorName,
           returnQnty: row.returnQnty,
           type: row.type,
