@@ -8,6 +8,8 @@ export const ROUTES = {
   PRODUCT_ADD_MANUAL: "product/add/manual",
   PRODUCT_INFO: "product/info?",
   STOCKS: "stocks",
+  PURCHASE: "purchase",
+  PURCHASE_ADD: "purchase/add",
   STOCK_ADD: "stock/add",
   STOCK_INFO: "stock/info?",
   BILLINGS: "billing",

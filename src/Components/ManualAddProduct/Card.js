@@ -4,8 +4,8 @@ import { PRODUCT } from "../../Schema/products"
 import KEY from "../../Constants/keyCode";
 
 const Card = (props) => {
-  let { require = false, w = "25%", h = "15%",
-    label = "", name = "", value = "",max="",min=0, type = "text", onchange, focus = false, options = [] } = props
+  let { require = false, w = "25%", h = "15%", ph = "", m = "1.5%", pd = "1.5%",fs="1rem",
+    label = "", name = "", value = "", max = "", min = 0, type = "text", onchange, focus = false, options = [] } = props
 
   const checkForEnterKey = (event) => {
     if (event.keyCode === KEY.ENTER) {
@@ -27,23 +27,23 @@ const Card = (props) => {
       case "select":
         return <select autoFocus={focus} value={value} className="custom-input-fields" onKeyDown={checkForEnterKey}
           required={require} style={{
-            outline: "none", fontSize: "1.15rem", border: "none",
-            margin: "0%", cursor: "pointer"
+            outline: "none", fontSize: fs, border: "none",
+            margin: "0%", cursor: "pointer",
           }} onChange={(e) => onchange(name, e.target.value)}>
           {
-            options.map((option) => <option key={option.label} style={{ cursor: "pointer" }}
+            options.map((option) => <option key={option.label} style={{ cursor: "pointer",fontSize:fs }}
               value={option.value}>{option.label}</option>)
           }
         </select>
       default:
-        return <input min={min} className="custom-input-fields" max={max} onKeyDown={checkForEnterKey} placeholder={label}
+        return <input min={min} className="custom-input-fields" style={{fontSize:fs}} max={max} onKeyDown={checkForEnterKey} placeholder={ph || label}
           autoFocus={focus} required={require} value={value} type={type}
           onChange={(e) => onchange(name, e.target.value)} />
     }
   }
 
   return (
-    <div className="manualadd-inputs-div" style={{ height: h, width: w }}>
+    <div className="manualadd-inputs-div" style={{ height: h, width: w, margin: m, padding: pd }}>
       <p style={{
         padding: "0px 2%",
         position: "absolute",

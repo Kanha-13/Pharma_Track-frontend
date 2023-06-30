@@ -43,5 +43,11 @@ export const API = {
   UPDATE_SETTLEMENT: '/settlement/',
   DELETE_SETTLEMENT: '/settlement/',
   
+  //Purchase
+  ADD_PURCHASE: '/purchase',
+  GET_PURCHASES: '/purchases',
+  GET_PURCHASE_DETAIL: '/purchase/',
+  UPDATE_PURCHASE: '/purchase/',
+  DELETE_PURCHASE: '/purchase/',
 }
 

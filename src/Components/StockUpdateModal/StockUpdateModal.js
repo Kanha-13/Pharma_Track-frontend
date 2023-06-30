@@ -60,7 +60,7 @@ const StockUpdateModal = ({ oncancel, onupdate, ondelete, info }) => {
       <Card require={false} w="25%" h="4%" name={STOCK.VID} label="Vendor" value={stockInfo.vId} onchange={onchange} type="select" options={vendorslist} />
       <button style={{ height: "8vh" }} id="submit-add-prod" className="custom-input-fields" onClick={onUpdate} type="submit">Update Stock</button>
       <button style={{ height: "8vh", backgroundColor: "#acabb4" }} id="submit-add-prod" onClick={onCancel} type="submit">Cancel</button>
-      <button style={{ height: "8vh" }} id="submit-delete-prod" onClick={() => setDeletePop(1)} type="submit">Delete Product</button>
+      <button style={{ height: "8vh" }} id="submit-delete-prod" onClick={() => setDeletePop(1)} type="submit">Delete Stock</button>
       {
         deletePop ?
           <div id="delete-pop">

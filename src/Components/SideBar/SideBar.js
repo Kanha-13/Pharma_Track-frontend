@@ -1,6 +1,7 @@
 import DashBoardIcon from "../../images/icons/dashboard.png"
 import Products from "../../images/icons/products.png"
 import Billing from "../../images/icons/billing.png"
+import Purchase from "../../images/icons/purchase.png"
 import Stocks from "../../images/icons/stocks.png"
 import Vendors from "../../images/icons/vendors.png"
 import Delivery from "../../images/icons/delivery.png"
@@ -37,6 +38,7 @@ const SideBar = ({ onswitch }) => {
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.DASHBOARD)} style={{ color: getColor(ROUTES.DASHBOARD), backgroundColor: getBg(ROUTES.DASHBOARD), }}><img src={DashBoardIcon} />Dashboard</button>
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.PRODUCTS)} style={{ color: getColor(ROUTES.PRODUCTS), backgroundColor: getBg(ROUTES.PRODUCTS), }}><img src={Products} />Products</button>
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.STOCKS)} style={{ color: getColor(ROUTES.STOCKS), backgroundColor: getBg(ROUTES.STOCKS), }}><img src={Stocks} />Stocks</button>
+      <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.PURCHASE)} style={{ color: getColor(ROUTES.PURCHASE), backgroundColor: getBg(ROUTES.PURCHASE), }}><img src={Purchase} />Purchase</button>
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.BILLINGS)} style={{ color: getColor(ROUTES.BILLINGS), backgroundColor: getBg(ROUTES.BILLINGS), }}><img src={Billing} />Billing</button>
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.VENDORS)} style={{ color: getColor(ROUTES.VENDORS), backgroundColor: getBg(ROUTES.VENDORS), }}><img src={Vendors} />Vendors</button>
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.DELIVERY)} style={{ color: getColor(ROUTES.DELIVERY), backgroundColor: getBg(ROUTES.DELIVERY), }}><img src={Delivery} />Delivery</button>

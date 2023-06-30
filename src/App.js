@@ -29,6 +29,8 @@ import VebdorAdd from "./Containers/VendorAdd";
 import VendorInfo from "./Containers/VendorInfo";
 import SettlementAdd from "./Containers/SettlementAdd";
 import Settlements from "./Containers/Settlements";
+import Purchase from "./Containers/Purchase";
+import PurchaseAdd from "./Containers/PurchaseAdd";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
@@ -55,6 +57,8 @@ const App = () => {
               <Route path={ROUTES.PRODUCT_ADD} element={<ProductAdd />} />
               <Route path={ROUTES.PRODUCT_ADD_MANUAL} element={<ManualAdd />} />
               <Route path={ROUTES.PRODUCT_INFO} element={<ProductInfo />} />
+              <Route path={ROUTES.PURCHASE} element={<Purchase />} />
+              <Route path={ROUTES.PURCHASE_ADD} element={<PurchaseAdd />} />
               <Route path={ROUTES.STOCKS} element={<Stocks />} />
               <Route path={ROUTES.STOCK_ADD} element={<StocksAdd />} />
               <Route path={ROUTES.STOCK_INFO} element={<StockInfo />} />
