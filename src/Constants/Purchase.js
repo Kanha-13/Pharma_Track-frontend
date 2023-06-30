@@ -1,16 +1,16 @@
 export const PurchaseProductListHeader = [
-  { name: 'Item Name', value:"itemName", colSize: "15%" },
-  { name: 'Qnty.', value:"qnty", colSize: "14%" },
-  { name: 'Free', value:"free", colSize: "10%" },
-  { name: 'Batch', value:"batch", colSize: "15%" },
-  { name: 'Exp.', value:"expDate", colSize: "15%" },
-  { name: 'MRP', value:"mrp", colSize: "10%" },
-  { name: 'Rate', value:"rate", colSize: "12%" },
-  { name: 'SC%', value:"schemeDisc", colSize: "12%" },
-  { name: 'CD%', value:"cashDisc", colSize: "12%" },
-  { name: 'Value', value:"value", colSize: "12%" },
-  { name: 'GST%', value:"gst", colSize: "18%" },
-  { name: 'Net Amt.', value:"netAmt", colSize: "18%" },
+  { name: 'Item Name', value:"itemName", colSize: "23.5vw" },
+  { name: 'Qnty.', value:"qnty", colSize: "9vw" },
+  { name: 'Free', value:"free", colSize: "9vw" },
+  { name: 'Batch', value:"batch", colSize: "16vw" },
+  { name: 'Exp.', value:"expDate", colSize: "18vw" },
+  { name: 'MRP', value:"mrp", colSize: "9vw" },
+  { name: 'Rate', value:"rate", colSize: "9vw" },
+  { name: 'SC%', value:"schemeDisc", colSize: "9vw" },
+  { name: 'CD%', value:"cashDisc", colSize: "9vw" },
+  { name: 'Value', value:"value", colSize: "9vw" },
+  { name: 'GST%', value:"gst", colSize: "9vw" },
+  { name: 'Net Amt.', value:"netAmt", colSize: "13vw" },
 ]
 
 export const PaymentTypesLits =[

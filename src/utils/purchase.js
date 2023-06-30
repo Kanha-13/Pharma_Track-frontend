@@ -22,10 +22,14 @@ export const calculateNetRate = (products = []) => {
     if (product.category === "TABLET") {
       let strips = parseInt(product.strips)
       let tabs = parseInt(product.tabs)
+      let sc = parseFloat(product.schemeDisc).toFixed(1)
+      let cd = parseFloat(product.cashDisc).toFixed(1)
       let paid_strips = (strips + (tabs / pkg))
       let total_strips = paid_strips + free
 
       let paid_per_strip = ((rate * gst) / 100) + rate || rate || 0
+      paid_per_strip = paid_per_strip - paid_per_strip * sc / 100
+      paid_per_strip = paid_per_strip - paid_per_strip * cd / 100
       product.netRate = parseFloat((paid_per_strip * paid_strips) / total_strips).toFixed(2)  //this netRate is per strips not per tabs
     }
     else {

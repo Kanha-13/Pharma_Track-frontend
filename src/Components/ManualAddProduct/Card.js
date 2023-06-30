@@ -31,7 +31,7 @@ const Card = (props) => {
             margin: "0%", cursor: "pointer",
           }} onChange={(e) => onchange(name, e.target.value)}>
           {
-            options.map((option) => <option key={option.label} style={{ cursor: "pointer",fontSize:fs }}
+            options.map((option,index) => <option key={option.label+index} style={{ cursor: "pointer",fontSize:fs }}
               value={option.value}>{option.label}</option>)
           }
         </select>
