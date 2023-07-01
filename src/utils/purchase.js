@@ -3,10 +3,8 @@ export const checkIfMissingValues = (billInfo, products = []) => {
   if (!billInfo.vId || !billInfo.purDate || !billInfo.paymentType || !billInfo.billNo)
     return true
   products.map((product, index) => {
-    if (!product.pId || !product.vId || !product.mrp || !product.batch || !product.qnty || !product.rate || !product.expDate) {
-      console.log(index, "missing")
+    if (!product.pId || !product.vId || !product.mrp || !product.batch || !product.qnty || !product.rate || !product.expDate)
       isMissing = true
-    }
   })
   if (isMissing)
     return true
