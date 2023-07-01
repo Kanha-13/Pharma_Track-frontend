@@ -46,7 +46,7 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = 
       return item[value] + " %"
     if (item.category === "TABLET") {
       if (value === "pkg")
-        return item[value] + " TABS"
+        return item[value] + " 's"
       if (value === "category")
         return "Strips/Tabs"
       if (value === "qnty" && item.qnty)

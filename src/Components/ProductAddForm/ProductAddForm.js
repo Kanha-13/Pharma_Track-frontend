@@ -4,7 +4,7 @@ import Header from "./Header";
 const ProductAddForm = ({ onSubmit, onChange, addField, deleteField, purchaseProducts, products }) => {
 
   return (
-    <div style={{ width: "100%", height: "80%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
+    <div style={{ width: "100%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
       <div style={{ overflow: "auto", width: "100%", height: "90%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
         <Header />
         <Body purchaseProducts={purchaseProducts} onChange={onChange} onDelete={deleteField} products={products} />

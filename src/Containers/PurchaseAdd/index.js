@@ -8,16 +8,15 @@ import Layout from "../../Components/Layout/Layout";
 import Card from "../../Components/ManualAddProduct/Card";
 
 import './index.css'
-import { PaymentTypesLits, PurchaseProductListHeader } from "../../Constants/Purchase";
+import { PaymentTypesLits } from "../../Constants/Purchase";
 import { PURCHASEBILLINFO, PURCHASEPRODUCTINFO, purchasebilldetail, purchaseproductdetail } from "../../Schema/purchase";
 import { getAllProducts } from "../../apis/products";
 import { addPurchaseDetial } from "../../apis/purchase";
-import { calculateNetRate, checkIfMissingValues } from "../../utils/purchase";
+import { checkIfMissingValues, getNet, getTotal, removeBlankRow } from "../../utils/purchase";
 import ProductAddForm from "../../Components/ProductAddForm/ProductAddForm";
 
 const PurchaseAdd = () => {
   const { dispatch, vendors, products } = useStore();
-  const navigate = useNavigate()
   const [purchaseBillDetail, setPurchaseBill] = useState(purchasebilldetail)
   const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 5 }, (_, index) => purchaseproductdetail))
   const [vendorslist, setVendorlist] = useState([]);
@@ -61,25 +60,6 @@ const PurchaseAdd = () => {
     setPurchaseBill({ ...purchaseBillDetail, [name]: value })
   }
 
-  const getNet = (name, product, value) => {
-    let prod = { ...product, [name]: value }
-    let rate = prod.rate
-    let cd = prod.cashDisc
-    let sc = prod.schemeDisc
-    let qnty = parseInt(prod.qnty)
-    let free = parseInt(prod.free)
-    let gst = product.gst
-
-    let taxedAmt = (rate * gst / 100) * qnty
-    let netDiscountedRate_perunit = (rate - rate * sc / 100) - (rate - rate * sc / 100) * cd / 100
-    let total = ((netDiscountedRate_perunit * qnty) + taxedAmt)
-    return {
-      totalvalue: parseFloat(netDiscountedRate_perunit * qnty).toFixed(2),
-      netamt: parseFloat(total).toFixed(2),
-      netrateperunit: parseFloat(total / (qnty + free)).toFixed(2)
-    }
-  }
-
   const onchangeproductlist = (index, name, value) => {
     try {
       setPurchaseProducts(purchaseProducts.map((detail, ind) => {
@@ -90,12 +70,13 @@ const PurchaseAdd = () => {
               return { ...detail, [name]: value, pkg: selectedProd.pkg, category: selectedProd.category, gst: selectedProd.gst, vId: purchaseBillDetail.vId }
           }
           else if (name === PURCHASEPRODUCTINFO.QNT || name === PURCHASEPRODUCTINFO.SC || name === PURCHASEPRODUCTINFO.RATE || name === PURCHASEPRODUCTINFO.CD || name === PURCHASEPRODUCTINFO.FREE) {
-            let { totalvalue, netamt, netrateperunit } = getNet(name, purchaseProducts[index], value)
-            return { ...detail, [name]: value, totalValue: totalvalue, netAmt: netamt, netRate: netrateperunit }
+            let { netvalue, nettax, netamt, netrateperunit } = getNet(name, purchaseProducts[index], value)
+            let { totalvalue, totaltax, totalamt } = getTotal(purchaseProducts, index, netamt, netvalue, nettax)
+            setPurchaseBill({ ...purchaseBillDetail, totalAmt: totalamt, totalValue: totalvalue, totalTax: totaltax })
+
+            return { ...detail, [name]: value, netValue: netvalue, netAmt: netamt, netRate: netrateperunit, netTax: nettax }
           }
-          else if (name === PURCHASEPRODUCTINFO.GST)
-            return detail
-          else if (name === PURCHASEPRODUCTINFO.TOTAL_VALUE)
+          else if (name === PURCHASEPRODUCTINFO.GST || name === PURCHASEPRODUCTINFO.TOTAL_VALUE)
             return detail
           return { ...detail, [name]: value }
         }
@@ -107,24 +88,18 @@ const PurchaseAdd = () => {
     }
   }
 
-  const removeBlankRow = (productlist = []) => {
-    return productlist.filter(prod => prod !== null && prod !== undefined)
-  }
-
   const addPurchase = async () => {
-    alert(purchaseProducts[0].netRate)
     try {
       const cleared_productlist = removeBlankRow(purchaseProducts)
-      // const final_productlist = calculateNetRate(cleared_productlist)
       if (checkIfMissingValues(purchaseBillDetail, cleared_productlist))
         alert("No missing values allowed")
       else {
         const data = {
           billInfo: purchaseBillDetail,
-          productsDetail: final_productlist
+          productsDetail: cleared_productlist
         }
         const res = await addPurchaseDetial(data)
-        setPurchaseProducts(Array.from(({ length: 5 }, (_, index) => purchaseproductdetail)))
+        setPurchaseProducts(Array.from({ length: 5 }, (_, index) => purchaseproductdetail))
         setPurchaseBill(purchasebilldetail)
         alert("Pruchase updated successfully!")
         dispatch(ACTION.SET_STOCKS, [])
@@ -164,6 +139,18 @@ const PurchaseAdd = () => {
           purchaseProducts.length > 0 ?
             <ProductAddForm onSubmit={addPurchase} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} products={productslist} onChange={onchangeproductlist} /> : <></>
         }
+        <div style={{ width: "100%", height: "10%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
+          <div style={{ height: "100%", width: "10%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+            <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Sub total: </p>
+            <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Tax: </p>
+            <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Grand total: </p>
+          </div>
+          <div style={{ height: "100%", width: "10%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+            <input style={{ border: "none", width: "90%",fontSize:"1.2rem" }} readOnly value={purchaseBillDetail.totalValue} />
+            <input style={{ border: "none", width: "90%",fontSize:"1.2rem" }} readOnly value={purchaseBillDetail.totalTax} />
+            <input style={{ border: "none", width: "90%",fontSize:"1.2rem" }} readOnly value={purchaseBillDetail.totalAmt} />
+          </div>
+        </div>
       </div>
     </Layout>
   );

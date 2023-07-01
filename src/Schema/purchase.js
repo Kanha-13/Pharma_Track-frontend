@@ -13,7 +13,8 @@ export const PURCHASEPRODUCTINFO = {
   RATE: "rate",
   SC: "schemeDisc",
   CD: "cashDisc",
-  TOTAL_VALUE: "totalValue",
+  N_VALUE: "netValue",
+  M_TAX: "netTax",
   GST: "gst",
   N_AMT: "netAmount",
 
@@ -24,14 +25,16 @@ export const PURCHASEBILLINFO = {
   PAYMENTTYPE: "paymentType",
   BILLNUMBER: "billNo",
   VENDORNAME: "vendorName",
-  TOTALAMOUNT: "totalAmt"
+  TOTALAMOUNT: "totalAmt",
+  TOTALVALUE:"totalValue",
+  TOTALTAX:"totalTax",
 }
 
 export const purchaseproductdetail = {
   itemName: "", pId: "", free: "0", mrp: "", gst: "", expDate: "", qnty: "",
-  batch: "", strips: "", netRate: "", tabs: "", pkg: "", category: "", rate: "", cashDisc: "0", schemeDisc: "0", totalValue: ""
+  batch: "", strips: "", netRate: "", tabs: "", pkg: "", category: "", rate: "", cashDisc: "0", schemeDisc: "0", netValue: "0", netAmt: "0", netTax: "0"
 }
 
 export const purchasebilldetail = {
-  vendorName: "", vId: "", purDate: "", billNo: "", totalAmt: "", paymentType: ""
+  vendorName: "", vId: "", purDate: "", billNo: "", totalAmt: "0", paymentType: "", totalValue: "0", totalTax: "0"
 }

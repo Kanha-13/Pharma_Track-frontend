@@ -21,9 +21,9 @@ const Body = ({ purchaseProducts = [], products = [], onChange = () => { }, onDe
         purchaseProducts.map((item, index) => {
           const onchangeProductDetail = (name, value) => { onChange(index, name, value) }
           return (
-            <div id="purchase-data-container" onClick={() => { }} key={`${item?._id}-purchase-list-${index}`} className="purchase-batch-row" style={{ height: "5vh", margin: "3vh 0px", width: "100%", display: "flex", justifyContent: "space-between" }}>
+            <div id="purchase-data-container" onClick={() => { }} key={`${item?._id}-purchase-list-${index}`} className="purchase-batch-row" style={{ height: "5vh", margin: "2vh 0px", width: "100%", display: "flex", justifyContent: "space-between" }}>
               <Card require={true} value={purchaseProducts[index]?.pId} w="15%" h="35%" pd="1.3vh 0.1vw" m="0px" name={PURCHASEPRODUCTINFO.PRODUCTID} label="" onchange={onchangeProductDetail} type="select" options={products} />
-              {getQuantityInput(index, onchangeProductDetail)}
+              <Card require={true} value={purchaseProducts[index]?.qnty} w="5.5%" h="35%" pd="1.3vh 0.1vw" m="0px" label="" ph="Qnty" name={PURCHASEPRODUCTINFO.QNT} onchange={onchangeProductDetail} type="number" />
               <Card require={true} value={purchaseProducts[index]?.free} w="5%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="free" name={PURCHASEPRODUCTINFO.FREE} label="" onchange={onchangeProductDetail} type="number" />
               <Card require={true} value={purchaseProducts[index]?.batch} w="10%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="Batch no." name={PURCHASEPRODUCTINFO.BATCH} label="" onchange={onchangeProductDetail} type="text" />
               <Card require={true} value={purchaseProducts[index]?.expDate} w="12%" h="35%" pd="1.3vh 0.1vw" m="0px" fs="0.9rem" name={PURCHASEPRODUCTINFO.EXPDATE} label="" onchange={onchangeProductDetail} type="month" />
@@ -31,7 +31,7 @@ const Body = ({ purchaseProducts = [], products = [], onChange = () => { }, onDe
               <Card require={true} value={purchaseProducts[index]?.rate} w="5%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="rate" name={PURCHASEPRODUCTINFO.RATE} label="" onchange={onchangeProductDetail} type="text" />
               <Card require={true} value={purchaseProducts[index]?.schemeDisc} w="5%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="sc%" name={PURCHASEPRODUCTINFO.SC} label="" onchange={onchangeProductDetail} type="text" />
               <Card require={true} value={purchaseProducts[index]?.cashDisc} w="5%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="cd%" name={PURCHASEPRODUCTINFO.CD} label="" onchange={onchangeProductDetail} type="text" />
-              <Card require={true} value={purchaseProducts[index]?.totalValue} w="5%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="value" name={PURCHASEPRODUCTINFO.TOTAL_VALUE} label="" onchange={onchangeProductDetail} type="text" />
+              <Card require={true} value={purchaseProducts[index]?.netValue} w="5%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="value" name={PURCHASEPRODUCTINFO.N_VALUE} label="" onchange={onchangeProductDetail} type="text" />
               <Card require={true} value={purchaseProducts[index]?.gst} w="5%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="gst%" name={PURCHASEPRODUCTINFO.GST} label="" onchange={onchangeProductDetail} type="text" />
               <Card require={true} value={purchaseProducts[index]?.netAmt} w="5%" h="35%" pd="1.3vh 0.1vw" m="0px" ph="net amt" name={PURCHASEPRODUCTINFO.N_AMT} label="" onchange={onchangeProductDetail} type="text" />
               <button onClick={() => onDelete(index)} tabIndex={-1} style={{ display: purchaseProducts.length === 1 ? "none" : "block", padding: "0px", fontSize: "1.5rem", textAlign: "left", minWidth: "2.5vw", cursor: "pointer", backgroundColor: "transparent", border: "none" }}>x</button>
