@@ -7,12 +7,15 @@ export const getyyyymm = (date) => {
   return `${new Date(date).getFullYear()}-${parseInt(month / 10)}${(month % 10)}`
 }
 
+export const getyyyymmdd = (date) => {
+  const month = new Date(date).getMonth() + 1
+  let Datee = new Date(date).getDate()
+  return `${new Date(date).getFullYear()}-${parseInt(month / 10)}${(month % 10)}-${parseInt(Datee / 10)}${Datee % 10}`
+}
+
 export const getmmyy = (date) => {
   return `${new Date(date).getMonth() + 1}/${new Date(date).getFullYear() % 1000}`
 }
-// export const datetoMongoDBformat=(date)=>{
-//   return new Date(date).toLocaleDateString()
-// }
 
 export const toddmmyy = (date) => {
   if (date)
@@ -20,8 +23,6 @@ export const toddmmyy = (date) => {
   else
     return `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear() % 1000}`
 }
-
-
 
 export const to_dd_monthname_yy = (date) => {
   if (date)

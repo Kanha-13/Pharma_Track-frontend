@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
 import { getVendors } from "../../apis/vendors";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ACTION } from "../../Store/constants";
 
 import Layout from "../../Components/Layout/Layout";
@@ -11,16 +11,21 @@ import './index.css'
 import { PaymentTypesLits } from "../../Constants/Purchase";
 import { PURCHASEBILLINFO, PURCHASEPRODUCTINFO, purchasebilldetail, purchaseproductdetail } from "../../Schema/purchase";
 import { getAllProducts } from "../../apis/products";
-import { addPurchaseDetial } from "../../apis/purchase";
+import { addPurchaseDetial, getPurchase } from "../../apis/purchase";
 import { checkIfMissingValues, getNet, getTotal, removeBlankRow } from "../../utils/purchase";
 import ProductAddForm from "../../Components/ProductAddForm/ProductAddForm";
+import { ROUTES } from "../../Constants/routes_frontend";
+import { getyyyymm, getyyyymmdd } from "../../utils/DateConverter";
 
 const PurchaseAdd = () => {
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate()
   const { dispatch, vendors, products } = useStore();
   const [purchaseBillDetail, setPurchaseBill] = useState(purchasebilldetail)
   const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 5 }, (_, index) => purchaseproductdetail))
   const [vendorslist, setVendorlist] = useState([]);
   const [productslist, setProductslist] = useState([]);
+  const [mode, setMode] = useState("add")
 
   const formatevendorslist = (vendorss) => {
     const vendorsoption = vendorss.map((vendor) => {
@@ -88,6 +93,13 @@ const PurchaseAdd = () => {
     }
   }
 
+  const onsubmit = () => {
+    if (mode === "add")
+      addPurchase()
+    else
+      updatePurchase()
+  }
+
   const addPurchase = async () => {
     try {
       const cleared_productlist = removeBlankRow(purchaseProducts)
@@ -110,6 +122,10 @@ const PurchaseAdd = () => {
     }
   }
 
+  const updatePurchase = async () => {
+
+  }
+
   const addField = () => {
     setPurchaseProducts([...purchaseProducts, {}])
   }
@@ -118,11 +134,38 @@ const PurchaseAdd = () => {
     setPurchaseProducts(purchaseProducts.filter((_, ind) => ind !== index))
   }
 
+  const fetchPurchase = async (id) => {
+    try {
+      const res = await getPurchase(id);
+      const res_data = res.data
+      const calc_data = res_data.productsDetail.map((prod) => {
+        return { ...prod, expDate: getyyyymm(prod.expDate), gst: Math.round((prod.netTax / prod.qnty) * 100 / prod.rate) }
+      })
+      setPurchaseProducts(calc_data)
+      delete res_data.productsDetail
+      res_data.purDate = getyyyymmdd(res_data.purDate)
+      setPurchaseBill(res_data)
+    } catch (error) {
+      console.log(error)
+      alert("Unable to get purchase information!")
+      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PURCHASE)
+    }
+  }
+
+  const oncancel = () => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PURCHASE)
+  }
+
   useEffect(() => {
+    const purchaseId = searchParams.get("id")
     if (vendors.length) { formatevendorslist(vendors) }
     else fetchVendorsList();
     if (products.length) { formateproductslist(products) }
     else fetchProductsList();
+    if (purchaseId) {
+      fetchPurchase(purchaseId)
+      setMode("update")
+    }
   }, [])
 
   return (
@@ -137,7 +180,7 @@ const PurchaseAdd = () => {
         </div>
         {
           purchaseProducts.length > 0 ?
-            <ProductAddForm onSubmit={addPurchase} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} products={productslist} onChange={onchangeproductlist} /> : <></>
+            <ProductAddForm oncancel={oncancel} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} products={productslist} onChange={onchangeproductlist} /> : <></>
         }
         <div style={{ width: "100%", height: "10%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
           <div style={{ height: "100%", width: "10%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
@@ -146,9 +189,9 @@ const PurchaseAdd = () => {
             <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Grand total: </p>
           </div>
           <div style={{ height: "100%", width: "10%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
-            <input style={{ border: "none", width: "90%",fontSize:"1.2rem" }} readOnly value={purchaseBillDetail.totalValue} />
-            <input style={{ border: "none", width: "90%",fontSize:"1.2rem" }} readOnly value={purchaseBillDetail.totalTax} />
-            <input style={{ border: "none", width: "90%",fontSize:"1.2rem" }} readOnly value={purchaseBillDetail.totalAmt} />
+            <input style={{ border: "none", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalValue} />
+            <input style={{ border: "none", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalTax} />
+            <input style={{ border: "none", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalAmt} />
           </div>
         </div>
       </div>

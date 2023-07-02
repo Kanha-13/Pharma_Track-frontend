@@ -22,13 +22,7 @@ export const getPurchases = async (vId = "", billNo = "", dateRange = {}) => {
   const res = await axios_instance.get(API.GET_PURCHASES + searchQuery)//using product id because fetching info of stock for a particular product
   return res.data
 }
-
-// export const updateStockDetial = async (data) => {
-//   const res = await axios_instance.patch(API.UPDATE_STOCK + data._id, data)
-//   return res.data
-// }
-
-// export const deleteStock = async (stockId) => {// it won't reduce stock, rather completely delete its entry from db
-//   const res = await axios_instance.delete(API.DELETE_STOCK + stockId)
-//   return res.data
-// }
+export const getPurchase = async (purchaseId) => {
+  const res = await axios_instance.get(API.GET_PURCHASE_DETAIL + purchaseId)//using product id because fetching info of stock for a particular product
+  return res.data
+}

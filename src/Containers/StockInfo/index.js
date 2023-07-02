@@ -24,6 +24,8 @@ const StockInfo = () => {
 
   const fetchProductInfo = async (pId) => {
     const res = await getProduct(pId);
+    if (res.category === "TABLET")
+      res.pkg = res.pkg + " 's"
     setProductInfo(res)
   }
   const fetchStockDetail = async (pId) => {
@@ -65,21 +67,12 @@ const StockInfo = () => {
     setModal(false)
   }
 
-  const onchange = () => {
-
-  }
+  const onchange = () => { }
 
   const onclickstock = (stockId) => {
     setModal(true)
     const stock = stockInfo.filter((e, index) => e._id === stockId)
     setCurrentStock(stock[0])
-  }
-
-  const getValue = (item, value) => {
-    if (value === "expDate")
-      return getmmyy(item[value])
-    else
-      return item[value]
   }
 
   useEffect(() => {
@@ -118,36 +111,6 @@ const StockInfo = () => {
         </div>
         <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
           onclick={onclickstock} header={StockInfoHeader} data={stockInfo} />
-        {/* <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
-          <thead style={{
-            backgroundColor: "#ebe8fc", height: "5vh",
-            marginBottom: "10px", borderBottom: "1px solid gray"
-          }}>
-            <tr >
-              {StockInfoHeader.map((head) => <th style={{ width: head.colSize, textAlign: "left" }}>{head.name}</th>)}
-            </tr>
-          </thead>
-        </table>
-        {
-          stockInfo.length > 0 ?
-            <div id="stock-data-container" style={{ width: "100%", maxHeight: "65vh", overflow: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <tbody style={{ borderCollapse: "collapse" }}>
-                  {
-                    stockInfo.map((item, index) => {
-                      return (
-                        <tr key={`${item._id}-stock-list`} className="stock-batch-row" style={{ backgroundColor: index % 2 ? "#ededed" : "", height: "5vh" }}>
-                          {
-                            StockInfoHeader.map((head) => <td style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
-                          }
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
-            </div> : <></>
-        } */}
       </div>
       {isModal ? <StockUpdateModal info={currentStock} onupdate={onupdate} oncancel={oncancel} ondelete={ondelete} /> : <></>}
     </Layout>
