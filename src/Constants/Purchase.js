@@ -1,5 +1,6 @@
 export const PurchaseProductListHeader = [
   { name: 'Item Name', value: "itemName", colSize: "25.5vw" },
+  { name: 'Pkg.', value: "pkg", colSize: "10vw" },
   { name: 'Qnty.', value: "qnty", colSize: "10vw" },
   { name: 'Free', value: "free", colSize: "10vw" },
   { name: 'Batch', value: "batch", colSize: "18vw" },
@@ -7,8 +8,8 @@ export const PurchaseProductListHeader = [
   { name: 'MRP', value: "mrp", colSize: "9vw" },
   { name: 'Rate', value: "rate", colSize: "9vw" },
   { name: 'SC%', value: "schemeDisc", colSize: "6vw" },
-  { name: 'CD%', value: "cashDisc", colSize: "6vw" },
-  { name: 'Value', value: "value", colSize: "13vw" },
+  { name: 'CD%', value: "cashDisc", colSize: "7vw" },
+  { name: 'Value', value: "value", colSize: "12vw" },
   { name: 'GST%', value: "gst", colSize: "9vw" },
   { name: 'Net Amt.', value: "netAmt", colSize: "13vw" },
 ]
