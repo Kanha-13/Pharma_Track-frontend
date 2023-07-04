@@ -6,7 +6,6 @@ export const calcRate = (mrp, gst) => {
 
 export const calcTotal = (cart, soldQnty, disc) => {
   let { mrp, pkg, category } = cart
-  console.log(category === "TABLET")
   let total;
 
   if (category === "TABLET")
@@ -16,7 +15,7 @@ export const calcTotal = (cart, soldQnty, disc) => {
   let discount = total * disc / 100
   let netTotal = total - discount;
   return parseFloat(netTotal).toFixed(2)
-  
+
   //   return parseFloat(((mrp / pkg) * soldQnty) - ((mrp / pkg) * soldQnty) * disc / 100).toFixed(2)
   // return parseFloat((mrp * soldQnty) - (mrp * soldQnty) * disc / 100).toFixed(2)
 }
