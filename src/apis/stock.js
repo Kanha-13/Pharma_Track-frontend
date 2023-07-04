@@ -11,8 +11,8 @@ export const addStockDetial = async (data) => {
 //   return res.data
 // }
 
-export const getStockInfo = async (pId) => {
-  const res = await axios_instance.get(API.GET_STOCK + pId)//using product id because fetching info of stock for a particular product
+export const queryStocks = async (pId) => {
+  const res = await axios_instance.get(API.GET_STOCKS_QUERY + "?pId=" + pId)//using product id because fetching info of stock for a particular product
   return res.data
 }
 

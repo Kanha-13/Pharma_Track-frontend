@@ -10,6 +10,8 @@ import ProductsList from "../../Components/ProductsList/ProductsList";
 import './index.css'
 import { BillingListHeader } from "../../Constants/billing";
 import ChooseBatch from "../../Components/ChooseBatch/ChooseBatch";
+import { getmmyy } from "../../utils/DateConverter";
+import { calcRate, calcTotal } from "../../utils/billing";
 
 const Billing = () => {
   const { products, dispatch } = useStore();
@@ -17,15 +19,6 @@ const Billing = () => {
   const [productsList, setProductsList] = useState([])//this product list is the filtered list
   const [inCart, setCart] = useState([])
   const [isChooseOpen, setIsChosse] = useState(false)
-
-  const checkIfProdAlreadyExist = (itemId, stockId) => {
-    let duplicate = false
-    inCart.filter((cart) => {
-      if (cart._id === itemId && cart.stockId === stockId)
-        duplicate = true
-    })
-    return duplicate
-  }
 
   const onclickproduct = (itemId) => {
     setPID(itemId)
@@ -60,7 +53,13 @@ const Billing = () => {
   }
 
   const onchangeqnty = (indx, val) => {
-    setCart(inCart.map((cart, index) => index === indx ? { ...cart, soldQnt: val } : cart))
+    let updated = inCart.map((cart, index) => index === indx ? { ...cart, soldQnty: val, total: calcTotal(cart, val, cart.disc) } : cart)
+    setCart(updated)
+  }
+
+  const changeDisc = (indx, val) => {
+    let updated = inCart.map((cart, index) => index === indx ? { ...cart, disc: val, total: calcTotal(cart, cart.soldQnty, val) } : cart)
+    setCart(updated)
   }
 
   const onresetall = () => {
@@ -70,15 +69,33 @@ const Billing = () => {
     setPID("")
   }
 
-  const onremoveItem = (itemName) => {
-    setCart(inCart.filter((item) => item.itemName !== itemName))
+  const onremoveItem = (stockId) => {
+    setCart(inCart.filter((item) => item.stockId !== stockId))
   }
 
   const handleBatchChoose = (stock) => {
-    const selectedPrduct = productsList.filter((prod, index) => prod._id === currentPID)[0]
-    selectedPrduct.stockId = stock._id
-    setCart([...inCart, selectedPrduct])
-    return
+    const checkDuplicate = inCart.filter((cart) => cart.stockId === stock._id)
+    if (!checkDuplicate.length) {
+      const selectedPrduct = productsList.filter((prod, index) => prod._id === currentPID)[0]
+      const carItem = {
+        pId: selectedPrduct._id,
+        itemName: selectedPrduct.itemName,
+        batch: stock.batch,
+        mrp: stock.mrp,
+        stockId: stock._id,
+        category: selectedPrduct.category,
+        expDate: getmmyy(stock.expDate),
+        pkg: selectedPrduct.pkg,
+        soldQnty: 0,
+        total: 0,
+        gst: selectedPrduct.gst,
+        disc: 0,
+        qnty: stock.qnty,
+        rate: calcRate(stock.mrp, selectedPrduct.gst)
+      }
+      setCart([...inCart, carItem])
+    }
+    setIsChosse(false)
   }
 
   return (
@@ -88,7 +105,7 @@ const Billing = () => {
           onclick={onclickproduct} header={BillingListHeader} data={productsList} />
         <hr margi="2%" color="#D6D8E7" />
         {isChooseOpen ? <ChooseBatch pId={currentPID} show={isChooseOpen} onEnter={handleBatchChoose} /> : <></>}
-        <Quotation onremoveItem={onremoveItem} onReset={onresetall} itemsIncart={[]} onchangeqnty={onchangeqnty} />
+        <Quotation changeDisc={changeDisc} onremoveItem={onremoveItem} resetCart={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />
       </div>
     </Layout>
   );

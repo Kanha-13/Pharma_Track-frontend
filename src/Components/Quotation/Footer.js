@@ -7,6 +7,7 @@ const Footer = ({ carts = [], oncheckout }) => {
   const [address, setaddress] = useState("")
   const [total, setTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
+  const [roundOff, setRoundOff] = useState(0)
   const [grandTotal, setGrandTotal] = useState(0)
   const [amtPaid, setamtPaid] = useState(0)
 
@@ -27,18 +28,19 @@ const Footer = ({ carts = [], oncheckout }) => {
 
     if (carts.length) {
       const billDetail = {
+        billingDate: new Date(),
         patientName: patientName,
         mobileNo: mobileNumber,
         address: address,
         prescribedBy: prescribedBy,
-        gttl: grandTotal,
-        paid: amtPaid,
+        subTotal: total,
+        grandTotal: grandTotal,
+        amtPaid: amtPaid,
         amtDue: grandTotal - amtPaid,
         discount: discount,
-        date: new Date(),
-        roundoff: grandTotal - (parseFloat(total - (total * discount / 100)).toFixed(3)),
-        changeInProfit: 0,
-        changeInSell: 0,
+        roundoff: roundOff,
+        // roundoff: parseFloat(grandTotal - total - discount).toFixed(2),
+        // roundoff: parseFloat(grandTotal - (parseFloat(total) - parseFloat(discount))).toFixed(2),
       }
       oncheckout(billDetail, resetFields)
     } else {
@@ -47,18 +49,23 @@ const Footer = ({ carts = [], oncheckout }) => {
   }
 
   useEffect(() => {
-    let total = 0;
+    let subtotal = "0";// for total without discount
+    let total = "0";//for total with discount
     carts.map((cart, index) => {
-      total += cart.soldQnt * (cart.mrp / cart.qnty)
+      let mrp_per_unit = cart.mrp  // tablet or bottle
+      if (cart.category === "TABLET")
+        mrp_per_unit = cart.mrp / cart.pkg
+      subtotal = parseFloat(mrp_per_unit * cart.soldQnty) + parseFloat(subtotal)
+      total = parseFloat(cart.total) + parseFloat(total)
     })
-    setTotal(total.toFixed(2))
-    total = parseFloat(total - (total * discount / 100)).toFixed(2)
-    setGrandTotal(Math.round(total))
-  }, [carts])
 
-  useEffect(() => {
-    setGrandTotal(Math.round(total - (total * discount / 100)))
-  }, [discount])
+    setDiscount(parseFloat(subtotal - total).toFixed(2))
+    setTotal(subtotal)
+    let gttl = Math.round(total)
+    setRoundOff(parseFloat(gttl - subtotal - parseFloat(subtotal - total).toFixed(2)).toFixed(2))
+    setGrandTotal(gttl)
+    setamtPaid(gttl)
+  }, [carts])
 
   return (
     <form onSubmit={oncheckOut} style={{
@@ -76,24 +83,29 @@ const Footer = ({ carts = [], oncheckout }) => {
           <h5 style={{ margin: "5px" }}>Address:</h5>
         </div>
         <div style={{ width: "55%", height: "100%", display: "flex", justifyContent: "space-around", flexDirection: "column" }}>
-          <input required placeholder="Doctor name" onChange={(e) => setPrescribedBy(e.target.value)} value={prescribedBy} />
+          <input placeholder="Doctor name" onChange={(e) => setPrescribedBy(e.target.value)} value={prescribedBy} />
           <input required placeholder="Patient name" onChange={(e) => setPatient(e.target.value)} value={patientName} />
-          <input required placeholder="Mobile name" onChange={(e) => setmobileNumber(e.target.value)} value={mobileNumber} />
-          <input required placeholder="Address" onChange={(e) => setaddress(e.target.value)} value={address} />
+          <input placeholder="Mobile name" onChange={(e) => setmobileNumber(e.target.value)} value={mobileNumber} />
+          <input placeholder="Address" onChange={(e) => setaddress(e.target.value)} value={address} />
         </div>
       </div>
       <div style={{ height: "100%", width: "39%", display: "flex", justifyContent: "centre", alignItems: "start" }}>
         <div style={{ marginTop: "5%", height: "100%", width: "60%", display: "flex", justifyContent: "start", flexDirection: "column" }}>
-          <h5 style={{ height: "20%", margin: "0px" }}>Total:</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>Sub Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Discount:</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>Round Off:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Grand Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Amount Paid:</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}></h5>
         </div>
         <div style={{ marginTop: "5%", width: "40%", height: "100%", display: "flex", justifyContent: "start", flexDirection: "column" }}>
           <h5 style={{ height: "15%", margin: "0px" }}>{total}</h5>
-          <input type="number" min={0} max={100} style={{
+          <h5 style={{
             height: "15%", margin: "10% 0px"
-          }} onChange={(e) => setDiscount(e.target.value)} value={discount} />
+          }}>{discount}</h5>
+          <h5 style={{
+            height: "15%", margin: "10% 0px"
+          }}>{roundOff}</h5>
           <h5 style={{ height: "15%", margin: "0px", marginTop: "1.2vh", }}>{grandTotal}</h5>
           <input type="number" min={0} style={{
             height: "15%", margin: "10% 0px"

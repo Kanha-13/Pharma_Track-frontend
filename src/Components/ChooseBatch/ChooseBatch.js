@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getStockInfo } from "../../apis/stock";
+import { queryStocks } from "../../apis/stock";
 import { StockInfoHeader } from "../../Containers/StockInfo/Constants";
 import { getmmyy } from "../../utils/DateConverter";
 import KEY from "../../Constants/keyCode";
@@ -7,14 +7,16 @@ import KEY from "../../Constants/keyCode";
 const ChooseBatch = ({ show, pId, onEnter }) => {
   const [currentIndex, setIndex] = useState(0)
   const [batchList, setBatchList] = useState([])
+
   const fetchBatchList = async () => {
     try {
-      const res = await getStockInfo(pId);
+      const res = await queryStocks(pId);
       setBatchList(res.data)
     } catch (error) {
       alert("Unable to get batch list")
     }
   }
+  
   const getValue = (item, value) => {
     if (value === "expDate")
       return getmmyy(item[value])
@@ -44,10 +46,6 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
     }
   };
 
-  useEffect(() => {
-      // document.querySelector("div").addEventListener("keydown", handleKeyDown)
-      // return () => document.querySelector("div").removeEventListener('keydown', handleKeyDown);
-  }, [])
   useEffect(() => {
     if (!batchList.length && pId)
       fetchBatchList(pId)

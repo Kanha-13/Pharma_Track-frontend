@@ -19,13 +19,10 @@ export const API = {
   //stock
   GET_STOCKS_INITIAL: '/stocks',
   GET_STOCK: '/stock/',
+  GET_STOCKS_QUERY: '/stocks/query',
   ADD_STOCK: '/stock',
   UPDATE_STOCK: '/stock/',
   DELETE_STOCK: '/stock/',
-
-  //billing
-  GET_INVOICE_COUNT: "/invoice/count",
-  CHECKOUT_PRODUCT: "/product/reduceStock",
 
   //vendor
   GET_VENDORS: "/vendors",
@@ -42,12 +39,16 @@ export const API = {
   GET_SETTLEMENTS: '/settlements',
   UPDATE_SETTLEMENT: '/settlement/',
   DELETE_SETTLEMENT: '/settlement/',
-  
+
   //Purchase
   ADD_PURCHASE: '/purchase',
   GET_PURCHASES: '/purchases',
   GET_PURCHASE_DETAIL: '/purchase/',
   UPDATE_PURCHASE: '/purchase/',
   DELETE_PURCHASE: '/purchase/',
+
+  //billing
+  GET_INVOICE_COUNT: "/invoice/count",
+  CHECKOUT_PRODUCT: "/billing/checkout",
 }
 

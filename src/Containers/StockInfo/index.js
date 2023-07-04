@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { deleteStock, getStockInfo, updateStockDetial } from "../../apis/stock";
+import { deleteStock, queryStocks, updateStockDetial } from "../../apis/stock";
 import { StockInfoHeader } from "./Constants";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -29,7 +29,7 @@ const StockInfo = () => {
     setProductInfo(res)
   }
   const fetchStockDetail = async (pId) => {
-    let res = await getStockInfo(pId);
+    let res = await queryStocks(pId);
     res = res.data.map((row, index) => {
       return {
         ...row,
