@@ -73,7 +73,7 @@ const PurchaseAdd = () => {
           if (name === PURCHASEPRODUCTINFO.PRODUCTID) {//feeding extra detail needed to calculate netrate later
             const selectedProd = products.filter((prod, index) => prod._id === value)[0]
             if (selectedProd)
-              return { ...detail, [name]: value, pkg: selectedProd.pkg, category: selectedProd.category, gst: selectedProd.gst, vId: purchaseBillDetail.vId }
+              return { ...detail, [name]: value, itemName: selectedProd.itemName, pkg: selectedProd.pkg, category: selectedProd.category, gst: selectedProd.gst, vId: purchaseBillDetail.vId }
           }
           else if (name === PURCHASEPRODUCTINFO.QNT || name === PURCHASEPRODUCTINFO.SC || name === PURCHASEPRODUCTINFO.RATE || name === PURCHASEPRODUCTINFO.CD || name === PURCHASEPRODUCTINFO.FREE) {
             let { netvalue, nettax, netamt, netrateperunit } = getNet(name, purchaseProducts[index], value)
