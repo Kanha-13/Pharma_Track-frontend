@@ -12,9 +12,12 @@ import { BillingListHeader } from "../../Constants/billing";
 import ChooseBatch from "../../Components/ChooseBatch/ChooseBatch";
 import { getmmyy } from "../../utils/DateConverter";
 import { calcRate, calcTotal } from "../../utils/billing";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../Constants/routes_frontend";
 
 const Billing = () => {
   const { products, dispatch } = useStore();
+  const navigate = useNavigate()
   const [currentPID, setPID] = useState("")
   const [productsList, setProductsList] = useState([])//this product list is the filtered list
   const [inCart, setCart] = useState([])
@@ -98,11 +101,18 @@ const Billing = () => {
     setIsChosse(false)
   }
 
+  const toBillingHistory = () => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_HISTORY)
+  }
+
   return (
     <Layout>
       <div id="billing-container" className="layout-body borderbox">
-        <ProductsList mh="400%" h="100%" w="45%" onchange={onchange}
-          onclick={onclickproduct} header={BillingListHeader} data={productsList} />
+        <div style={{ width: "45%", height: "100%", display: "flex", flexDirection: 'column' }}>
+          <button onClick={toBillingHistory} style={{ width: "30%", height: "5vh", marginBottom: "2vh", borderRadius: "0.4vw", border: "none", backgroundColor: "#5e48e8", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Bill History</button>
+          <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
+            onclick={onclickproduct} header={BillingListHeader} data={productsList} />
+        </div>
         <hr margi="2%" color="#D6D8E7" />
         {isChooseOpen ? <ChooseBatch pId={currentPID} show={isChooseOpen} onEnter={handleBatchChoose} /> : <></>}
         <Quotation changeDisc={changeDisc} onremoveItem={onremoveItem} resetCart={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />

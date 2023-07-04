@@ -48,7 +48,7 @@ export const API = {
   DELETE_PURCHASE: '/purchase/',
 
   //billing
-  GET_INVOICE_COUNT: "/invoice/count",
+  GET_BILLING_HISTORY: "/billings",
   CHECKOUT_PRODUCT: "/billing/checkout",
 }
 

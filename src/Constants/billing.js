@@ -20,3 +20,13 @@ export const QuotationListHeader = [
   { name: 'Dis%', value: "disc", colSize: "10%" },
   { name: 'Total', value: "total", colSize: "10%" },
 ]
+
+export const BillingHistoryListHeader = [
+  { name: 'Patient Name', value: "patientName", colSize: "25%" },
+  { name: 'Invoice No', value: "invoiceNo", colSize: "10%" },
+  { name: 'Mobile No.', value: "qnty", colSize: "15%" },
+  { name: 'Prescribed By', value: "qnty", colSize: "15%" },
+  { name: 'Total', value: "pkg", colSize: "10%" },
+  { name: 'Balance', value: "location", colSize: "10%" },
+  { name: 'Billing Date', value: "billingDate", colSize: "10%" },
+]
