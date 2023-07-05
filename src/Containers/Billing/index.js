@@ -87,7 +87,7 @@ const Billing = () => {
         mrp: stock.mrp,
         stockId: stock._id,
         category: selectedPrduct.category,
-        expDate: getmmyy(stock.expDate),
+        expDate: stock.expDate,
         pkg: selectedPrduct.pkg,
         soldQnty: 0,
         total: 0,
@@ -96,6 +96,7 @@ const Billing = () => {
         qnty: stock.qnty,
         rate: calcRate(stock.mrp, selectedPrduct.gst)
       }
+      console.log(carItem)
       setCart([...inCart, carItem])
     }
     setIsChosse(false)

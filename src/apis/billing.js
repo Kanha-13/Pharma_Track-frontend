@@ -11,7 +11,7 @@ export const checkoutBill = async (data) => {
   return res.data
 }
 
-export const getBillingHistory = async (mobileNumber = "",invoiceNo = "", patientName = "", prescribedBy = "",  dateRange = {}) => {
+export const getBillingHistory = async (mobileNumber = "", invoiceNo = "", patientName = "", prescribedBy = "", dateRange = {}) => {
   let searchQuery = "?"
   if (patientName)
     searchQuery += `patientName=${patientName}&`
@@ -24,5 +24,10 @@ export const getBillingHistory = async (mobileNumber = "",invoiceNo = "", patien
   if (dateRange.from && dateRange.to)
     searchQuery += `from=${dateRange.from}&to=${dateRange.to}`
   const res = await axios_instance.get(API.GET_BILLING_HISTORY + searchQuery)//using product id because fetching info of stock for a particular product
+  return res.data
+}
+
+export const getBillingInfo = async (id) => {
+  const res = await axios_instance.get(API.GET_BILLING_INFO + id)
   return res.data
 }

@@ -49,6 +49,7 @@ export const API = {
 
   //billing
   GET_BILLING_HISTORY: "/billings",
+  GET_BILLING_INFO: "/billing/",
   CHECKOUT_PRODUCT: "/billing/checkout",
 }
 

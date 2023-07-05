@@ -1,11 +1,9 @@
-import { PurchaseProductListHeader } from "../../Constants/Purchase";
-
-const Header = () => {
+const Header = ({headers}) => {
   return (
     <div style={{
-      backgroundColor: "#ebe8fc", borderBottom: "1px solid gray", width: "100%", display: "flex"
+      backgroundColor: "#ebe8fc", borderBottom: "1px solid gray", width: "100%", display: "flex",justifyContent:"space-between"
     }}>
-      {PurchaseProductListHeader.map((head, index) => <p key={head.name + "in-choose-batch" + index} style={{ width: head.colSize, textAlign: "left" }}>{head.name}</p>)}
+      {headers.map((head, index) => <p key={head.name + "in-choose-batch" + index} style={{ width: head.colSize, textAlign: "left" }}>{head.name}</p>)}
     </div>
   );
 }

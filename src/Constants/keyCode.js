@@ -3,6 +3,8 @@ const KEY = {
   F2: 113,
   F3: 114,
   F4: 115,
+  F9: 120,
+  F10: 121,
   ENTER: 13,
   ARROW_UP: 38,
   ARROW_DOWN: 40,

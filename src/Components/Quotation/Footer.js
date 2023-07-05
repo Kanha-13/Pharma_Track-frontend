@@ -30,7 +30,7 @@ const Footer = ({ carts = [], oncheckout }) => {
       const billDetail = {
         billingDate: new Date(),
         patientName: patientName,
-        mobileNo: mobileNumber,
+        mobileNumber: mobileNumber,
         address: address,
         prescribedBy: prescribedBy,
         subTotal: total,

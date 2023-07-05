@@ -43,7 +43,7 @@ const BillingHistory = () => {
   }
 
   const onEnter = (id) => {
-    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PURCHASE_INFO + `id=${id}`)
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_INFO + `id=${id}`)
   }
 
 

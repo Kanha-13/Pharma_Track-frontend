@@ -20,7 +20,6 @@ const VebdorAdd = () => {
 
   const onSubmitVendorForm = async (data) => {
     try {
-      // data.mobileNo = "+91" + data.mobileNo
       const res = await addVendor(data)
       alert("Vendor added successfully! 👍")
       navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)

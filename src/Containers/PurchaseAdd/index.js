@@ -23,7 +23,7 @@ const PurchaseAdd = () => {
   const navigate = useNavigate()
   const { dispatch, vendors, products } = useStore();
   const [purchaseBillDetail, setPurchaseBill] = useState(purchasebilldetail)
-  const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 5 }, (_, index) => purchaseproductdetail))
+  const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 2 }, (_, index) => purchaseproductdetail))
   const [vendorslist, setVendorlist] = useState([]);
   const [productslist, setProductslist] = useState([]);
   const [mode, setMode] = useState("add")
@@ -112,7 +112,7 @@ const PurchaseAdd = () => {
           productsDetail: cleared_productlist
         }
         const res = await addPurchaseDetial(data)
-        setPurchaseProducts(Array.from({ length: 5 }, (_, index) => purchaseproductdetail))
+        setPurchaseProducts(Array.from({ length: 2 }, (_, index) => purchaseproductdetail))
         setPurchaseBill(purchasebilldetail)
         alert("Pruchase updated successfully!")
         dispatch(ACTION.SET_STOCKS, [])

@@ -1,0 +1,6 @@
+#billingInfo-container {
+  justify-content: start;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 0.8vw;
+}

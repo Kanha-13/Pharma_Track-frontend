@@ -1,13 +1,10 @@
-import { useState } from "react";
-import { getmmyy } from "../../utils/DateConverter";
-
-import Footer from "./Footer";
-
-import './quotation.css'
-import CartRow from "./CartRow";
 import { QuotationListHeader } from "../../Constants/billing";
 import { checkoutBill } from "../../apis/billing";
 
+import Footer from "./Footer";
+import CartRow from "./CartRow";
+
+import './quotation.css'
 
 const Quotation = ({ onremoveItem, itemsIncart = [], onchangeqnty, changeDisc, resetCart }) => {
 

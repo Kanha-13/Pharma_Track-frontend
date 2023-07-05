@@ -24,9 +24,22 @@ export const QuotationListHeader = [
 export const BillingHistoryListHeader = [
   { name: 'Patient Name', value: "patientName", colSize: "25%" },
   { name: 'Invoice No', value: "invoiceNo", colSize: "10%" },
-  { name: 'Mobile No.', value: "qnty", colSize: "15%" },
-  { name: 'Prescribed By', value: "qnty", colSize: "15%" },
-  { name: 'Total', value: "pkg", colSize: "10%" },
-  { name: 'Balance', value: "location", colSize: "10%" },
+  { name: 'Mobile No.', value: "mobileNumber", colSize: "15%" },
+  { name: 'Prescribed By', value: "prescribedBy", colSize: "15%" },
+  { name: 'Total', value: "grandTotal", colSize: "10%" },
+  { name: 'Balance', value: "amtDue", colSize: "10%" },
   { name: 'Billing Date', value: "billingDate", colSize: "10%" },
+]
+
+export const BillingProductListHeader = [
+  { name: 'Item Name', value: "itemName", colSize: "10%", ph: "", type: "text" },
+  { name: 'Batch', value: "batch", colSize: "10%", ph: "batch", type: "text" },
+  { name: 'Exp.', value: "expDate", colSize: "13%", ph: "exp date", type: "month" },
+  { name: 'Pkg.', value: "pkg", colSize: "10%", ph: "", type: "text" },
+  { name: 'Qnty.', value: "soldQnty", colSize: "5%", ph: "qnty", type: "number" },
+  { name: 'MRP', value: "mrp", colSize: "7%", ph: "mrp", type: "text" },
+  { name: 'Rate', value: "rate", colSize: "7%", ph: "rate", type: "text" },
+  { name: 'GST%', value: "gst", colSize: "4%", ph: "gst", type: "text" },
+  { name: 'Disc%', value: "disc", colSize: "3%", ph: "disc%", type: "text" },
+  { name: 'Total', value: "total", colSize: "10%", ph: "total", type: "text" },
 ]
