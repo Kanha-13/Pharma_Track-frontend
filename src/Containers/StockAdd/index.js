@@ -17,7 +17,6 @@ const StocksAdd = () => {
   const { products, dispatch } = useStore();
   const [stockList, setStockList] = useState([])
   const [stockDetail, setStockDetail] = useState(stockdetail)
-  const [isFocusNext, setNextFocus] = useState(false)
   const [isSearchOpen, setIsSearchOpen] = useState(true);
 
   const onclickproduct = async (itemId) => {
@@ -29,10 +28,6 @@ const StocksAdd = () => {
       delete res._id
       setStockDetail(res)
       setStockList([])
-      setTimeout(() => {
-        setNextFocus(true)
-        setNextFocus(true)
-      }, 100);
     } catch (error) {
       alert("Failed to load product detail!")
     }
@@ -52,7 +47,6 @@ const StocksAdd = () => {
     val = val.trim()
     if (val === "") {
       setStockList([])
-      setNextFocus(false)
       return
     }
     val = val.toLowerCase()
@@ -104,20 +98,23 @@ const StocksAdd = () => {
   return (
     <Layout>
       <div id="stocks-container" className="layout-body borderbox">
-      <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "5vh" }}>Add Stock</p>
-        <ProductsList show={isSearchOpen} mh="400%" h="100%" w="100%" onchange={onchange}
-          onclick={onclickproduct} header={StockListHeader} data={stockList} />
-        <div style={{
-          display: !isSearchOpen ? "flex" : "none", alignItems: "start", flexWrap: "wrap", flexDirection: "row",
-          width: "100%", height: "65%"
-        }}>
-          <Card require={true} w="25%" h="4%" name={STOCK.ITEMNAME} label="Item Name" value={stockDetail.itemName} onchange={onchangeStockDetail} type="text" />
-          <Card focus={isFocusNext} require={true} w="25%" h="4%" name={STOCK.MRP} label="MRP" value={stockDetail.mrp} onchange={onchangeStockDetail} type="text" />
-          <Card require={true} w="25%" h="4%" name={STOCK.EXPDATE} label="Exp Date" value={stockDetail.expDate} onchange={onchangeStockDetail} type="month" />
-          {getQuantityInput()}
-          <Card require={true} w="25%" h="4%" name={STOCK.BATCH} label="Batch Number" value={stockDetail.batch} onchange={onchangeStockDetail} type="text" />
-          <button className="custom-input-fields" id="stock-enter" tabIndex="" onClick={addStock} type="submit">Add Stock</button>
-        </div>
+        <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "5vh" }}>Add Stock</p>
+        {
+          isSearchOpen ?
+            <ProductsList show={isSearchOpen} mh="400%" h="100%" w="100%" onchange={onchange}
+              onclick={onclickproduct} header={StockListHeader} data={stockList} /> :
+            <div style={{
+              display: "flex", alignItems: "start", flexWrap: "wrap", flexDirection: "row",
+              width: "100%", height: "65%"
+            }}>
+              <Card require={true} w="25%" h="4%" name={STOCK.ITEMNAME} label="Item Name" value={stockDetail.itemName} onchange={onchangeStockDetail} type="text" />
+              <Card focus={true} require={true} w="25%" h="4%" name={STOCK.MRP} label="MRP" value={stockDetail.mrp} onchange={onchangeStockDetail} type="text" />
+              <Card require={true} w="25%" h="4%" name={STOCK.EXPDATE} label="Exp Date" value={stockDetail.expDate} onchange={onchangeStockDetail} type="month" />
+              {getQuantityInput()}
+              <Card require={true} w="25%" h="4%" name={STOCK.BATCH} label="Batch Number" value={stockDetail.batch} onchange={onchangeStockDetail} type="text" />
+              <button className="custom-input-fields" id="stock-enter" tabIndex="" onClick={addStock} type="submit">Add Stock</button>
+            </div>
+        }
       </div>
     </Layout>
   );

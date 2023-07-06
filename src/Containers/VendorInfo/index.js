@@ -5,7 +5,7 @@ import { ROUTES } from "../../Constants/routes_frontend";
 import { validateUpdateRequest } from "../../utils/vendor";
 import { ACTION } from "../../Store/constants";
 import { deleteVendor, getVendor, udpateVendor } from "../../apis/vendors";
-import { VENDOR,vendordetail } from "../../Schema/vendor";
+import { VENDOR, vendordetail } from "../../Schema/vendor";
 
 import Layout from "../../Components/Layout/Layout";
 import Card from "../../Components/ManualAddProduct/Card";
@@ -42,7 +42,7 @@ const VendorInfo = () => {
       alert("Unable to delete vendor!")
     }
   }
-  
+
   const onUpdate = async () => {
     try {
       if (validateUpdateRequest(vendorDetail)) {
@@ -69,8 +69,10 @@ const VendorInfo = () => {
           <p style={{ margin: "0px", fontSize: "1.5em" }}>Vendor Detail</p>
         </div>
         <Card focus={true} require={true} w="25%" h="4%" name={VENDOR.VENDOR_NAME} label="Vendor Name" value={vendorDetail.vendorName} onchange={onchange} type="text" />
-        <Card require={true} w="25%" h="4%" name={VENDOR.VENDOR_ADDRESS} label="Address" value={vendorDetail.address} onchange={onchange} type="text"/>
+        <Card require={true} w="25%" h="4%" name={VENDOR.VENDOR_ADDRESS} label="Address" value={vendorDetail.address} onchange={onchange} type="text" />
         <Card require={true} w="25%" h="4%" name={VENDOR.VENDOR_MOBILE} label="Mobile No." value={vendorDetail.mobileNo} onchange={onchange} type="text" />
+        <Card require={true} w="25%" h="4%" onchange={onchange} label='GST number' name='gstNo' type='text' value={vendorDetail.gstNo} />
+        <Card require={true} w="25%" h="4%" onchange={onchange} label='Licence number' name='licenceNo' type='text' value={vendorDetail.licenceNo} />
         <button id="submit-add-prod" className="custom-input-fields" onClick={onUpdate} type="submit">Update Detail</button>
         <button id="submit-delete-prod" onClick={() => setDeletePop(1)} type="submit">Delete Vendor</button>
         {

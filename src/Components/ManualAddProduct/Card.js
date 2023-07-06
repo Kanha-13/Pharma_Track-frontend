@@ -48,6 +48,7 @@ const Card = (props) => {
         padding: "0px 2%",
         position: "absolute",
         top: -25, left: 20,
+        color:"#5e48e8",
         backgroundColor: "#ffffff", textAlign: "left"
       }}>{label}</p>
       {getInputType()}

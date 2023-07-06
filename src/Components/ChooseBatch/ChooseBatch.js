@@ -16,7 +16,7 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
       alert("Unable to get batch list")
     }
   }
-  
+
   const getValue = (item, value) => {
     if (value === "expDate")
       return getmmyy(item[value])
@@ -51,14 +51,14 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
       fetchBatchList(pId)
   }, [show])
   return (
-    <div id="choose-batch-modal" style={{backgroundColor:"#ffffff", display: show ? "flex" : "none", flexDirection: "column", position: "absolute", width: "90%", height: "90%"}}>
+    <div id="choose-batch-modal" style={{ zIndex: 2, backgroundColor: "#ffffff", display: show ? "flex" : "none", flexDirection: "column", position: "absolute", width: "90%", height: "90%" }}>
       <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
         <thead style={{
           backgroundColor: "#ebe8fc", height: "5vh",
           marginBottom: "10px", borderBottom: "1px solid gray"
         }}>
           <tr >
-            {StockInfoHeader.map((head) => <th key={head.name+"in-choose-batch"} style={{ width: head.colSize, textAlign: "left" }}>{head.name}</th>)}
+            {StockInfoHeader.map((head) => <th key={head.name + "in-choose-batch"} style={{ width: head.colSize, textAlign: "left" }}>{head.name}</th>)}
           </tr>
         </thead>
       </table>
@@ -70,9 +70,9 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
                 {
                   batchList.map((item, index) => {
                     return (
-                      <tr id="stock-data-container" autoFocus={currentIndex === index} onClick={() => onEnter(item)} key={`${item._id}-stock-list`} className="stock-batch-row" style={{ backgroundColor: currentIndex === index ? "#ededed" : "", height: "5vh",marginBottom:"3vh" }}>
+                      <tr id="stock-data-container" autoFocus={currentIndex === index} onClick={() => onEnter(item)} key={`${item._id}-stock-list`} className="stock-batch-row" style={{ cursor: "pointer", backgroundColor: currentIndex === index ? "#ededed" : "", height: "5vh", marginBottom: "3vh" }}>
                         {
-                          StockInfoHeader.map((head) => <td key={head.name+"in-choose-batch-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
+                          StockInfoHeader.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
                         }
                       </tr>
                     )

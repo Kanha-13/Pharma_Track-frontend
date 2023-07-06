@@ -128,7 +128,8 @@ const PurchaseAdd = () => {
   }
 
   const addField = () => {
-    setPurchaseProducts([...purchaseProducts, {}])
+
+    setPurchaseProducts((prev) => [...prev, purchaseproductdetail])
   }
 
   const deleteField = (index) => {
@@ -168,7 +169,6 @@ const PurchaseAdd = () => {
       setMode("update")
     }
   }, [])
-
   return (
     <Layout>
       <div id="purchaseadd-container" className="layout-body borderbox">
@@ -183,16 +183,16 @@ const PurchaseAdd = () => {
           purchaseProducts.length > 0 ?
             <ProductAddForm oncancel={oncancel} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} products={productslist} onChange={onchangeproductlist} /> : <></>
         }
-        <div style={{ width: "100%", height: "10%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
-          <div style={{ height: "100%", width: "10%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+        <div style={{ backgroundColor: "#e4e1f4", width: "20%", padding: "1%", alignSelf: "flex-end", height: "12%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
+          <div style={{ height: "100%", width: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
             <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Sub total: </p>
             <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Tax: </p>
             <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Grand total: </p>
           </div>
-          <div style={{ height: "100%", width: "10%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
-            <input style={{ border: "none", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalValue} />
-            <input style={{ border: "none", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalTax} />
-            <input style={{ border: "none", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalAmt} />
+          <div style={{ height: "100%", width: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
+            <input style={{ border: "none", backgroundColor: "transparent", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalValue} />
+            <input style={{ border: "none", backgroundColor: "transparent", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalTax} />
+            <input style={{ border: "none", backgroundColor: "transparent", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalAmt} />
           </div>
         </div>
       </div>

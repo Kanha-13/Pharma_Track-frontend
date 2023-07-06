@@ -22,9 +22,9 @@ const ProductAddForm = ({ oncancel, mode, onSubmit, onChange, addField, deleteFi
   };
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyUp);
+    document.addEventListener('keydown', handleKeyUp);
     return () => {
-      window.removeEventListener('keydown', handleKeyUp);
+      document.removeEventListener('keydown', handleKeyUp);
     };
   }, []);
 
@@ -32,12 +32,12 @@ const ProductAddForm = ({ oncancel, mode, onSubmit, onChange, addField, deleteFi
     PurchaseProductListHeader[0].options = products;
   }, [products])
   return (
-    <div style={{ width: "100%", height: "70%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
+    <div style={{ width: "100%", height: "65%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
       <div style={{ overflow: "auto", width: "100%", height: "90%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
         <Header headers={PurchaseProductListHeader} />
         <Body headers={PurchaseProductListHeader} mode={mode} dataList={purchaseProducts} onChange={onChange} onDelete={deleteField} />
       </div>
-      <div style={{ width: "30%", display: "flex", justifyContent: "space-around", marginTop: "2vh" }}>
+      <div style={{ position: "absolute", bottom: "7vh", width: "30%", display: "flex", justifyContent: "space-around", marginTop: "2vh" }}>
         <button onClick={onSubmit} className="custom-input-fields" style={{ border: "none", backgroundColor: "#5e48e8", fontSize: "1.2rem", cursor: "pointer", color: "#ffffff", height: "5vh", width: "9vw", borderRadius: "0.4vw" }}>{mode === "add" ? "Submit" : "Update"}</button>
         {
           mode === "add" ?

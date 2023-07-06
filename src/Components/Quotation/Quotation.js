@@ -5,14 +5,19 @@ import Footer from "./Footer";
 import CartRow from "./CartRow";
 
 import './quotation.css'
+import Card from "../ManualAddProduct/Card";
+import { useState } from "react";
+import { getyyyymmdd } from "../../utils/DateConverter";
 
-const Quotation = ({ onremoveItem, itemsIncart = [], onchangeqnty, changeDisc, resetCart }) => {
+const Quotation = ({addField, onremoveItem, openProductLists, itemsIncart = [], onchangeqnty, changeDisc, resetCart }) => {
+  const [billingDate, setBillingDate] = useState(getyyyymmdd(new Date()));
 
   const oncheckout = async (billInfo, resetBillInfo) => {
-    let modified_prod_list = itemsIncart.map((cart)=>{
+    let modified_prod_list = itemsIncart.map((cart) => {
       delete cart.qnty
       return cart
     })
+    billInfo.billingDate = billingDate
     try {
       let data = {
         billInfo: billInfo,
@@ -21,6 +26,7 @@ const Quotation = ({ onremoveItem, itemsIncart = [], onchangeqnty, changeDisc, r
       const res = await checkoutBill(data)
       resetBillInfo()
       resetCart()
+      addField()
     } catch (error) {
       console.log(error)
       alert("Can't process the bill, something went wrong!")
@@ -31,25 +37,23 @@ const Quotation = ({ onremoveItem, itemsIncart = [], onchangeqnty, changeDisc, r
     <div id="quotation-container" className="borderbox" style={{
 
     }}>
-      <h2 style={{ margin: "1% 0%" }}>Invoice #</h2>
-      <hr width="90%" />
-      <div style={{ height: "70%", width: "90%" }}>
-        <table>
-          <thead style={{ borderBottom: "1px solid gray" }}>
-            <tr>
-              {QuotationListHeader.map((head) => <th key={head.name + "in-quotation-table-head"}>{head.name}</th>)}
-              <th></th>
-            </tr>
-          </thead>
-          <tbody >
-            {
-              itemsIncart.map((item, index) => <CartRow onRemove={onremoveItem} item={item} onchangedisc={changeDisc} onchange={onchangeqnty} index={index} />)
-            }
-          </tbody>
-        </table>
+      <div style={{ height: "10%", width: "100%", display: "flex", justifyContent: "space-between" }}>
+        <h2 style={{ margin: "1% 0%", width: "55%", textAlign: "right" }}>Invoice #</h2>
+        <Card require={true} m="1vh 0px" w="12%" h="70%" pd="0px 1%" name={"billingDate"} label="Bill Date" value={billingDate} onchange={(name, value) => setBillingDate(value)} type="date" />
       </div>
-      <hr width="90%" />
-      <Footer oncheckout={oncheckout} carts={itemsIncart} />
+      <hr width="95%" />
+      <div style={{ height: "70%", width: "95%", display: "flex", flexDirection: "column" }}>
+        <div style={{ borderBottom: "1px solid gray", display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+          {QuotationListHeader.map((head) => <p key={head.name + "in-quotation-table-head"} style={{ width: head.colSize, margin: "0.5vh 0px" }}>{head.name}</p>)}
+          <p style={{margin:"0px"}}></p>
+        </div>
+        <div style={{height:"100%", borderBottom: "1px solid gray", display: "flex", flexDirection: "column", width: "100%" }}>
+          {
+            itemsIncart.map((item, index) => <CartRow openProductLists={openProductLists} onRemove={onremoveItem} item={item} onchangedisc={changeDisc} onchange={onchangeqnty} index={index} />)
+          }
+        </div>
+      </div>
+      <Footer addField={addField} oncheckout={oncheckout} carts={itemsIncart} />
     </div>
   );
 }

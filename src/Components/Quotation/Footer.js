@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
+import KEY from "../../Constants/keyCode"
+import Card from "../ManualAddProduct/Card"
 
-const Footer = ({ carts = [], oncheckout }) => {
+const Footer = ({ addField, carts = [], oncheckout }) => {
   const [patientName, setPatient] = useState("")
   const [prescribedBy, setPrescribedBy] = useState("")
   const [mobileNumber, setmobileNumber] = useState("")
@@ -22,13 +24,12 @@ const Footer = ({ carts = [], oncheckout }) => {
     setamtPaid(0)
   }
 
-  const oncheckOut = (e) => {
+  const onSumbmit = (e) => {
     e.preventDefault()
     alert("happy shopping")
 
     if (carts.length) {
       const billDetail = {
-        billingDate: new Date(),
         patientName: patientName,
         mobileNumber: mobileNumber,
         address: address,
@@ -39,8 +40,6 @@ const Footer = ({ carts = [], oncheckout }) => {
         amtDue: grandTotal - amtPaid,
         discount: discount,
         roundoff: roundOff,
-        // roundoff: parseFloat(grandTotal - total - discount).toFixed(2),
-        // roundoff: parseFloat(grandTotal - (parseFloat(total) - parseFloat(discount))).toFixed(2),
       }
       oncheckout(billDetail, resetFields)
     } else {
@@ -67,10 +66,33 @@ const Footer = ({ carts = [], oncheckout }) => {
     setamtPaid(gttl)
   }, [carts])
 
+  const handleKeyUp = (event) => {
+    switch (event.keyCode) {
+      case KEY.F9:
+        event.preventDefault();
+        addField();
+        break;
+      case KEY.F10:
+        event.preventDefault();
+        onSumbmit(event)
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyUp);
+    return () => {
+      document.removeEventListener('keydown', handleKeyUp);
+    };
+  }, []);
+
+
   return (
-    <form onSubmit={oncheckOut} style={{
+    <div onSubmit={onSumbmit} style={{
       display: "flex",
-      justifyContent: "space-between", alignItems: "center", flexDirection: "row", height: "30%", width: "90%"
+      justifyContent: "space-between", alignItems: "center", flexDirection: "row", height: "30%", width: "95%"
     }}>
       <div style={{
         height: "100%", width: "60%",
@@ -83,41 +105,35 @@ const Footer = ({ carts = [], oncheckout }) => {
           <h5 style={{ margin: "5px" }}>Address:</h5>
         </div>
         <div style={{ width: "55%", height: "100%", display: "flex", justifyContent: "space-around", flexDirection: "column" }}>
-          <input placeholder="Doctor name" onChange={(e) => setPrescribedBy(e.target.value)} value={prescribedBy} />
-          <input required placeholder="Patient name" onChange={(e) => setPatient(e.target.value)} value={patientName} />
-          <input placeholder="Mobile name" onChange={(e) => setmobileNumber(e.target.value)} value={mobileNumber} />
-          <input placeholder="Address" onChange={(e) => setaddress(e.target.value)} value={address} />
+          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Doctor Name" value={prescribedBy} onchange={(name, value) => setPrescribedBy(value)} type="text" />
+          <Card required={true} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Patient name" value={patientName} onchange={(name, value) => setPatient(value)} type="text" />
+          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Mobile name" value={mobileNumber} onchange={(name, value) => setmobileNumber(value)} type="text" />
+          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Address" value={address} onchange={(name, value) => setaddress(value)} type="text" />
         </div>
       </div>
-      <div style={{ height: "100%", width: "39%", display: "flex", justifyContent: "centre", alignItems: "start" }}>
-        <div style={{ marginTop: "5%", height: "100%", width: "60%", display: "flex", justifyContent: "start", flexDirection: "column" }}>
+      <div style={{ height: "100%", width: "39%", flexWrap: "wrap", display: "flex", justifyContent: "centre", alignItems: "start" }}>
+        <div style={{ marginTop: "2%", height: "80%", width: "60%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
           <h5 style={{ height: "20%", margin: "0px" }}>Sub Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Discount:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Round Off:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Grand Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Amount Paid:</h5>
-          <h5 style={{ height: "20%", margin: "0px" }}></h5>
         </div>
-        <div style={{ marginTop: "5%", width: "40%", height: "100%", display: "flex", justifyContent: "start", flexDirection: "column" }}>
-          <h5 style={{ height: "15%", margin: "0px" }}>{total}</h5>
-          <h5 style={{
-            height: "15%", margin: "10% 0px"
-          }}>{discount}</h5>
-          <h5 style={{
-            height: "15%", margin: "10% 0px"
-          }}>{roundOff}</h5>
-          <h5 style={{ height: "15%", margin: "0px", marginTop: "1.2vh", }}>{grandTotal}</h5>
-          <input type="number" min={0} style={{
-            height: "15%", margin: "10% 0px"
-          }} onChange={(e) => setamtPaid(e.target.value)} value={amtPaid} />
-          <button disabled={!carts.length} type="submit" style={{
-            height: "25%", width: "100%", marginTop: "10%",
-            border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
-            borderRadius: "0.5vw", fontWeight: "bold"
-          }}>Check Out</button>
+        <div style={{ marginTop: "2%", height: "80%", width: "40%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+          <h5 style={{ height: "20%", margin: "0px" }}>{parseFloat(total).toFixed(2)}</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>{discount}</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>{roundOff}</h5>
+          <h5 style={{ height: "20%", margin: "0px", marginTop: "0px", }}>{grandTotal}</h5>
+          <Card min={0} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt. Paid" value={amtPaid} onchange={(name, value) => setamtPaid(value)} type="number" />
+
         </div>
+        <button onClick={onSumbmit} className="custom-input-fields" disabled={!carts.length} type="submit" style={{
+          height: "20%", width: "50%",
+          border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
+          borderRadius: "0.5vw", fontWeight: "bold"
+        }}>Check Out</button>
       </div>
-    </form>
+    </div>
   );
 }
 export default Footer;

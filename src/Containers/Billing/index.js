@@ -2,29 +2,31 @@ import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
 import { ACTION } from "../../Store/constants";
 import { getProductWithInitials } from "../../apis/products";
+import { BillingListHeader } from "../../Constants/billing";
+import { calcRate, calcTotal } from "../../utils/billing";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../Constants/routes_frontend";
 
 import Layout from "../../Components/Layout/Layout";
 import Quotation from "../../Components/Quotation/Quotation";
 import ProductsList from "../../Components/ProductsList/ProductsList";
+import ChooseBatch from "../../Components/ChooseBatch/ChooseBatch";
 
 import './index.css'
-import { BillingListHeader } from "../../Constants/billing";
-import ChooseBatch from "../../Components/ChooseBatch/ChooseBatch";
-import { getmmyy } from "../../utils/DateConverter";
-import { calcRate, calcTotal } from "../../utils/billing";
-import { useNavigate } from "react-router-dom";
-import { ROUTES } from "../../Constants/routes_frontend";
 
 const Billing = () => {
   const { products, dispatch } = useStore();
   const navigate = useNavigate()
   const [currentPID, setPID] = useState("")
   const [productsList, setProductsList] = useState([])//this product list is the filtered list
-  const [inCart, setCart] = useState([])
+  const [inCart, setCart] = useState([{}])
   const [isChooseOpen, setIsChosse] = useState(false)
+  const [isLists, setIsList] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0)
 
   const onclickproduct = (itemId) => {
     setPID(itemId)
+    setIsList(false)
     setIsChosse(true);
   }
 
@@ -89,15 +91,15 @@ const Billing = () => {
         category: selectedPrduct.category,
         expDate: stock.expDate,
         pkg: selectedPrduct.pkg,
-        soldQnty: 0,
+        soldQnty: "",
         total: 0,
         gst: selectedPrduct.gst,
         disc: 0,
         qnty: stock.qnty,
         rate: calcRate(stock.mrp, selectedPrduct.gst)
       }
-      console.log(carItem)
-      setCart([...inCart, carItem])
+      inCart[currentIndex] = carItem
+      setCart(inCart)
     }
     setIsChosse(false)
   }
@@ -106,17 +108,39 @@ const Billing = () => {
     navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_HISTORY)
   }
 
+  const openList = (index) => {
+    setCurrentIndex(index)
+    setIsList(true)
+  }
+
+  const addField = () => {
+    setCart((prev) => [...prev, {}])
+  }
+
+
+  const closeListModal = () => {
+    setIsList(false)
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', closeListModal);
+    return () => {
+      document.removeEventListener('click', closeListModal);
+    };
+  }, [])
+
   return (
     <Layout>
       <div id="billing-container" className="layout-body borderbox">
-        <div style={{ width: "45%", height: "100%", display: "flex", flexDirection: 'column' }}>
-          <button onClick={toBillingHistory} style={{ width: "30%", height: "5vh", marginBottom: "2vh", borderRadius: "0.4vw", border: "none", backgroundColor: "#5e48e8", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Bill History</button>
-          <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
-            onclick={onclickproduct} header={BillingListHeader} data={productsList} />
-        </div>
-        <hr margi="2%" color="#D6D8E7" />
+        {isLists &&
+          <div style={{ backgroundColor: "#ffffff", position: "absolute", width: "90.5%", zIndex: 2, height: "100%", display: "flex", flexDirection: 'column' }}>
+            <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
+              onclick={onclickproduct} header={BillingListHeader} data={productsList} />
+          </div>
+        }
+        <button onClick={toBillingHistory} style={{ width: "15%", alignSelf: "flex-end", height: "5vh", marginBottom: "2vh", borderRadius: "0.4vw", border: "none", backgroundColor: "#5e48e8", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Bill History</button>
         {isChooseOpen ? <ChooseBatch pId={currentPID} show={isChooseOpen} onEnter={handleBatchChoose} /> : <></>}
-        <Quotation changeDisc={changeDisc} onremoveItem={onremoveItem} resetCart={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />
+        <Quotation addField={addField} openProductLists={openList} changeDisc={changeDisc} onremoveItem={onremoveItem} resetCart={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />
       </div>
     </Layout>
   );
