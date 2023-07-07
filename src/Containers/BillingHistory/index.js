@@ -1,13 +1,15 @@
 import { useState } from "react";
-import Layout from "../../Components/Layout/Layout";
-import Card from "../../Components/ManualAddProduct/Card";
-import { BillingHistoryListHeader } from "../../Constants/billing";
-
-import "./index.css"
 import { useNavigate } from "react-router-dom";
 import { toddmmyy } from "../../utils/DateConverter";
 import { ROUTES } from "../../Constants/routes_frontend";
 import { getBillingHistory } from "../../apis/billing";
+import { BillingHistoryListHeader } from "../../Constants/billing";
+
+import Layout from "../../Components/Layout/Layout";
+import Card from "../../Components/ManualAddProduct/Card";
+import KEY from "../../Constants/keyCode";
+
+import "./index.css"
 
 const BillingHistory = () => {
   const navigate = useNavigate()
@@ -17,6 +19,7 @@ const BillingHistory = () => {
   const [patientName, setPatientName] = useState("")
   const [mobileNumber, setMobileNo] = useState("")
   const [prescribedBy, setPrescribedBy] = useState("")
+  const [currentIndex, setIndex] = useState()
   const [billsLists, setBillsList] = useState([])
 
   const searchSaleHistory = async () => {
@@ -34,7 +37,6 @@ const BillingHistory = () => {
     }
   }
 
-
   const getValue = (item, value) => {
     if (value === "billingDate")
       return toddmmyy(item[value])
@@ -46,6 +48,28 @@ const BillingHistory = () => {
     navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_INFO + `id=${id}`)
   }
 
+  const handleKeyDown = (event) => {
+    if (currentIndex || currentIndex === 0)
+      switch (event.keyCode) {
+        case KEY.ARROW_DOWN:
+          event.preventDefault();
+          if (currentIndex < billsLists.length - 1)
+            return setIndex(prev => prev + 1)
+          break;
+        case KEY.ARROW_UP:
+          event.preventDefault();
+          if (currentIndex > 0)
+            return setIndex(prev => prev - 1)
+          break
+        case KEY.ENTER:
+          event.preventDefault();
+          return onEnter(billsLists[currentIndex]?._id)
+        default:
+          break;
+      }
+    else
+      setIndex(0)
+  };
 
   return (
     <Layout>
@@ -58,8 +82,7 @@ const BillingHistory = () => {
           <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="prescribedBy" label="" ph="Prescribed By" value={prescribedBy} onchange={(name, value) => setPrescribedBy(value)} type="text" />
           <Card require={true} m="1.5% 0.5%" w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
           <Card require={true} m="1.5% 0.5%" w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
-          <button onClick={searchSaleHistory} style={{ backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "4vh", width: "5vw", cursor: "pointer" }}>Search</button>
-
+          <button onKeyDown={handleKeyDown} onClick={searchSaleHistory} style={{ backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "4vh", width: "5vw", cursor: "pointer" }}>Search</button>
           <div style={{ width: "100%", height: "100%" }}>
             <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
               <thead style={{
@@ -79,7 +102,7 @@ const BillingHistory = () => {
                       {
                         billsLists.map((item, index) => {
                           return (
-                            <tr id={`purchase-history-row${item._id}`} onClick={() => onEnter(item._id)} key={`${item._id}-stock-list`} className="purchase-history-row" style={{ height: "5vh", marginBottom: "3vh" }}>
+                            <tr id={`purchase-history-row${item._id}`} onClick={() => onEnter(item._id)} key={`${item._id}-stock-list`} className="purchase-history-row" style={{ height: "5vh", marginBottom: "3vh", backgroundColor: currentIndex === index ? "gray" : "" }}>
                               {
                                 BillingHistoryListHeader.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
                               }

@@ -66,6 +66,7 @@ const App = () => {
               <Route path={ROUTES.STOCK_ADD} element={<StocksAdd />} />
               <Route path={ROUTES.STOCK_INFO} element={<StockInfo />} />
               <Route path={ROUTES.BILLINGS} element={<Billing />} />
+              <Route path={ROUTES.CANCEL_BILLINGS} element={<Billing />} />
               <Route path={ROUTES.BILLING_HISTORY} element={<BillingHistory />} />
               <Route path={ROUTES.BILLING_INFO} element={<BIllingInfo />} />
               <Route path={ROUTES.VENDORS} element={<Vendors />} />

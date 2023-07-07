@@ -31,3 +31,13 @@ export const getBillingInfo = async (id) => {
   const res = await axios_instance.get(API.GET_BILLING_INFO + id)
   return res.data
 }
+
+export const updateBillingInfo = async (id, data) => {
+  const res = await axios_instance.patch(API.UPDATE_BILLING_INFO + id, data)
+  return res.data
+}
+
+export const cancelSaleBill = async (id, newData) => {
+  const res = await axios_instance.put(API.CANCEL_BILLING + id, newData)
+  return res.data
+}

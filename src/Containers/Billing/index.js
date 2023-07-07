@@ -117,7 +117,6 @@ const Billing = () => {
     setCart((prev) => [...prev, {}])
   }
 
-
   const closeListModal = () => {
     setIsList(false)
   }

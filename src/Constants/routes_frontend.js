@@ -14,6 +14,7 @@ export const ROUTES = {
   PURCHASE_ADD: "purchase/add",
   PURCHASE_INFO: "purchase/info?",
   BILLINGS: "billing",
+  CANCEL_BILLINGS: "billing/cancel/:oldBillId",
   BILLING_HISTORY: "billing/history",
   BILLING_INFO: "billing/info?",
   VENDORS_ADD: "vendor/add",
