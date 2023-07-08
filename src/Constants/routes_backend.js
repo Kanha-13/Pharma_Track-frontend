@@ -49,9 +49,12 @@ export const API = {
 
   //billing
   GET_BILLING_HISTORY: "/billings",
+  GET_CN_HISTORY: "/billings/creditnotes",
   GET_BILLING_INFO: "/billing/",
+  GET_CN_INFO: "/billing/creditnote/",
   UPDATE_BILLING_INFO: "/billing/",
   ADD_BILLING_CN: "/billing/creditnote",
+  DELETE_BILLING_CN: "/billing/creditnote/",
   CANCEL_BILLING: "/billing/",
   CHECKOUT_PRODUCT: "/billing/checkout",
 }

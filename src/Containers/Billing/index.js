@@ -4,7 +4,7 @@ import { ACTION } from "../../Store/constants";
 import { getProductWithInitials } from "../../apis/products";
 import { BillingListHeader } from "../../Constants/billing";
 import { calcRate, calcTotal } from "../../utils/billing";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ROUTES } from "../../Constants/routes_frontend";
 
 import Layout from "../../Components/Layout/Layout";
@@ -17,7 +17,6 @@ import RadioButton from "../../Components/RadioButton/RadioButton";
 
 const Billing = () => {
   const { products, dispatch } = useStore();
-  const location = useLocation()
   const navigate = useNavigate()
   const { oldBillId } = useParams()
   const [currentPID, setPID] = useState("")
@@ -113,7 +112,7 @@ const Billing = () => {
   }
 
   const toCNHistory = () => {
-    // navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_CREDIT_NOTE)
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_CN_HISTORY)
   }
 
   const switchMode = () => {

@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toddmmyy } from "../../utils/DateConverter";
 import { ROUTES } from "../../Constants/routes_frontend";
-import { getBillingHistory } from "../../apis/billing";
-import { BillingHistoryListHeader } from "../../Constants/billing";
+import { getBillingHistory, getCNHistory } from "../../apis/billing";
+import { BillingHistoryListHeader, CNHistoryListHeader } from "../../Constants/billing";
 
 import Layout from "../../Components/Layout/Layout";
 import Card from "../../Components/ManualAddProduct/Card";
@@ -20,14 +20,21 @@ const BillingHistory = () => {
   const [mobileNumber, setMobileNo] = useState("")
   const [prescribedBy, setPrescribedBy] = useState("")
   const [currentIndex, setIndex] = useState()
-  const [billsLists, setBillsList] = useState([])
+  const [tableHeaders, setHeaders] = useState([])
+  const [dataList, setDataList] = useState([])
+  const [title, setTitle] = useState("")
+  const [isCN, setIsCN] = useState(0)
 
   const searchSaleHistory = async () => {
-    setBillsList([])
+    setDataList([])
     try {
       if (patientName || invoiceNo || mobileNumber || prescribedBy || (fromDate && toDate)) {
-        const res = await getBillingHistory(mobileNumber, invoiceNo, patientName, prescribedBy, { from: fromDate, to: toDate })
-        setBillsList(res.data)
+        let res;
+        if (isCN)
+          res = await getCNHistory(mobileNumber, invoiceNo, patientName, prescribedBy, { from: fromDate, to: toDate })
+        else
+          res = await getBillingHistory(mobileNumber, invoiceNo, patientName, prescribedBy, { from: fromDate, to: toDate })
+        setDataList(res.data)
       } else {
         alert("At least one field is required to search purchase history!")
       }
@@ -45,15 +52,18 @@ const BillingHistory = () => {
   }
 
   const onEnter = (id) => {
-    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_INFO + `id=${id}`)
+    if (isCN)
+      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_CN_INFO + `id=${id}`)
+    else
+      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_INFO + `id=${id}`)
   }
 
   const handleKeyDown = (event) => {
-    if ((currentIndex || currentIndex === 0) && billsLists.length)
+    if ((currentIndex || currentIndex === 0) && dataList.length)
       switch (event.keyCode) {
         case KEY.ARROW_DOWN:
           event.preventDefault();
-          if (currentIndex < billsLists.length - 1)
+          if (currentIndex < dataList.length - 1)
             return setIndex(prev => prev + 1)
           break;
         case KEY.ARROW_UP:
@@ -63,7 +73,7 @@ const BillingHistory = () => {
           break
         case KEY.ENTER:
           event.preventDefault();
-          return onEnter(billsLists[currentIndex]?._id)
+          return onEnter(dataList[currentIndex]?._id)
         default:
           break;
       }
@@ -71,10 +81,22 @@ const BillingHistory = () => {
       setIndex(0)
   };
 
+  useEffect(() => {
+    if (window.location.pathname.includes("creditnote")) {
+      setHeaders(CNHistoryListHeader)
+      setTitle("CN History")
+      setIsCN(1)
+    }
+    else {
+      setHeaders(BillingHistoryListHeader)
+      setTitle("Billing History")
+    }
+  }, [])
+
   return (
     <Layout>
       <div id="billingHistory-container" className="layout-body borderbox">
-        <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "1vh" }}>Billing History</p>
+        <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "1vh" }}>{title}</p>
         <div style={{ alignItems: "center", width: "100%", height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
           <Card focus={true} require={true} m="1.5% 0px" w="15%" h="2vh" pd="1.1vh 0.5vw" name="patientName" label="" ph="Patient Name" value={patientName} onchange={(name, value) => { setIndex(null); setPatientName(value) }} type="text" />
           <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="invoiceNo" label="" ph="Invoice no." value={invoiceNo} onchange={(name, value) => { setIndex(null); setInvoiceNo(value) }} type="text" />
@@ -90,21 +112,21 @@ const BillingHistory = () => {
                 marginBottom: "10px", borderBottom: "1px solid gray"
               }}>
                 <tr >
-                  {BillingHistoryListHeader.map((head) => <th key={head.name + "in-choose-batch"} style={{ width: head.colSize, textAlign: "left" }}>{head.name}</th>)}
+                  {tableHeaders.map((head) => <th key={head.name + "in-choose-batch"} style={{ width: head.colSize, textAlign: "left" }}>{head.name}</th>)}
                 </tr>
               </thead>
             </table>
             {
-              billsLists.length > 0 ?
+              dataList.length > 0 ?
                 <div style={{ width: "100%", maxHeight: "65vh", overflow: "auto" }}>
                   <table style={{ width: "100%", borderCollapse: "collapse" }}>
                     <tbody style={{ borderCollapse: "collapse" }}>
                       {
-                        billsLists.map((item, index) => {
+                        dataList.map((item, index) => {
                           return (
                             <tr id={`purchase-history-row${item._id}`} onClick={() => onEnter(item._id)} key={`${item._id}-stock-list`} className="purchase-history-row" style={{ height: "5vh", marginBottom: "3vh", backgroundColor: currentIndex === index ? "#d4d4d4" : "" }}>
                               {
-                                BillingHistoryListHeader.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
+                                tableHeaders.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
                               }
                             </tr>
                           )

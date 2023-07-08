@@ -26,9 +26,29 @@ export const getBillingHistory = async (mobileNumber = "", invoiceNo = "", patie
   const res = await axios_instance.get(API.GET_BILLING_HISTORY + searchQuery)//using product id because fetching info of stock for a particular product
   return res.data
 }
+export const getCNHistory = async (mobileNumber = "", invoiceNo = "", patientName = "", prescribedBy = "", dateRange = {}) => {
+  let searchQuery = "?"
+  if (patientName)
+    searchQuery += `patientName=${patientName}&`
+  if (prescribedBy)
+    searchQuery += `prescribedBy=${prescribedBy}&`
+  if (mobileNumber)
+    searchQuery += `mobileNumber=${mobileNumber}&`
+  if (invoiceNo)
+    searchQuery += `cnNo=${invoiceNo}&`
+  if (dateRange.from && dateRange.to)
+    searchQuery += `from=${dateRange.from}&to=${dateRange.to}`
+  const res = await axios_instance.get(API.GET_CN_HISTORY + searchQuery)//using product id because fetching info of stock for a particular product
+  return res.data
+}
 
 export const getBillingInfo = async (id) => {
   const res = await axios_instance.get(API.GET_BILLING_INFO + id)
+  return res.data
+}
+
+export const getCNInfo = async (id) => {
+  const res = await axios_instance.get(API.GET_CN_INFO + id)
   return res.data
 }
 
@@ -44,5 +64,10 @@ export const cancelSaleBill = async (id, newData) => {
 
 export const addCN = async (data) => {
   const res = await axios_instance.post(API.ADD_BILLING_CN, data)
+  return res.data
+}
+
+export const deleteCN = async (id) => {
+  const res = await axios_instance.delete(API.DELETE_BILLING_CN + id)
   return res.data
 }
