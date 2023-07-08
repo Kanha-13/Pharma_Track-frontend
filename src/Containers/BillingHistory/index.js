@@ -49,7 +49,7 @@ const BillingHistory = () => {
   }
 
   const handleKeyDown = (event) => {
-    if (currentIndex || currentIndex === 0)
+    if ((currentIndex || currentIndex === 0) && billsLists.length)
       switch (event.keyCode) {
         case KEY.ARROW_DOWN:
           event.preventDefault();
@@ -76,12 +76,12 @@ const BillingHistory = () => {
       <div id="billingHistory-container" className="layout-body borderbox">
         <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "1vh" }}>Billing History</p>
         <div style={{ alignItems: "center", width: "100%", height: "100%", display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-          <Card focus={true} require={true} m="1.5% 0px" w="15%" h="2vh" pd="1.1vh 0.5vw" name="patientName" label="" ph="Patient Name" value={patientName} onchange={(name, value) => setPatientName(value)} type="text" />
-          <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="invoiceNo" label="" ph="Invoice no." value={invoiceNo} onchange={(name, value) => setInvoiceNo(value)} type="text" />
-          <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="mobileNumber" label="" ph="Mobile no." value={mobileNumber} onchange={(name, value) => setMobileNo(value)} type="text" />
-          <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="prescribedBy" label="" ph="Prescribed By" value={prescribedBy} onchange={(name, value) => setPrescribedBy(value)} type="text" />
-          <Card require={true} m="1.5% 0.5%" w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
-          <Card require={true} m="1.5% 0.5%" w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
+          <Card focus={true} require={true} m="1.5% 0px" w="15%" h="2vh" pd="1.1vh 0.5vw" name="patientName" label="" ph="Patient Name" value={patientName} onchange={(name, value) => { setIndex(null); setPatientName(value) }} type="text" />
+          <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="invoiceNo" label="" ph="Invoice no." value={invoiceNo} onchange={(name, value) => { setIndex(null); setInvoiceNo(value) }} type="text" />
+          <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="mobileNumber" label="" ph="Mobile no." value={mobileNumber} onchange={(name, value) => { setIndex(null); setMobileNo(value) }} type="text" />
+          <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="prescribedBy" label="" ph="Prescribed By" value={prescribedBy} onchange={(name, value) => { setIndex(null); setPrescribedBy(value) }} type="text" />
+          <Card require={true} m="1.5% 0.5%" w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => { setIndex(null); setFromDate(value) }} type="month" />
+          <Card require={true} m="1.5% 0.5%" w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => { setIndex(null); setToDate(value) }} type="month" />
           <button onKeyDown={handleKeyDown} onClick={searchSaleHistory} style={{ backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "4vh", width: "5vw", cursor: "pointer" }}>Search</button>
           <div style={{ width: "100%", height: "100%" }}>
             <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
