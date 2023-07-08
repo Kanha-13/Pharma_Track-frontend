@@ -63,9 +63,9 @@ const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
         total = parseFloat(cart.total) + parseFloat(total)
       })
       setDiscount(parseFloat(subtotal - total).toFixed(2))
-      setTotal(subtotal)
       let gttl = Math.round(total)
       setRoundOff(parseFloat(gttl - subtotal - parseFloat(subtotal - total).toFixed(2)).toFixed(2))
+      setTotal(parseFloat(subtotal).toFixed(2))
       setGrandTotal(gttl)
       setamtPaid(gttl)
     } catch (error) {

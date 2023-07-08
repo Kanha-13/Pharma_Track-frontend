@@ -144,7 +144,7 @@ const Billing = () => {
     <Layout>
       <div id="billing-container" className="layout-body borderbox">
         {isLists &&
-          <div style={{ backgroundColor: "#ffffff", position: "absolute", width: "90.5%", zIndex: 2, height: "89%", display: "flex", flexDirection: 'column' }}>
+          <div style={{ backgroundColor: "#ffffff", position: "absolute", width: "90.5%", zIndex: 2, top: "3vh", height: "91%", display: "flex", flexDirection: 'column' }}>
             <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
               onclick={onclickproduct} header={BillingListHeader} data={productsList} />
           </div>

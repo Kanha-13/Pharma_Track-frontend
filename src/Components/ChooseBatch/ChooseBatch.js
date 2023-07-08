@@ -29,10 +29,10 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
       case KEY.ARROW_DOWN:
         event.preventDefault();
         if (currentIndex < batchList.length - 1)
-        setIndex(prev => prev + 1)
+          setIndex(prev => prev + 1)
         else
-        break;
-        case KEY.ARROW_UP:
+          break;
+      case KEY.ARROW_UP:
         event.preventDefault();
         if (currentIndex > 0)
           setIndex(prev => prev - 1)
@@ -51,8 +51,8 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
       fetchBatchList(pId)
   }, [show])
   return (
-    <div id="choose-batch-modal" style={{ zIndex: 2, backgroundColor: "#ffffff", display: show ? "flex" : "none", flexDirection: "column", position: "absolute", width: "90%", height: "90%" }}>
-      <input id="nav-input" autoFocus onKeyDown={handleKeyDown} style={{outline:"none", display: "hidden", border: "none", userSelect: "none" }} />
+    <div id="choose-batch-modal" style={{ zIndex: 2, backgroundColor: "#ffffff", display: show ? "flex" : "none", flexDirection: "column", position: "absolute", width: "90.5%", height: "95%", top: 0 }}>
+      <input id="nav-input" autoFocus onKeyDown={handleKeyDown} style={{ color: "transparent", outline: "none", display: "hidden", border: "none", userSelect: "none" }} />
       <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
         <thead style={{
           backgroundColor: "#ebe8fc", height: "5vh",

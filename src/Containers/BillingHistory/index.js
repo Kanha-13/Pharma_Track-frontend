@@ -102,7 +102,7 @@ const BillingHistory = () => {
                       {
                         billsLists.map((item, index) => {
                           return (
-                            <tr id={`purchase-history-row${item._id}`} onClick={() => onEnter(item._id)} key={`${item._id}-stock-list`} className="purchase-history-row" style={{ height: "5vh", marginBottom: "3vh", backgroundColor: currentIndex === index ? "gray" : "" }}>
+                            <tr id={`purchase-history-row${item._id}`} onClick={() => onEnter(item._id)} key={`${item._id}-stock-list`} className="purchase-history-row" style={{ height: "5vh", marginBottom: "3vh", backgroundColor: currentIndex === index ? "#d4d4d4" : "" }}>
                               {
                                 BillingHistoryListHeader.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
                               }
