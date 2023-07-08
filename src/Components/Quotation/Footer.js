@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import KEY from "../../Constants/keyCode"
 import Card from "../ManualAddProduct/Card"
 
-const Footer = ({ addField, carts = [], oncheckout }) => {
+const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
   const [patientName, setPatient] = useState("")
   const [prescribedBy, setPrescribedBy] = useState("")
   const [mobileNumber, setmobileNumber] = useState("")
@@ -41,6 +41,10 @@ const Footer = ({ addField, carts = [], oncheckout }) => {
         discount: discount,
         roundoff: roundOff,
       }
+      if (isCN) {
+        billDetail.amtRefund = amtPaid
+        delete billDetail.amtPaid
+      }
       oncheckout(billDetail, resetFields)
     } else {
       alert("Empty cart!")
@@ -48,22 +52,24 @@ const Footer = ({ addField, carts = [], oncheckout }) => {
   }
 
   useEffect(() => {
-    let subtotal = "0";// for total without discount
-    let total = "0";//for total with discount
-    carts.map((cart, index) => {
-      let mrp_per_unit = cart.mrp  // tablet or bottle
-      if (cart.category === "TABLET")
-        mrp_per_unit = cart.mrp / cart.pkg
-      subtotal = parseFloat(mrp_per_unit * cart.soldQnty) + parseFloat(subtotal)
-      total = parseFloat(cart.total) + parseFloat(total)
-    })
-
-    setDiscount(parseFloat(subtotal - total).toFixed(2))
-    setTotal(subtotal)
-    let gttl = Math.round(total)
-    setRoundOff(parseFloat(gttl - subtotal - parseFloat(subtotal - total).toFixed(2)).toFixed(2))
-    setGrandTotal(gttl)
-    setamtPaid(gttl)
+    try {
+      let subtotal = "0";// for total without discount
+      let total = "0";//for total with discount
+      carts.map((cart, index) => {
+        let mrp_per_unit = cart.mrp  // tablet or bottle
+        if (cart.category === "TABLET")
+          mrp_per_unit = cart.mrp / cart.pkg
+        subtotal = parseFloat(mrp_per_unit * cart.soldQnty) + parseFloat(subtotal)
+        total = parseFloat(cart.total) + parseFloat(total)
+      })
+      setDiscount(parseFloat(subtotal - total).toFixed(2))
+      setTotal(subtotal)
+      let gttl = Math.round(total)
+      setRoundOff(parseFloat(gttl - subtotal - parseFloat(subtotal - total).toFixed(2)).toFixed(2))
+      setGrandTotal(gttl)
+      setamtPaid(gttl)
+    } catch (error) {
+    }
   }, [carts])
 
   const handleKeyUp = (event) => {
@@ -117,7 +123,7 @@ const Footer = ({ addField, carts = [], oncheckout }) => {
           <h5 style={{ height: "20%", margin: "0px" }}>Discount:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Round Off:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Grand Total:</h5>
-          <h5 style={{ height: "20%", margin: "0px" }}>Amount Paid:</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>Amount {isCN ? "Refund" : "Paid"}:</h5>
         </div>
         <div style={{ marginTop: "2%", height: "80%", width: "40%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
           <h5 style={{ height: "20%", margin: "0px" }}>{parseFloat(total).toFixed(2)}</h5>

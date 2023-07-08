@@ -33,7 +33,7 @@ const StocksAdd = () => {
     }
   }
 
-  const fetchProducts = async (initial, val) => {
+  const fetchProducts = async (initial) => {
     try {
       const data = await getProductWithInitials(initial)
       setStockList(data || [])
@@ -56,7 +56,7 @@ const StocksAdd = () => {
     }
     else {
       setStockList([])
-      fetchProducts(initialletter[0], val)
+      fetchProducts(initialletter[0])
     }
   }
 

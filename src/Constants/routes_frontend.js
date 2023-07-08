@@ -16,6 +16,7 @@ export const ROUTES = {
   BILLINGS: "billing",
   CANCEL_BILLINGS: "billing/cancel/:oldBillId",
   BILLING_HISTORY: "billing/history",
+  BILLING_CREDIT_NOTE: "billing/creditnote",
   BILLING_INFO: "billing/info?",
   VENDORS_ADD: "vendor/add",
   VENDORS: "vendors",

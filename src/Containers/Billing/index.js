@@ -4,7 +4,7 @@ import { ACTION } from "../../Store/constants";
 import { getProductWithInitials } from "../../apis/products";
 import { BillingListHeader } from "../../Constants/billing";
 import { calcRate, calcTotal } from "../../utils/billing";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ROUTES } from "../../Constants/routes_frontend";
 
 import Layout from "../../Components/Layout/Layout";
@@ -13,15 +13,19 @@ import ProductsList from "../../Components/ProductsList/ProductsList";
 import ChooseBatch from "../../Components/ChooseBatch/ChooseBatch";
 
 import './index.css'
+import RadioButton from "../../Components/RadioButton/RadioButton";
 
 const Billing = () => {
   const { products, dispatch } = useStore();
+  const location = useLocation()
   const navigate = useNavigate()
+  const { oldBillId } = useParams()
   const [currentPID, setPID] = useState("")
   const [productsList, setProductsList] = useState([])//this product list is the filtered list
   const [inCart, setCart] = useState([{}])
   const [isChooseOpen, setIsChosse] = useState(false)
   const [isLists, setIsList] = useState(false)
+  const [isCN, setIsCN] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0)
 
   const onclickproduct = (itemId) => {
@@ -108,6 +112,14 @@ const Billing = () => {
     navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_HISTORY)
   }
 
+  const toCNHistory = () => {
+    // navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_CREDIT_NOTE)
+  }
+
+  const switchMode = () => {
+    setIsCN(prev => !prev)
+  }
+
   const openList = (index) => {
     setCurrentIndex(index)
     setIsList(true)
@@ -132,14 +144,18 @@ const Billing = () => {
     <Layout>
       <div id="billing-container" className="layout-body borderbox">
         {isLists &&
-          <div style={{ backgroundColor: "#ffffff", position: "absolute", width: "90.5%", zIndex: 2, height: "100%", display: "flex", flexDirection: 'column' }}>
+          <div style={{ backgroundColor: "#ffffff", position: "absolute", width: "90.5%", zIndex: 2, height: "89%", display: "flex", flexDirection: 'column' }}>
             <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
               onclick={onclickproduct} header={BillingListHeader} data={productsList} />
           </div>
         }
-        <button onClick={toBillingHistory} style={{ width: "15%", alignSelf: "flex-end", height: "5vh", marginBottom: "2vh", borderRadius: "0.4vw", border: "none", backgroundColor: "#5e48e8", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Bill History</button>
+        <div style={{ height: "5vh", width: "100%", display: "flex" }}>
+          <button onClick={toBillingHistory} style={{ width: "15%", marginRight: "2vw", alignSelf: "flex-end", height: "5vh", marginBottom: "2vh", borderRadius: "0.4vw", border: "none", backgroundColor: "#5e48e8", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Bill History</button>
+          <button onClick={toCNHistory} style={{ width: "15%", alignSelf: "flex-end", height: "5vh", marginBottom: "2vh", borderRadius: "0.4vw", border: "none", backgroundColor: "#5e48e8", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Credit History</button>
+          <RadioButton title1={"Billing"} title2={"CN"} state={isCN} onSwitch={switchMode} />
+        </div>
         {isChooseOpen ? <ChooseBatch pId={currentPID} show={isChooseOpen} onEnter={handleBatchChoose} /> : <></>}
-        <Quotation addField={addField} openProductLists={openList} changeDisc={changeDisc} onremoveItem={onremoveItem} resetCart={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />
+        <Quotation isCN={isCN} oldBillId={oldBillId} addField={addField} openProductLists={openList} changeDisc={changeDisc} onremoveItem={onremoveItem} resetCart={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />
       </div>
     </Layout>
   );

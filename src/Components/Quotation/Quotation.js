@@ -1,5 +1,5 @@
 import { QuotationListHeader } from "../../Constants/billing";
-import { cancelSaleBill, checkoutBill, getBillingInfo } from "../../apis/billing";
+import { addCN, cancelSaleBill, checkoutBill, getBillingInfo } from "../../apis/billing";
 
 import Footer from "./Footer";
 import CartRow from "./CartRow";
@@ -8,14 +8,14 @@ import './quotation.css'
 import Card from "../ManualAddProduct/Card";
 import { useEffect, useState } from "react";
 import { getyyyymmdd } from "../../utils/DateConverter";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Constants/routes_frontend";
 
-const Quotation = ({ addField, onremoveItem, openProductLists, itemsIncart = [], onchangeqnty, changeDisc, resetCart }) => {
+const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, itemsIncart = [], onchangeqnty, changeDisc, resetCart }) => {
   const navigate = useNavigate();
-  const { oldBillId } = useParams()
   const [billingDate, setBillingDate] = useState(getyyyymmdd(new Date()));
   const [invoiceNo, setInvoiceNo] = useState("")
+
   const oncheckout = async (billInfo, resetBillInfo) => {
     let modified_prod_list = itemsIncart.map((cart) => {
       delete cart.qnty
@@ -30,12 +30,14 @@ const Quotation = ({ addField, onremoveItem, openProductLists, itemsIncart = [],
       let res = {}
       if (oldBillId)
         res = await cancelSaleBill(oldBillId, data)
+      else if (isCN)
+        res = await addCN(data)
       else
         res = await checkoutBill(data)
       resetBillInfo()
       resetCart()
       addField()
-      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)
+      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)// do not remove this it is useful to go from cancel bill to billing
     } catch (error) {
       console.log(error)
       alert("Can't process the bill, something went wrong!")
@@ -54,6 +56,13 @@ const Quotation = ({ addField, onremoveItem, openProductLists, itemsIncart = [],
     }
   }
 
+  const getTitle = () => {
+    if (isCN)
+      return "CREDIT NOTE"
+    else
+      return `INVOICE #${invoiceNo}`
+  }
+
   useEffect(() => {
     if (oldBillId)// if routed from cancel bill
       fetchBillingInfo(oldBillId)
@@ -64,7 +73,7 @@ const Quotation = ({ addField, onremoveItem, openProductLists, itemsIncart = [],
 
     }}>
       <div style={{ height: "10%", width: "100%", display: "flex", justifyContent: "space-between" }}>
-        <h2 style={{ margin: "1% 0%", width: "55%", textAlign: "right" }}>Invoice #{invoiceNo}</h2>
+        <h2 style={{ margin: "1% 0%", width: "55%", textAlign: "right" }}>{getTitle()}</h2>
         <Card require={true} m="1vh 0px" w="12%" h="70%" pd="0px 1%" name={"billingDate"} label="Bill Date" value={billingDate} onchange={(name, value) => setBillingDate(value)} type="date" />
       </div>
       <hr width="95%" />
@@ -75,11 +84,11 @@ const Quotation = ({ addField, onremoveItem, openProductLists, itemsIncart = [],
         </div>
         <div style={{ height: "100%", borderBottom: "1px solid gray", display: "flex", flexDirection: "column", width: "100%" }}>
           {
-            itemsIncart.map((item, index) => <CartRow openProductLists={openProductLists} onRemove={onremoveItem} item={item} onchangedisc={changeDisc} onchange={onchangeqnty} index={index} />)
+            itemsIncart.map((item, index) => <CartRow key={item._id + "billing-quotation-cartrow"} openProductLists={openProductLists} onRemove={onremoveItem} item={item} onchangedisc={changeDisc} onchange={onchangeqnty} index={index} />)
           }
         </div>
       </div>
-      <Footer addField={addField} oncheckout={oncheckout} carts={itemsIncart} />
+      <Footer isCN={isCN} addField={addField} oncheckout={oncheckout} carts={itemsIncart} />
     </div>
   );
 }

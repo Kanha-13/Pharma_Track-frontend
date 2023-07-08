@@ -41,3 +41,8 @@ export const cancelSaleBill = async (id, newData) => {
   const res = await axios_instance.put(API.CANCEL_BILLING + id, newData)
   return res.data
 }
+
+export const addCN = async (data) => {
+  const res = await axios_instance.post(API.ADD_BILLING_CN, data)
+  return res.data
+}
