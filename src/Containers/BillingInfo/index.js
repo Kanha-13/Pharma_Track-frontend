@@ -41,15 +41,12 @@ const BillingInfo = () => {
   const fetchBillingInfo = async (id, iscn) => {
     try {
       let res;
-      console.log(iscn)
       if (iscn) {
-        console.log("trigger cn info")
         res = await getCNInfo(id);
         res.data.amtPaid = res.data.amtRefund
         res.data.invoiceNo = res.data.cnNo
       }
       else {
-        console.log("trigger billing info")
         res = await getBillingInfo(id);
       }
       res.data.billingDate = getyyyymmdd(res.data.billingDate)
