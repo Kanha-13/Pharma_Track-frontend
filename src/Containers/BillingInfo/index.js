@@ -1,16 +1,16 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deleteCN, getBillingInfo, getCNInfo, updateBillingInfo } from "../../apis/billing";
-
-import Layout from "../../Components/Layout/Layout";
-
-import './index.css'
-import Header from "../../Components/ProductAddForm/Header";
-import Body from "../../Components/ProductAddForm/Body";
 import { BillingProductListHeader, CNProductListHeader } from "../../Constants/billing";
-import Card from "../../Components/ManualAddProduct/Card";
 import { getyyyymmdd } from "../../utils/DateConverter";
 import { ROUTES } from "../../Constants/routes_frontend";
+
+import Layout from "../../Components/Layout/Layout";
+import Header from "../../Components/ProductAddForm/Header";
+import Body from "../../Components/ProductAddForm/Body";
+import Card from "../../Components/ManualAddProduct/Card";
+
+import './index.css'
 
 const BillingInfo = () => {
   const navigate = useNavigate();
@@ -82,8 +82,42 @@ const BillingInfo = () => {
   }
 
   const deleteProd = (index) => {
-    let update = billingInfo.productsDetail.filter((prod, ind) => ind != index)
-    setBillingInfo({ ...billingInfo, productsDetail: update })
+    let updateBillInfo = billingInfo
+
+    if (updateBillInfo.removedItem)//creating a lsit for removed item
+      updateBillInfo.removedItem.push({
+        pId: billingInfo.productsDetail[index].pId,
+        qnty: billingInfo.productsDetail[index].soldQnty,
+        batch: billingInfo.productsDetail[index].batch
+      })
+    else
+      updateBillInfo.removedItem = [{
+        pId: billingInfo.productsDetail[index].pId,
+        qnty: billingInfo.productsDetail[index].soldQnty,
+        batch: billingInfo.productsDetail[index].batch
+      }]
+
+    let updateProdList = billingInfo.productsDetail.filter((prod, ind) => ind !== index)
+    let subtotal = "0";// for total without discount
+    let total = "0";//for total with discount
+
+    //calculating new sub total, grand total , discount, amt paid
+    updateProdList.map((cart, index) => {
+      let mrp_per_unit = cart.mrp  // tablet or bottle
+      if (/^\d+$/.test(cart.pkg))
+        mrp_per_unit = cart.mrp / cart.pkg
+      subtotal = parseFloat(mrp_per_unit * cart.soldQnty) + parseFloat(subtotal)
+      total = parseFloat(cart.total) + parseFloat(total)
+    })
+    delete updateBillInfo.productsDetail
+    let discountInRS = parseFloat(subtotal - total).toFixed(2)
+    updateBillInfo.discount = discountInRS
+    let gttl = Math.round(total)
+    updateBillInfo.roundoff = parseFloat(gttl - (subtotal - discountInRS)).toFixed(2)
+    updateBillInfo.subTotal = parseFloat(subtotal).toFixed(2)
+    updateBillInfo.grandTotal = gttl
+    updateBillInfo.amtPaid = gttl
+    setBillingInfo({ ...updateBillInfo, productsDetail: updateProdList })
   }
 
   useEffect(() => {
@@ -135,8 +169,8 @@ const BillingInfo = () => {
               isCN ?
                 <button disabled={btnDissable} onClick={onDeleteCN} className="custom-input-fields" style={{ width: "10%", margin: "0px 1.5vw", height: "30%", borderRadius: "0.4vw", backgroundColor: "#5e48e8", border: "none", color: "#ffffff", fontSize: "1rem" }}>Delete CN</button> :
                 <>
-                  <button disabled={btnDissable} onClick={onbillUpdate} className="custom-input-fields" style={{ width: "10%", margin: "0px 1.5vw", height: "30%", borderRadius: "0.4vw", backgroundColor: "#5e48e8", border: "none", color: "#ffffff", fontSize: "1rem" }}>Update Bill</button>
-                  <button disabled={btnDissable} onClick={onbillCancel} style={{ width: "10%", height: "30%", borderRadius: "0.4vw", backgroundColor: "#ef3737", border: "none", color: "#ffffff", fontSize: "1rem" }}>Cancel Bill</button>
+                  <button disabled={btnDissable} onClick={onbillUpdate} className="custom-input-fields" style={{ width: "10%", margin: "0px 1.5vw", height: "30%", borderRadius: "0.4vw", backgroundColor: "#5e48e8", border: "none", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Update Bill</button>
+                  <button disabled={btnDissable} onClick={onbillCancel} style={{ width: "10%", height: "30%", borderRadius: "0.4vw", backgroundColor: "#ef3737", border: "none", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Cancel Bill</button>
                 </>
             }
           </div>
