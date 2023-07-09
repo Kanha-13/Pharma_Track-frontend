@@ -7,9 +7,6 @@ import Layout from "../../Components/Layout/Layout";
 import './index.css'
 import Header from "../../Components/ProductAddForm/Header";
 import Body from "../../Components/ProductAddForm/Body";
-import { useStore } from "../../Store/store";
-import { ACTION } from "../../Store/constants";
-import { getAllProducts } from "../../apis/products";
 import { BillingProductListHeader, CNProductListHeader } from "../../Constants/billing";
 import Card from "../../Components/ManualAddProduct/Card";
 import { getyyyymmdd } from "../../utils/DateConverter";
@@ -17,7 +14,6 @@ import { ROUTES } from "../../Constants/routes_frontend";
 
 const BillingInfo = () => {
   const navigate = useNavigate();
-  const { products, dispatch } = useStore()
   const [searchparams] = useSearchParams();
   const [billingInfo, setBillingInfo] = useState({})
   const [btnDissable, setDisableBtn] = useState(false)
@@ -26,17 +22,6 @@ const BillingInfo = () => {
   const [title, setTitle] = useState("")
   const [isCN, setIsCN] = useState(0)
   const [tableHeaders, setTableHeaders] = useState([])
-
-  const fetchProducts = async () => {
-    try {
-      const res = await getAllProducts();
-      dispatch(ACTION.SET_PRODUCTS, res.data)
-      tableHeaders[0].options = products;
-    } catch (error) {
-      console.log(error)
-      alert("Unable To get bill information!")
-    }
-  }
 
   const fetchBillingInfo = async (id, iscn) => {
     try {
@@ -96,6 +81,11 @@ const BillingInfo = () => {
     }
   }
 
+  const deleteProd = (index) => {
+    let update = billingInfo.productsDetail.filter((prod, ind) => ind != index)
+    setBillingInfo({ ...billingInfo, productsDetail: update })
+  }
+
   useEffect(() => {
     const billingId = searchparams.get("id")
 
@@ -117,10 +107,6 @@ const BillingInfo = () => {
 
   }, [])
 
-  useEffect(() => {
-    if (!products.length && tableHeaders.length)
-      fetchProducts()
-  }, [tableHeaders])
   return (
     <Layout>
       <div id="billingInfo-container" className="layout-body borderbox">
@@ -132,7 +118,7 @@ const BillingInfo = () => {
         <div style={{ alignItems: "center", width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
           <div style={{ overflow: "auto", width: "100%", height: "65%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
             <Header headers={tableHeaders} />
-            <Body headers={tableHeaders} mode={"update"} dataList={billingInfo.productsDetail} onChange={() => { }} onDelete={() => { }} products={products} />
+            <Body headers={tableHeaders} mode={"add"} dataList={billingInfo.productsDetail} onChange={() => { }} onDelete={deleteProd} />
           </div>
           <div style={{ alignItems: "center", height: "20%", width: "100%", display: "flex", flexWrap: "wrap" }}>
             <Card focus={true} require={true} w="15%" h="4%" name={"prescribedBy"} label="Prescribed By" value={billingInfo.prescribedBy} onchange={onChange} type="text" />
