@@ -6,6 +6,7 @@ const KEY = {
   F9: 120,
   F10: 121,
   ENTER: 13,
+  ESC: 27,
   ARROW_UP: 38,
   ARROW_DOWN: 40,
   CTRL: 17,

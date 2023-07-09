@@ -14,6 +14,7 @@ import ChooseBatch from "../../Components/ChooseBatch/ChooseBatch";
 
 import './index.css'
 import RadioButton from "../../Components/RadioButton/RadioButton";
+import KEY from "../../Constants/keyCode";
 
 const Billing = () => {
   const { products, dispatch } = useStore();
@@ -128,14 +129,21 @@ const Billing = () => {
     setCart((prev) => [...prev, {}])
   }
 
-  const closeListModal = () => {
-    setIsList(false)
+  const closeListModal = (event) => {
+    if (event.keyCode) {
+      if (event.keyCode === KEY.ESC)
+        setIsList(false);
+    }
+    else
+      setIsList(false)
   }
 
   useEffect(() => {
     document.addEventListener('click', closeListModal);
+    document.addEventListener('keydown', closeListModal);
     return () => {
       document.removeEventListener('click', closeListModal);
+      document.removeEventListener('keydown', closeListModal);
     };
   }, [])
 
