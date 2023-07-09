@@ -14,7 +14,7 @@ const RadioButton = ({ onSwitch, title1, title2, state }) => {
     <div style={{ marginLeft: "auto", width: "15%", display: "flex", justifyContent: "center", alignItems: "center" }}>
       {title1}
       <div onClick={onclick} style={{
-        backgroundColor: state ? "blue" : "green", width: "30%", margin: "1vw",
+        backgroundColor: state ? "blue" : "green", width: "30%", margin: "1vw",border:"2px solid #ffffff",
         cursor: "pointer", borderRadius: "1vw", display: "flex", alignItems: "center", overflow: "hidden"
       }}>
         <button id="liver" style={{ cursor: "pointer", height: "3vh", width: "3vh", borderRadius: "50%", border: "none", outline: "none", }}></button></div>
