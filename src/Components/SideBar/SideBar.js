@@ -5,6 +5,7 @@ import Purchase from "../../images/icons/purchase.png"
 import Stocks from "../../images/icons/stocks.png"
 import Vendors from "../../images/icons/vendors.png"
 import Delivery from "../../images/icons/delivery.png"
+import Patients from "../../images/icons/patient.png"
 import Expiry from "../../images/icons/expiry.png"
 import LogOut from "../../images/icons/logout.png"
 
@@ -42,6 +43,7 @@ const SideBar = ({ onswitch }) => {
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.BILLINGS)} style={{ color: getColor(ROUTES.BILLINGS), backgroundColor: getBg(ROUTES.BILLINGS), }}><img src={Billing} />Billing</button>
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.VENDORS)} style={{ color: getColor(ROUTES.VENDORS), backgroundColor: getBg(ROUTES.VENDORS), }}><img src={Vendors} />Vendors</button>
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.DELIVERY)} style={{ color: getColor(ROUTES.DELIVERY), backgroundColor: getBg(ROUTES.DELIVERY), }}><img src={Delivery} />Delivery</button>
+      <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.PATIENTS)} style={{ color: getColor(ROUTES.PATIENTS), backgroundColor: getBg(ROUTES.PATIENTS), }}><img src={Patients} />Patients</button>
       <button tabIndex={-1} className="nav-btn" onClick={() => onswitch(ROUTES.EXPIRY)} style={{ color: getColor(ROUTES.EXPIRY), backgroundColor: getBg(ROUTES.EXPIRY), }}><img src={Expiry} />Expiry</button>
       <button tabIndex={-1} id="logout-btn" onClick={onlogout}><img src={LogOut} />Log out</button>
     </div >

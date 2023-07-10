@@ -33,6 +33,7 @@ import Purchase from "./Containers/Purchase";
 import PurchaseAdd from "./Containers/PurchaseAdd";
 import BillingHistory from "./Containers/BillingHistory";
 import BillingInfo from "./Containers/BillingInfo";
+import Patients from "./Containers/Patient";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
@@ -75,6 +76,7 @@ const App = () => {
               <Route path={ROUTES.VENDORS_ADD} element={<VebdorAdd />} />
               <Route path={ROUTES.VENDORS_INFO} element={<VendorInfo />} />
               <Route path={ROUTES.DELIVERY} element={<Delivery />} />
+              <Route path={ROUTES.PATIENTS} element={<Patients />} />
               <Route path={ROUTES.EXPIRY} element={<Expiry />} />
               <Route path={ROUTES.GET_SETTLEMENT} element={<Settlements />} />
               <Route path={ROUTES.ADD_SETTLEMENT} element={<SettlementAdd />} />

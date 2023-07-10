@@ -57,5 +57,8 @@ export const API = {
   DELETE_BILLING_CN: "/billing/creditnote/",
   CANCEL_BILLING: "/billing/",
   CHECKOUT_PRODUCT: "/billing/checkout",
+
+  //patients
+  GET_MEDICINE_HISTORY: "/patient/medicines",
 }
 

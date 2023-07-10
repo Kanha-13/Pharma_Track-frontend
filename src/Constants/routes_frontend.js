@@ -22,6 +22,7 @@ export const ROUTES = {
   VENDORS_ADD: "vendor/add",
   VENDORS: "vendors",
   VENDORS_INFO: "vendor/info?",
+  PATIENTS: "patients",
   DELIVERY: "delivery",
   EXPIRY: "expiry",
 
