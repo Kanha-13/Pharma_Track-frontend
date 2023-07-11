@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { deleteCN, getBillingInfo, getCNInfo, updateBillingInfo } from "../../apis/billing";
-import { BillingProductListHeader, CNProductListHeader } from "../../Constants/billing";
+import { BillingProductListHeader, CNListInQuotation, CNProductListHeader } from "../../Constants/billing";
 import { getyyyymmdd } from "../../utils/DateConverter";
 import { ROUTES } from "../../Constants/routes_frontend";
 
@@ -19,6 +19,7 @@ const BillingInfo = () => {
   const [btnDissable, setDisableBtn] = useState(false)
   const [dateLabel, setDateLabel] = useState("")
   const [amtLabel, setAmtLabel] = useState("")
+  const [invoiceLabel, setInvoiceLabel] = useState("")
   const [title, setTitle] = useState("")
   const [isCN, setIsCN] = useState(0)
   const [tableHeaders, setTableHeaders] = useState([])
@@ -120,6 +121,23 @@ const BillingInfo = () => {
     setBillingInfo({ ...updateBillInfo, productsDetail: updateProdList })
   }
 
+  const fetchCNInfo = async (id) => {
+    try {
+      const res = await getCNInfo(id)
+      setBillingInfo((prev) => {
+        return { ...prev, cnList: res.data }
+      })
+    } catch (error) {
+      console.log(error)
+      alert("unable to get cn info!")
+    }
+  }
+
+  useEffect(() => {
+    if (billingInfo.cnId)
+      fetchCNInfo(billingInfo.cnId)
+  }, [billingInfo])
+
   useEffect(() => {
     const billingId = searchparams.get("id")
 
@@ -128,12 +146,14 @@ const BillingInfo = () => {
         fetchBillingInfo(billingId, true)
         setTitle("CN Info")
         setIsCN(true)
+        setInvoiceLabel("CN No.")
         setAmtLabel("Amt. Refund")
         setDateLabel("Return Date")
         setTableHeaders(CNProductListHeader)
       } else {
         setTableHeaders(BillingProductListHeader)
         fetchBillingInfo(billingId, false)
+        setInvoiceLabel("Invocie No.")
         setDateLabel("Billing Date")
         setAmtLabel("Amt. Paid")
         setTitle("Billing Info")
@@ -146,25 +166,33 @@ const BillingInfo = () => {
       <div id="billingInfo-container" className="layout-body borderbox">
         <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "1vh" }}>{title}</p>
         <div style={{ width: "100%", height: "10%", display: "flex", justifyContent: "space-between", alignTracks: "center" }}>
-          <Card require={true} m="1vh 0px" w="12%" h="60%" pd="0px 1%" name={"invoiceNo"} label="Invoice No" value={billingInfo.invoiceNo} onchange={() => { }} type="text" />
+          <Card require={true} m="1vh 0px" w="12%" h="60%" pd="0px 1%" name={"invoiceNo"} label={invoiceLabel} value={billingInfo.invoiceNo} onchange={() => { }} type="text" />
           <Card require={true} m="1vh 0px" w="12%" h="60%" pd="0px 1%" name={"billingDate"} label={dateLabel} value={billingInfo.billingDate} onchange={onChange} type="date" />
         </div>
         <div style={{ alignItems: "center", width: "100%", height: "100%", display: "flex", flexDirection: "column" }}>
           <div style={{ overflow: "auto", width: "100%", height: "65%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
             <Header headers={tableHeaders} />
             <Body headers={tableHeaders} mode={"add"} dataList={billingInfo.productsDetail} onChange={() => { }} onDelete={deleteProd} />
+            {
+              billingInfo.cnId && <div style={{ margin: "2vh 0px", borderBottom: "1px solid black", width: "100%", height: "auto", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
+                <p style={{ margin: "0px", width: "100%", marginTop: "3vh" }}>RET/EXP/DAMAGE/NON-SALABLE</p>
+                <Header headers={CNListInQuotation} />
+                <Body headers={CNListInQuotation} mode={"update"} dataList={billingInfo.cnList?.productsDetail} onChange={() => { }} onDelete={() => { }} />
+              </div>
+            }
           </div>
           <div style={{ alignItems: "center", height: "20%", width: "100%", display: "flex", flexWrap: "wrap" }}>
             <Card focus={true} require={true} w="15%" h="4%" name={"prescribedBy"} label="Prescribed By" value={billingInfo.prescribedBy} onchange={onChange} type="text" />
             <Card require={true} w="15%" h="4%" name={"patientName"} label="Patient Name" value={billingInfo.patientName} onchange={onChange} type="text" />
             <Card require={true} w="15%" h="4%" name={"mobileNumber"} label="Mobile Number" value={billingInfo.mobileNumber} onchange={onChange} type="text" />
             <Card require={true} w="20%" h="4%" name={"address"} label="Address" value={billingInfo.address} onchange={onChange} type="text" />
-            <Card require={true} w="10%" h="4%" name={"subTotal"} label="Sub Total" value={parseFloat(billingInfo.subTotal).toFixed(2)} onchange={() => { }} type="text" />
+            <Card require={true} w="8%" h="4%" name={"subTotal"} label="Sub Total" value={parseFloat(billingInfo.subTotal).toFixed(2)} onchange={() => { }} type="text" />
             <Card require={true} w="5%" h="4%" name={"discount"} label="Discount" value={billingInfo.discount} onchange={() => { }} type="text" />
-            <Card require={true} w="8%" h="4%" name={"roundoff"} label="Round Off" value={billingInfo.roundoff} onchange={() => { }} type="text" />
-            <Card require={true} w="10%" h="4%" name={"grandTotal"} label="Grand Total" value={billingInfo.grandTotal} onchange={() => { }} type="text" />
-            <Card require={true} w="10%" h="4%" name={"amtPaid"} label={amtLabel} value={billingInfo.amtPaid} onchange={() => { }} type="text" />
-            <Card require={true} w="10%" h="4%" name={"amtDue"} label="Amt. Due" value={billingInfo.amtDue} onchange={() => { }} type="text" />
+            <Card require={true} w="4%" h="4%" name={"roundoff"} label="R. Off" value={billingInfo.roundoff} onchange={() => { }} type="text" />
+            <Card require={true} w="8%" h="4%" name={"creditAmt"} label="Credit Amt" value={billingInfo.creditAmt || 0} onchange={() => { }} type="text" />
+            <Card require={true} w="8%" h="4%" name={"grandTotal"} label="Grand Total" value={billingInfo.grandTotal} onchange={() => { }} type="text" />
+            <Card require={true} w="8%" h="4%" name={"amtPaid"} label={amtLabel} value={billingInfo.amtPaid} onchange={() => { }} type="text" />
+            <Card require={true} w="5%" h="4%" name={"amtDue"} label="Amt. Due" value={billingInfo.amtDue} onchange={() => { }} type="text" />
             {
               isCN ?
                 <button disabled={btnDissable} onClick={onDeleteCN} className="custom-input-fields" style={{ width: "10%", margin: "0px 1.5vw", height: "30%", borderRadius: "0.4vw", backgroundColor: "#5e48e8", border: "none", color: "#ffffff", fontSize: "1rem" }}>Delete CN</button> :

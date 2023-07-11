@@ -9,7 +9,6 @@ export const BillingListHeader = [
 ]
 
 export const QuotationListHeader = [
-  // { name: 'S.no', value: "index", colSize: "10%" },
   { name: 'Item', value: "itemName", colSize: "20%", ph: "Item name" },
   { name: 'Batch', value: "batch", colSize: "15%", ph: "Batch" },
   { name: 'Pkg', value: "pkg", colSize: "7%", ph: "Batch" },
@@ -40,6 +39,18 @@ export const CNHistoryListHeader = [
   { name: 'Total', value: "grandTotal", colSize: "10%" },
   { name: 'Amt. Refund', value: "amtRefund", colSize: "10%" },
   { name: 'Return Date', value: "billingDate", colSize: "10%" },
+]
+export const CNListInQuotation = [
+  { name: 'Item', value: "itemName", colSize: "20%", ph: "Item name" },
+  { name: 'Batch', value: "batch", colSize: "15%", ph: "Batch" },
+  { name: 'Pkg', value: "pkg", colSize: "7%", ph: "Batch" },
+  { name: 'Exp', value: "expDate", colSize: "5%", ph: "Exp" },
+  { name: 'Qnt.', value: "returnedQnty", colSize: "5%", ph: "Qnt" },
+  { name: 'MRP', value: "mrp", colSize: "5%", ph: "MRP" },
+  { name: 'Rate', value: "rate", colSize: "5%", ph: "Rate" },
+  { name: 'GST%', value: "gst", colSize: "5%", ph: "GST" },
+  { name: 'Dis%', value: "disc", colSize: "5%", ph: "Dis" },
+  { name: 'Total', value: "total", colSize: "10%", ph: "Total" },
 ]
 
 export const BillingProductListHeader = [

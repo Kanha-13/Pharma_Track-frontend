@@ -104,7 +104,7 @@ const BillingHistory = () => {
           <Card require={true} m="1.5% 0.5%" w="10%" h="2vh" pd="1.1vh 0.5vw" name="prescribedBy" label="" ph="Prescribed By" value={prescribedBy} onchange={(name, value) => { setIndex(null); setPrescribedBy(value) }} type="text" />
           <Card require={true} m="1.5% 0.5%" w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => { setIndex(null); setFromDate(value) }} type="month" />
           <Card require={true} m="1.5% 0.5%" w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => { setIndex(null); setToDate(value) }} type="month" />
-          <button onKeyDown={handleKeyDown} onClick={searchSaleHistory} style={{ backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "4vh", width: "5vw", cursor: "pointer" }}>Search</button>
+          <button className="custom-input-fields" onKeyDown={handleKeyDown} onClick={searchSaleHistory} style={{ backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "4vh", width: "5vw", cursor: "pointer" }}>Search</button>
           <div style={{ width: "100%", height: "100%" }}>
             <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
               <thead style={{

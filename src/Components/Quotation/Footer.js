@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react"
 import KEY from "../../Constants/keyCode"
 import Card from "../ManualAddProduct/Card"
+import ChooseCN from "./ChosseCN"
+import { getCNInfo } from "../../apis/billing"
 
-const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
+const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
   const [patientName, setPatient] = useState("")
   const [prescribedBy, setPrescribedBy] = useState("")
   const [mobileNumber, setmobileNumber] = useState("")
@@ -10,8 +12,10 @@ const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
   const [total, setTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
   const [roundOff, setRoundOff] = useState(0)
+  const [creditAmt, setCreditAmt] = useState()
   const [grandTotal, setGrandTotal] = useState(0)
   const [amtPaid, setamtPaid] = useState(0)
+  const [isMergeCN, setIsMergeCN] = useState(false)
 
   const resetFields = () => {
     setPatient("");
@@ -22,6 +26,11 @@ const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
     setDiscount(0)
     setGrandTotal(0)
     setamtPaid(0)
+    setCreditAmt()
+  }
+
+  const onMergeCN = () => {
+    setIsMergeCN(true)
   }
 
   const onSumbmit = (e) => {
@@ -40,6 +49,7 @@ const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
         amtDue: grandTotal - amtPaid,
         discount: discount,
         roundoff: roundOff,
+        creditAmt: creditAmt
       }
       if (isCN) {
         billDetail.amtRefund = amtPaid
@@ -49,6 +59,20 @@ const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
     } else {
       alert("Empty cart!")
     }
+  }
+
+  const handleChooseCN = async (cnId) => {
+    try {
+      const res = await getCNInfo(cnId);
+      setCreditAmt(res.data.amtRefund)
+      setGrandTotal((prev) => prev - res.data.amtRefund)
+      setamtPaid((prev) => prev - res.data.amtRefund)
+      onsetCNInfo(res.data)
+    } catch (error) {
+      console.log(error)
+      alert("Unable to get cn info!")
+    }
+    setIsMergeCN(false)
   }
 
   useEffect(() => {
@@ -123,6 +147,7 @@ const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
           <h5 style={{ height: "20%", margin: "0px" }}>Sub Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Discount:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Round Off:</h5>
+          {creditAmt && <h5 style={{ height: "20%", margin: "0px" }}>Credit amt.:</h5>}
           <h5 style={{ height: "20%", margin: "0px" }}>Grand Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Amount {isCN ? "Refund" : "Paid"}:</h5>
         </div>
@@ -130,16 +155,27 @@ const Footer = ({ isCN, addField, carts = [], oncheckout }) => {
           <h5 style={{ height: "20%", margin: "0px" }}>{parseFloat(total).toFixed(2)}</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>{discount}</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>{roundOff}</h5>
+          {creditAmt && <h5 style={{ height: "20%", margin: "0px" }}>{creditAmt}</h5>}
           <h5 style={{ height: "20%", margin: "0px", marginTop: "0px", }}>{grandTotal}</h5>
           <Card min={0} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt. Paid" value={amtPaid} onchange={(name, value) => setamtPaid(value)} type="number" />
 
         </div>
-        <button onClick={onSumbmit} className="custom-input-fields" disabled={!carts.length} type="submit" style={{
-          height: "20%", width: "50%",
-          border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
-          borderRadius: "0.5vw", fontWeight: "bold"
-        }}>Check Out</button>
+        <div style={{ width: "100%", height: "4vh", marginTop: "3vh", display: "flex", justifyContent: "space-between" }} >
+          <button onClick={onSumbmit} className="custom-input-fields" disabled={!carts.length} type="submit" style={{
+            height: "100%", width: "40%", fontSize: "1rem",
+            border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
+            borderRadius: "0.5vw", fontWeight: "bold"
+          }}>Check Out</button>
+          {!isCN && <button onClick={onMergeCN} className="custom-input-fields" disabled={!carts.length} type="submit" style={{
+            height: "100%", width: "40%", fontSize: "1rem",
+            border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
+            borderRadius: "0.5vw", fontWeight: "bold"
+          }}>Merge CN</button>}
+        </div>
       </div>
+      {
+        isMergeCN && <ChooseCN onEnter={handleChooseCN} closeModal={() => setIsMergeCN(false)} />
+      }
     </div>
   );
 }
