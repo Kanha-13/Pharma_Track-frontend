@@ -42,7 +42,8 @@ const ChooseCN = ({ onEnter, closeModal }) => {
 
   const fetchCNList = async () => {
     try {
-      const res = await getCNHistory("", "", patientName, "", {});
+      let res = await getCNHistory("", "", patientName, "", {});
+      res.data = res.data.filter((prod, index) => prod.status !== "REFUNDED")
       setDataList(res.data);
     } catch (error) {
       console.log(error)

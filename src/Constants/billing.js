@@ -32,13 +32,14 @@ export const BillingHistoryListHeader = [
 ]
 
 export const CNHistoryListHeader = [
-  { name: 'Patient Name', value: "patientName", colSize: "25%" },
+  { name: 'Patient Name', value: "patientName", colSize: "20%" },
   { name: 'CN No', value: "cnNo", colSize: "10%" },
-  { name: 'Mobile No.', value: "mobileNumber", colSize: "15%" },
+  { name: 'Mobile No.', value: "mobileNumber", colSize: "10%" },
   { name: 'Prescribed By', value: "prescribedBy", colSize: "15%" },
-  { name: 'Total', value: "grandTotal", colSize: "10%" },
-  { name: 'Amt. Refund', value: "amtRefund", colSize: "10%" },
+  { name: 'Total', value: "grandTotal", colSize: "8%" },
+  { name: 'Amt. Refund', value: "amtRefund", colSize: "8%" },
   { name: 'Return Date', value: "billingDate", colSize: "10%" },
+  { name: 'Status', value: "status", colSize: "8%" },
 ]
 export const CNListInQuotation = [
   { name: 'Item', value: "itemName", colSize: "20%", ph: "Item name" },

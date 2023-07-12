@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import KEY from "../../Constants/keyCode"
 import Card from "../ManualAddProduct/Card"
-import ChooseCN from "./ChosseCN"
+import ChooseCN from "./ChooseCN"
 import { getCNInfo } from "../../apis/billing"
 
 const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {

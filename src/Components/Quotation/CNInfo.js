@@ -1,10 +1,11 @@
 import { CNListInQuotation } from "../../Constants/billing";
+import { toddmmyy } from "../../utils/DateConverter";
 import CartRow from "./CartRow";
 
 const CNInfo = ({ data }) => {
   return (
     <div style={{ width: "100%", marginTop: "auto", marginBottom: "5vh", userSelect: "none" }}>
-      <p style={{ margin: "0px", marginTop: "3vh" }}>RET/EXP/DAMAGE/NON-SALABLE</p>
+      <p style={{ margin: "0px", marginTop: "3vh" }}>RET/EXP/DAMAGE/NON-SALABLE - {toddmmyy(data.billingDate)}</p>
       <div style={{ borderBottom: "1px solid gray", display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
         {CNListInQuotation.map((head) => <p key={head.name + "in-quotation-table-head"} style={{ width: head.colSize, margin: "0.5vh 0px" }}>{head.name}</p>)}
         <p style={{ margin: "0px" }}></p>

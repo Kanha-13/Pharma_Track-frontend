@@ -189,7 +189,7 @@ const BillingInfo = () => {
             <Card require={true} w="8%" h="4%" name={"subTotal"} label="Sub Total" value={parseFloat(billingInfo.subTotal).toFixed(2)} onchange={() => { }} type="text" />
             <Card require={true} w="5%" h="4%" name={"discount"} label="Discount" value={billingInfo.discount} onchange={() => { }} type="text" />
             <Card require={true} w="4%" h="4%" name={"roundoff"} label="R. Off" value={billingInfo.roundoff} onchange={() => { }} type="text" />
-            <Card require={true} w="8%" h="4%" name={"creditAmt"} label="Credit Amt" value={billingInfo.creditAmt || 0} onchange={() => { }} type="text" />
+            {!isCN && <Card require={true} w="8%" h="4%" name={"creditAmt"} label="Credit Amt" value={billingInfo.creditAmt || 0} onchange={() => { }} type="text" />}
             <Card require={true} w="8%" h="4%" name={"grandTotal"} label="Grand Total" value={billingInfo.grandTotal} onchange={() => { }} type="text" />
             <Card require={true} w="8%" h="4%" name={"amtPaid"} label={amtLabel} value={billingInfo.amtPaid} onchange={() => { }} type="text" />
             <Card require={true} w="5%" h="4%" name={"amtDue"} label="Amt. Due" value={billingInfo.amtDue} onchange={() => { }} type="text" />
