@@ -71,3 +71,8 @@ export const deleteCN = async (id) => {
   const res = await axios_instance.delete(API.DELETE_BILLING_CN + id)
   return res.data
 }
+
+export const getLatestBills = async (field, count) => {
+  const res = await axios_instance.get(API.GET_LAST_BILLING + "?" + `field=${field}&count=${count}`)
+  return res.data
+}
