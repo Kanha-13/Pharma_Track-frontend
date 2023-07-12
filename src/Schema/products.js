@@ -2,6 +2,7 @@ export const PRODUCT = {
   ITEMNAME: "itemName",
   COMPANY: "company",
   CATEGORY: "category",
+  PARENT_CATEGORY: "parentCategory",
   MRP: "mrp",
   HSN: "hsn_sac",
   MNFDATE: "mnfDate",
@@ -19,5 +20,5 @@ export const PRODUCT = {
 }
 
 export const productdetail = {
-  itemName: "", company: "", category: "tablet", hsn_sac: "", pkg: "", gst: "", location: ""
+  itemName: "", company: "", category: "TABLET", parentCategory: "ALLOPATHIC", hsn_sac: "", pkg: "", gst: "", location: ""
 }

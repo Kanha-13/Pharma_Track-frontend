@@ -4,3 +4,11 @@ export const ProductCategories = [
   { value: "TUBE", label: "TUBE" },
   { value: "INJ_VIAL", label: "INJECTION VIAL" },
 ]
+
+export const ProductParentCategories = [
+  { value: "ALLOPATHIC", label: "ALLOPATHIC" },
+  { value: "AYURVEDIC", label: "AYURVEDIC" },
+  { value: "GENERAL", label: "GENERAL" },
+  { value: "GENERIC", label: "GENERIC" },
+  { value: "SURGICAL", label: "SURGICAL" },
+]

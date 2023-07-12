@@ -6,7 +6,7 @@ import { ROUTES } from "../../Constants/routes_frontend";
 import { PRODUCT, productdetail } from "../../Schema/products";
 import { validateUpdateRequest } from "../../utils/product";
 import { ACTION } from "../../Store/constants";
-import { ProductCategories } from "../../Constants/productCategories";
+import { ProductCategories, ProductParentCategories } from "../../Constants/productCategories";
 
 import Layout from "../../Components/Layout/Layout";
 import Card from "../../Components/ManualAddProduct/Card";
@@ -54,6 +54,7 @@ const ProductInfo = () => {
       else throw new Error("Fields should not be empty")
     } catch (error) {
       console.log(error)
+      alert(error)
     }
   }
 
@@ -71,8 +72,9 @@ const ProductInfo = () => {
         <Card focus={true} require={true} w="25%" h="4%" name={PRODUCT.ITEMNAME} label="Item Name" value={productDetail.itemName} onchange={onchange} type="text" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.COMPANY} label="Company Name" value={productDetail.company} onchange={onchange} type="text" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.CATEGORY} label="Category" value={productDetail.category} onchange={onchange} type="select" options={ProductCategories} />
+        <Card require={true} w="25%" h="4%" name={PRODUCT.PARENT_CATEGORY} label="Parent Cat." value={productDetail.parentCategory} onchange={onchange} type="select" options={ProductParentCategories} />
         <Card require={true} w="25%" h="4%" name={PRODUCT.HSN} label="HSN / SAC" value={productDetail.hsn_sac} onchange={onchange} type="text" />
-        <Card require={true} w="25%" h="4%" name={PRODUCT.PACKING} label="Packing" value={productDetail.pkg} onchange={onchange} type="text"/>
+        <Card require={true} w="25%" h="4%" name={PRODUCT.PACKING} label="Packing" value={productDetail.pkg} onchange={onchange} type="text" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.GST} label="GST" value={productDetail.gst} onchange={onchange} type="number" />
         <Card require={true} w="25%" h="4%" name={PRODUCT.LOCATION} label="Storage Location" value={productDetail.location} onchange={onchange} type="text" />
         <button id="submit-add-prod" className="custom-input-fields" onClick={onUpdate} type="submit">Update Product</button>
