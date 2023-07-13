@@ -19,7 +19,7 @@ const PurchaseOverview = () => {
   }
   return (
     <div className="dashboard-card" style={{ width: "32%", height: "16vh" }}>
-      <p className="dashboard-title">Sales Overview</p>
+      <p className="dashboard-title">Purchase Overview</p>
       <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Sales" value={500} />
       <Card img={Growth} bgColor="#d5ffd5" label="Renvenue" value={500} />
       <Card img={coin} bgColor="#ffffbc" label={"Avg. amt"} value={500} />

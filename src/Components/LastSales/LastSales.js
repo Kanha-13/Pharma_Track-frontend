@@ -20,7 +20,7 @@ const LastSales = () => {
   const Card = ({ data = [] }) => {
     return (
       <div style={{ display: "flex", width: "100%", height: "90%", margin: "auto", flexDirection: "column" }}>
-        <div style={{ display: "flex", width: "100%", justifyContent: "space-between",margin:"2vh 0px" }}>
+        <div style={{ display: "flex", width: "100%", justifyContent: "space-between", margin: "2vh 0px" }}>
           <p className="dashboard-label">Invoice No.</p>
           <p className="dashboard-label">Patient Name</p>
           <p className="dashboard-label">Amount</p>
@@ -30,10 +30,10 @@ const LastSales = () => {
           data.map((d, index) => {
             return (
               <div style={{ display: "flex", width: "100%", justifyContent: "space-between" }}>
-                <p style={{ margin: "0px", width: "25%" }}>{d.invoiceNo}</p>
-                <p style={{ margin: "0px", width: "25%" }}>{d.patientName}</p>
-                <p style={{ margin: "0px", width: "25%" }}>{d.grandTotal}</p>
-                <p style={{ margin: "0px", width: "25%" }}>{toddmmyy(d.billingDate)}</p>
+                <p className="dashboard-label">{d.invoiceNo}</p>
+                <p className="dashboard-label" style={{ textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: "hidden" }}>{d.patientName}</p>
+                <p className="dashboard-label">{d.grandTotal}</p>
+                <p className="dashboard-label">{toddmmyy(d.billingDate)}</p>
               </div>
             )
           })

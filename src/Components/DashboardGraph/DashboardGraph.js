@@ -142,16 +142,40 @@ const DashboardGraph = () => {
     }
   }
 
-  const getColor = (name) => {
-    if (name) return "#5e48e8"
+  const getColor = (name, value) => {
+    if (value)
+      switch (name) {
+        case "sales":
+          return "#5e48e8"
+        case "purchase":
+          return "#00cefd"
+        default:
+          return "#fcb684"
+      }
     else return "gray"
   }
-  const getBorder = (name) => {
-    if (name) return "#5e48e8"
+  const getBorder = (name, value) => {
+    if (value)
+      switch (name) {
+        case "sales":
+          return "#5e48e8"
+        case "purchase":
+          return "#00cefd"
+        default:
+          return "#fcb684"
+      }
     else return "gray"
   }
-  const getBg = (name) => {
-    if (name) return "#ebe8fc"
+  const getBg = (name, value) => {
+    if (value)
+      switch (name) {
+        case "sales":
+          return "#ebe8fc"
+        case "purchase":
+          return "#dff9ff"
+        default:
+          return "#fff9f5"
+      }
     else return "#f5f5f5"
   }
 
@@ -160,9 +184,9 @@ const DashboardGraph = () => {
       <p className="dashboard-title" style={{ width: "40%" }}>Statistics</p>
       {cardStyle.position === "absolute" && <img onClick={(e) => modalClick(e, 0)} style={{ position: "absolute", right: 5, cursor: "pointer", top: 5, marginLeft: "auto", height: "4%" }} src={MinimizeIcon} />}
       <div style={{ marginLeft: "auto", width: "50%", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
-        <button onClick={() => onclickbtn("sales")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor(show.sales), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder(show.sales), backgroundColor: getBg(show.sales) }}>Sales</button>
-        <button onClick={() => onclickbtn("purchase")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor(show.purchase), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder(show.purchase), backgroundColor: getBg(show.purchase) }}>Purchase</button>
-        <button onClick={() => onclickbtn("profit")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor(show.profit), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder(show.profit), backgroundColor: getBg(show.profit) }}>Profit</button>
+        <button onClick={() => onclickbtn("sales")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("sales", show.sales), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("sales", show.sales), backgroundColor: getBg("sales", show.sales) }}>Sales</button>
+        <button onClick={() => onclickbtn("purchase")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("purchase", show.purchase), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("purchase", show.purchase), backgroundColor: getBg("purchase", show.purchase) }}>Purchase</button>
+        <button onClick={() => onclickbtn("profit")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("profit", show.profit), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("profit", show.profit), backgroundColor: getBg("profit", show.profit) }}>Profit</button>
       </div>
       <div style={{ width: "100%", height: "90%" }}>
         <LineChart chartData={chartData} />

@@ -24,10 +24,10 @@ export const data = {
 
 const CategoryWiseSale = () => {
   return (
-    <div className="dashboard-card" style={{ width: "32%", height: "22vh" }}>
+    <div className="dashboard-card" style={{ width: "34%", height: "22vh" }}>
       <p className="dashboard-title">Category wise Sales</p>
-      <div style={{ width: "100%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <Doughnut style={{ width: "90%" }} data={data} options={{
+      <div style={{ width: "90%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center" }}>
+        <Doughnut style={{ width: "100%" }} data={data} options={{
           responsive: true,
           radius: "100%",
           maintainAspectRatio: false,
@@ -41,13 +41,13 @@ const CategoryWiseSale = () => {
             }
           }
         }} />
-        <div style={{width:"10%",height:"70%",display:"flex",flexDirection:"column",justifyContent:'space-between'}}>
-          <p style={{margin:"0px"}}>20%</p>
-          <p style={{margin:"0px"}}>20%</p>
-          <p style={{margin:"0px"}}>25%</p>
-          <p style={{margin:"0px"}}>20%</p>
-          <p style={{margin:"0px"}}>25%</p>
-        </div>
+      </div>
+      <div style={{ width: "10%", height: "60%", margin: "auto", paddingBottom: "1.5vh", display: "flex", flexDirection: "column", justifyContent: 'space-between' }}>
+        <p className='dashboard-label'>20%</p>
+        <p className='dashboard-label'>20%</p>
+        <p className='dashboard-label'>25%</p>
+        <p className='dashboard-label'>20%</p>
+        <p className='dashboard-label'>25%</p>
       </div>
     </div>
   );

@@ -14,7 +14,7 @@ const InventorySummary = () => {
     <div className="dashboard-card" style={{ width: "20%", height: "16vh" }}>
       <p className="dashboard-title">Inventory Summary</p>
       <Card bgColor="#f4f4f4" img={Box} label={"Qnty. in Hand"} value={45} />
-      <Card bgColor="#f4f4f4" w="28%" img={Valuation} label={"Valuation"} value={4500000} />
+      <Card bgColor="#f4f4f4" w="25%" img={Valuation} label={"Valuation"} value={4500000} />
     </div>
   );
 }
