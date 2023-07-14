@@ -3,6 +3,7 @@ import { ACTION } from "./constants";
 const StateStore = (props) => {
 
   const [products, setProducts] = useState([])
+  const [companies, setCompanies] = useState([])
   const [vendors, setVendors] = useState([])
   const [stocks, setStocks] = useState([])
   const [expiredStocks, setExpiredStocks] = useState([])
@@ -19,7 +20,8 @@ const StateStore = (props) => {
     nearExpiryStocks,
     currentSettlement,
     settlements,
-    tradeAnalysis
+    tradeAnalysis,
+    companies
   }
 
   const dispatch = (type, payload) => {
@@ -54,6 +56,10 @@ const StateStore = (props) => {
 
       case ACTION.SET_TRADE_ANALYSIS:
         setTradeAnalysis(payload)
+        break;
+
+      case ACTION.SET_COMPANIES:
+        setCompanies(payload)
         break;
 
       default:

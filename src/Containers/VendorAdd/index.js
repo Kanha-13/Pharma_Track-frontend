@@ -9,8 +9,11 @@ import Card from '../../Components/ManualAddProduct/Card';
 import VendorInfoIcon from "../../images/illustrations/vendorInfo.jpg"
 
 import './index.css'
+import { ACTION } from '../../Store/constants';
+import { useStore } from '../../Store/store';
 
 const VebdorAdd = () => {
+  const { dispatch } = useStore();
   const navigate = useNavigate();
   const [vendorInfo, setVendorInfo] = useState(vendordetail)
 
@@ -22,6 +25,7 @@ const VebdorAdd = () => {
     try {
       const res = await addVendor(data)
       alert("Vendor added successfully! 👍")
+      dispatch(ACTION.SET_VENDORS, [])
       navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)
     } catch (error) {
       console.log(error)

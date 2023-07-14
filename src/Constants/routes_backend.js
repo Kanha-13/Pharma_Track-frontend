@@ -64,6 +64,13 @@ export const API = {
   GET_MEDICINE_HISTORY: "/patient/medicines",
 
   //trade analysis
-  GET_TRADE_REPORT:"/trade/analysis"
+  GET_TRADE_REPORT:"/trade/analysis",
+
+  //company
+  ADD_COMPANY:"/company",
+  GET_COMPANY:"/company/",
+  UPDATE_COMPANY:"/company/",
+  DELETE_COMPANY:"/company/",
+  GET_COMPANYS:"/companys",
 }
 

@@ -15,7 +15,6 @@ import StateStore from "./Store/store";
 import Products from "./Containers/Products";
 import Billing from "./Containers/Billing";
 import Vendors from "./Containers/Vendors";
-import Delivery from "./Containers/Delivery";
 import Expiry from "./Containers/Expiry";
 import PublicRouter from "./utils/PublicRouter/PublicRouter";
 import ProtectedRouter from "./utils/ProtectedRouter/ProtectedRouter";
@@ -34,6 +33,9 @@ import PurchaseAdd from "./Containers/PurchaseAdd";
 import BillingHistory from "./Containers/BillingHistory";
 import BillingInfo from "./Containers/BillingInfo";
 import Patients from "./Containers/Patient";
+import Company from "./Containers/Company";
+import CompanyAdd from "./Containers/CompanyAdd";
+import CompanyInfo from "./Containers/CompanyInfo";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
@@ -75,7 +77,9 @@ const App = () => {
               <Route path={ROUTES.VENDORS} element={<Vendors />} />
               <Route path={ROUTES.VENDORS_ADD} element={<VebdorAdd />} />
               <Route path={ROUTES.VENDORS_INFO} element={<VendorInfo />} />
-              <Route path={ROUTES.DELIVERY} element={<Delivery />} />
+              <Route path={ROUTES.COMPANY} element={<Company />} />
+              <Route path={ROUTES.COMPANY_ADD} element={<CompanyAdd />} />
+              <Route path={ROUTES.COMPANY_INFO} element={<CompanyInfo />} />
               <Route path={ROUTES.PATIENTS} element={<Patients />} />
               <Route path={ROUTES.EXPIRY} element={<Expiry />} />
               <Route path={ROUTES.GET_SETTLEMENT} element={<Settlements />} />

@@ -42,7 +42,7 @@ const Vendors = () => {
       <div id="vendor-container" className="layout-body borderbox">
         {
           vendors.length ? <VendorList onclick={onclickvendor} vendors={vendors} onAdd={onAddNewClick} /> :
-            <Message onAdd={onAddNewClick} />
+            <Message onAdd={onAddNewClick} title="No Vendors in the list" btnLabel="Add Vendor" />
         }
       </div>
     </Layout>

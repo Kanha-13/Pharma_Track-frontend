@@ -14,7 +14,7 @@ const Body = ({ onclick, vendors = [] }) => {
             <div onClick={()=>onclick(vendor._id)} style={{ paddingLeft: "5px", cursor: "pointer", borderBottom: "1px solid #D6D8E7", display: "flex", flexDirection: "row", width: "99%", justifyContent: "space-between", }}>
               <p style={{ textAlign: "left", width: "33.33%" }}>{vendor?.[VENDOR.VENDOR_NAME]}</p>
               <p style={{ textAlign: "left", width: "33.33%" }}>{vendor?.[VENDOR.VENDOR_MOBILE]}</p>
-              <p style={{ textAlign: "left", width: "33.33%",fontSize:"0.8em" }}>{vendor?.[VENDOR.VENDOR_ADDRESS]}</p>
+              <p style={{ textAlign: "left", width: "33.33%" }}>{vendor?.[VENDOR.VENDOR_ADDRESS]}</p>
             </div>
           )
         })

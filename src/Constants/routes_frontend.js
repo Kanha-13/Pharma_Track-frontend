@@ -23,7 +23,9 @@ export const ROUTES = {
   VENDORS: "vendors",
   VENDORS_INFO: "vendor/info?",
   PATIENTS: "patients",
-  DELIVERY: "delivery",
+  COMPANY_ADD: "company/add",
+  COMPANY_INFO: "company/info?",
+  COMPANY: "company",
   EXPIRY: "expiry",
 
   ADD_SETTLEMENT: "settlement",
