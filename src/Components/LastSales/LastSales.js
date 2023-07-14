@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { getLatestBills } from "../../apis/billing";
 import { BILLING } from "../../Schema/billing";
 import { toddmmyy } from "../../utils/DateConverter";
@@ -48,4 +48,4 @@ const LastSales = () => {
     </div>
   );
 }
-export default LastSales;
+export default memo(LastSales);

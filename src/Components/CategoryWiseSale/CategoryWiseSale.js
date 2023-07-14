@@ -26,6 +26,10 @@ const CategoryWiseSale = () => {
   return (
     <div className="dashboard-card" style={{ width: "34%", height: "22vh" }}>
       <p className="dashboard-title">Category wise Sales</p>
+      <select style={{ width: "1.3vw", border: "none", cursor: "pointer", marginLeft: "auto" }}>
+        <option style={{ fontSize: "1.1rem" }}>Yearly</option>
+        <option style={{ fontSize: "1.1rem" }}>Custom</option>
+      </select>
       <div style={{ width: "90%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Doughnut style={{ width: "100%" }} data={data} options={{
           responsive: true,

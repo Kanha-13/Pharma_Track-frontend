@@ -29,9 +29,8 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
       case KEY.ARROW_DOWN:
         event.preventDefault();
         if (currentIndex < batchList.length - 1)
-          setIndex(prev => prev + 1)
-        else
-          break;
+          setIndex((prev) => prev + 1)
+        break;
       case KEY.ARROW_UP:
         event.preventDefault();
         if (currentIndex > 0)

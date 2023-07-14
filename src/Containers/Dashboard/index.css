@@ -18,7 +18,7 @@
 .dashboard-title {
   margin: 0px;
   font-size: 1.1rem;
-  width: 90%;
+  width: 70%;
   color: #4a4a4a;
 }
 
@@ -33,6 +33,6 @@
 .dashboard-value {
   color: #000000;
   margin: 0px;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   width: 30%;
 }

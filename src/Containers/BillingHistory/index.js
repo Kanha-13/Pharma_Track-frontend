@@ -51,6 +51,20 @@ const BillingHistory = () => {
       return item[value]
   }
 
+  const getBg = (name, item) => {
+    if (name === "Status" && item.status === "REFUNDED") return "#c3d6ff"
+    else if (name === "Status" && item.status === "PENDING") return "#ffecc8"
+    else return ""
+  }
+  const getTextAlign = (name) => {
+    if (name === "Status") return "center"
+    else return "left"
+  }
+  const getBRadius = (name) => {
+    if (name === "Status") return "0.5vw"
+    else return "0px"
+  }
+
   const onEnter = (id) => {
     if (isCN)
       navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLING_CN_INFO + `id=${id}`)
@@ -126,7 +140,7 @@ const BillingHistory = () => {
                           return (
                             <tr id={`purchase-history-row${item._id}`} onClick={() => onEnter(item._id)} key={`${item._id}-stock-list`} className="purchase-history-row" style={{ height: "5vh", marginBottom: "3vh", backgroundColor: currentIndex === index ? "#d4d4d4" : "" }}>
                               {
-                                tableHeaders.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
+                                tableHeaders.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize, backgroundColor: getBg(head.name, item), borderRadius: getBRadius(head.name), textAlign: getTextAlign(head.name) }}>{getValue(item, head.value)}</td>)
                               }
                             </tr>
                           )

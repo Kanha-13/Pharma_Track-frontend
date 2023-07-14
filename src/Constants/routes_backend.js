@@ -12,6 +12,7 @@ export const API = {
   //product
   GET_ALL_PRODUCTS: "/products",
   GET_PRODUCT: "/product",
+  GET_PRODUCT_QUERY: "/product/query",
   UPDATE_PRODUCT: "/product",
   DELETE_PRODUCT: "/product",
   POST_PRODUCT: "/product",
@@ -61,5 +62,8 @@ export const API = {
 
   //patients
   GET_MEDICINE_HISTORY: "/patient/medicines",
+
+  //trade analysis
+  GET_TRADE_REPORT:"/trade/analysis"
 }
 

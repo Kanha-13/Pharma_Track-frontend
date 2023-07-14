@@ -9,6 +9,7 @@ const StateStore = (props) => {
   const [nearExpiryStocks, setNearExpiryStocks] = useState([])
   const [currentSettlement, setCurrentSettlementDetial] = useState({})
   const [settlements, setSettlements] = useState([])
+  const [tradeAnalysis, setTradeAnalysis] = useState()
 
   const states = {
     products,
@@ -18,6 +19,7 @@ const StateStore = (props) => {
     nearExpiryStocks,
     currentSettlement,
     settlements,
+    tradeAnalysis
   }
 
   const dispatch = (type, payload) => {
@@ -48,6 +50,10 @@ const StateStore = (props) => {
 
       case ACTION.SET_SETTLEMENTS:
         setSettlements(payload)
+        break;
+
+      case ACTION.SET_TRADE_ANALYSIS:
+        setTradeAnalysis(payload)
         break;
 
       default:

@@ -19,3 +19,22 @@ export const calcTotal = (cart, soldQnty, disc) => {
   //   return parseFloat(((mrp / pkg) * soldQnty) - ((mrp / pkg) * soldQnty) * disc / 100).toFixed(2)
   // return parseFloat((mrp * soldQnty) - (mrp * soldQnty) * disc / 100).toFixed(2)
 }
+
+export const calcProfit = (cart) => {
+  let profit = 0
+  console.log(cart)
+  cart.map((item, index) => {
+    let total = item.total //total of this particular product
+    let purchaseRate = item.purchaseRate
+    let soldQnty = item.soldQnty
+    let category = item.category
+
+    let pkg = item.pkg
+    if (category === "TABLET")
+      purchaseRate = purchaseRate / pkg
+
+    profit += total - (purchaseRate * soldQnty)
+  })
+
+  return (profit).toFixed(2)
+}

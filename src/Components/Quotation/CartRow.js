@@ -22,7 +22,7 @@ const CartRow = ({ isCN, item, onRemove, onchange, openProductLists, onchangedis
       {
         QuotationListHeader.map((head, ind) => {
           if (head.value === "itemName")
-            return <Card focus={true} require={true} w="19%" h="4%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph={head.ph} value={item[head.value]} onchange={onclicked} type="text" />
+            return <Card key={head + ind} focus={true} require={true} w="19%" h="4%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph={head.ph} value={item[head.value]} onchange={onclicked} type="text" />
           if (head.value === "soldQnty")
             return <Card key={head + ind} min={1} max={isCN ? "" : item.qnty} require={true} w={head.colSize} h="4%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph={head.ph} value={item[head.value]} onchange={(name, value) => changeqnt(value, item.qnty)} type="number" />
           if (head.value === "disc")

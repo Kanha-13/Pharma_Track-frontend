@@ -26,7 +26,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
 
     billInfo.billingDate = billingDate
     //below data when CN is mergend with the current bill
-    billInfo.cnId = cnData._id || ""
+    billInfo.cnId = cnData._id || null
     billInfo.creditAmt = cnData.amtRefund || 0
 
     try {

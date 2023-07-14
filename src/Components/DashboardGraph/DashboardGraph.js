@@ -182,12 +182,16 @@ const DashboardGraph = () => {
   return (
     <div id="graph" className="dashboard-card" style={{ position: cardStyle.position, height: cardStyle.height, width: cardStyle.width }}>
       <p className="dashboard-title" style={{ width: "40%" }}>Statistics</p>
-      {cardStyle.position === "absolute" && <img onClick={(e) => modalClick(e, 0)} style={{ position: "absolute", right: 5, cursor: "pointer", top: 5, marginLeft: "auto", height: "4%" }} src={MinimizeIcon} />}
-      <div style={{ marginLeft: "auto", width: "50%", display: "flex", alignItems: "center", justifyContent: "flex-end" }}>
+      {cardStyle.position === "absolute" && <img onClick={(e) => modalClick(e, 0)} style={{ position: "absolute", right: 0, cursor: "pointer", top: 5, marginLeft: "auto", height: "4%" }} src={MinimizeIcon} />}
+      <div style={{ marginLeft: "auto", width: "15vw", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
         <button onClick={() => onclickbtn("sales")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("sales", show.sales), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("sales", show.sales), backgroundColor: getBg("sales", show.sales) }}>Sales</button>
         <button onClick={() => onclickbtn("purchase")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("purchase", show.purchase), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("purchase", show.purchase), backgroundColor: getBg("purchase", show.purchase) }}>Purchase</button>
-        <button onClick={() => onclickbtn("profit")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("profit", show.profit), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("profit", show.profit), backgroundColor: getBg("profit", show.profit) }}>Profit</button>
+        <button onClick={() => onclickbtn("profit")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("profit", show.profit), marginRight: "0vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("profit", show.profit), backgroundColor: getBg("profit", show.profit) }}>Profit</button>
       </div>
+      <select style={{ width: "1.3vw", border: "none", cursor: "pointer", marginLeft: "3vw" }}>
+        <option style={{ fontSize: "1.1rem" }}>Yearly</option>
+        <option style={{ fontSize: "1.1rem" }}>Custom</option>
+      </select>
       <div style={{ width: "100%", height: "90%" }}>
         <LineChart chartData={chartData} />
       </div>

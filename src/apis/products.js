@@ -6,6 +6,11 @@ export const getAllProducts = async () => {
   return res.data
 }
 
+export const getProductQuery = async (query) => {
+  const res = await axios_instance.get(API.GET_PRODUCT_QUERY + "?" + `${query.name}=${query.value}`)
+  return res.data
+}
+
 export const getProduct = async (pId) => {
   const res = await axios_instance.get(`${API.GET_PRODUCT}?item=${pId}`)
   return res.data
@@ -21,8 +26,8 @@ export const addProdManually = async (data) => {
   return res.data
 }
 
-export const udpateProduct = async (pId,data) => {
-  const res = await axios_instance.patch(`${API.UPDATE_PRODUCT}?item=${pId}`,data)
+export const udpateProduct = async (pId, data) => {
+  const res = await axios_instance.patch(`${API.UPDATE_PRODUCT}?item=${pId}`, data)
   return res.data
 }
 

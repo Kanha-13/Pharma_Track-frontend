@@ -91,6 +91,7 @@ const Billing = () => {
         itemName: selectedPrduct.itemName,
         batch: stock.batch,
         mrp: stock.mrp,
+        purchaseRate: stock.netRate,
         stockId: stock._id,
         category: selectedPrduct.category,
         expDate: stock.expDate,

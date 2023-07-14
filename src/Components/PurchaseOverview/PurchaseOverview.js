@@ -2,8 +2,12 @@ import SalesCountIcon from "../../images/icons/salesCount.png"
 import Growth from "../../images/icons/growth.png"
 import coin from "../../images/icons/coin.png"
 import ProfitGrowth from "../../images/icons/profitGrowth.png"
+import { memo } from "react"
+import { useStore } from "../../Store/store"
 
 const PurchaseOverview = () => {
+  const { tradeAnalysis } = useStore()
+
   const Card = ({ img, bgColor, label, value }) => {
     return (
       <div style={{ display: "flex", width: "50%", height: "35%", margin: "auto" }}>
@@ -18,13 +22,17 @@ const PurchaseOverview = () => {
     );
   }
   return (
-    <div className="dashboard-card" style={{ width: "32%", height: "16vh" }}>
+    <div className="dashboard-card" style={{ width: "32%", height: "16vh", position: "relative" }}>
       <p className="dashboard-title">Purchase Overview</p>
-      <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Sales" value={500} />
-      <Card img={Growth} bgColor="#d5ffd5" label="Renvenue" value={500} />
-      <Card img={coin} bgColor="#ffffbc" label={"Avg. amt"} value={500} />
-      <Card img={ProfitGrowth} bgColor="#ffecca" label={"Profit"} value={500} />
+      <select style={{ width: "1.3vw", border: "none", cursor: "pointer", marginLeft: "auto" }}>
+        <option style={{ fontSize: "1.1rem" }}>Yearly</option>
+        <option style={{ fontSize: "1.1rem" }}>Custom</option>
+      </select>
+      <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Purchase" value={tradeAnalysis?.tpc} />
+      <Card img={Growth} bgColor="#d5ffd5" label="Investment" value={tradeAnalysis?.ti} />
+      <Card img={coin} bgColor="#ffffbc" label={"Avg. amt"} value={tradeAnalysis?.apa} />
+      <Card img={ProfitGrowth} bgColor="#ffecca" label={"Credit"} value={tradeAnalysis?.tpcr} />
     </div>
   );
 }
-export default PurchaseOverview;
+export default memo(PurchaseOverview);

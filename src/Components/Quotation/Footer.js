@@ -3,6 +3,7 @@ import KEY from "../../Constants/keyCode"
 import Card from "../ManualAddProduct/Card"
 import ChooseCN from "./ChooseCN"
 import { getCNInfo } from "../../apis/billing"
+import { calcProfit } from "../../utils/billing"
 
 const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
   const [patientName, setPatient] = useState("")
@@ -38,6 +39,7 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
     alert("happy shopping")
 
     if (carts.length) {
+      const profit = calcProfit(carts)
       const billDetail = {
         patientName: patientName,
         mobileNumber: mobileNumber,
@@ -49,7 +51,8 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
         amtDue: grandTotal - amtPaid,
         discount: discount,
         roundoff: roundOff,
-        creditAmt: creditAmt
+        creditAmt: creditAmt,
+        profit: profit - (roundOff * -1)
       }
       if (isCN) {
         billDetail.amtRefund = amtPaid
