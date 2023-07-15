@@ -3,6 +3,7 @@ export const ProductCategories = [
   { value: "BOTTLE", label: "BOTTLE" },
   { value: "TUBE", label: "TUBE" },
   { value: "INJ_VIAL", label: "INJECTION VIAL" },
+  { value: "UNIT", label: "UNIT" },
 ]
 
 export const ProductParentCategories = [

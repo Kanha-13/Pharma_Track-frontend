@@ -1,22 +1,27 @@
-import Chart from "chart.js/auto";
 import { CategoryScale } from "chart.js";
-import { useState } from "react";
-import { Data1, Data2, Data3 } from "./Data";
-import { Line } from "react-chartjs-2";
+import { useEffect, useState } from "react";
+import { getBg, getBorder, getColor } from "./utils";
+import { useStore } from "../../Store/store";
+
+import Chart from "chart.js/auto";
 import MinimizeIcon from "../../images/icons/minimize1.png"
 import SelectDuration from "./SelectDuration";
+import LineChart from "./LineChart";
+
 Chart.register(CategoryScale);
 
 const DashboardGraph = ({ duration, onchange }) => {
+  const { tradeStatistics } = useStore();
   const [cardStyle, setCardStyle] = useState({
     height: "26vh",
     width: "96%",
     position: "relative"
   })
+
   const [data1, setData1] = useState({
     label: "",
     fill: true,
-    data: Data1.map((data) => data.userGain),
+    data: [],
     backgroundColor: (context) => {
       const ctx = context.chart.ctx;
       const gradient = ctx.createLinearGradient(0, 0, 0, 200);
@@ -28,10 +33,11 @@ const DashboardGraph = ({ duration, onchange }) => {
     borderWidth: 2,
     lineTention: 0.5,
   },)
+
   const [data2, setData2] = useState({
     label: "",
     fill: true,
-    data: Data2.map((data) => data.userGain),
+    data: [],
     backgroundColor: (context) => {
       const ctx = context.chart.ctx;
       const gradient = ctx.createLinearGradient(0, 0, 0, 200);
@@ -43,10 +49,11 @@ const DashboardGraph = ({ duration, onchange }) => {
     borderWidth: 2,
     lineTention: 0.5,
   })
+
   const [data3, setData3] = useState({
     label: "",
     fill: true,
-    data: Data3.map((data) => data.userGain),
+    data: [],
     backgroundColor: (context) => {
       const ctx = context.chart.ctx;
       const gradient = ctx.createLinearGradient(0, 0, 0, 200);
@@ -58,6 +65,7 @@ const DashboardGraph = ({ duration, onchange }) => {
     borderWidth: 2,
     lineTention: 0.5,
   })
+
   const [show, setShow] = useState({ sales: true, purchase: true, profit: true })
 
   const modalClick = (e, mode) => {
@@ -71,48 +79,9 @@ const DashboardGraph = ({ duration, onchange }) => {
         position: "relative"
       })
   }
-  const LineChart = ({ chartData }) => {
-    return (
-      <div onClick={(e) => modalClick(e, 1)} style={{ cursor: "pointer", width: "100%", height: "100%" }}>
-        <Line
-          data={chartData}
-          style={{ width: "100%", height: "100%" }}
-          options={{
-            maintainAspectRatio: false,
-            elements: {
-              point: {
-                radius: 1
-              }
-            },
-            plugins: {
-              title: {
-                display: true,
-                text: "Sales - Purchase - Profit"
-              },
-              legend: {
-                display: false,
-              },
-            },
-            scales: {
-              x: {
-                grid: {
-                  display: false,
-                },
-              },
-              y: {
-                grid: {
-                  display: true,
-                },
-              },
-            },
-            responsive: true,
-          }}
-        />
-      </div>
-    );
-  }
+
   const [chartData, setChartData] = useState({
-    labels: Data1.map((data) => data.year),
+    labels: [],
     datasets: [data1, data2, data3]
   });
 
@@ -143,42 +112,17 @@ const DashboardGraph = ({ duration, onchange }) => {
     }
   }
 
-  const getColor = (name, value) => {
-    if (value)
-      switch (name) {
-        case "sales":
-          return "#5e48e8"
-        case "purchase":
-          return "#00cefd"
-        default:
-          return "#fcb684"
-      }
-    else return "gray"
-  }
-  const getBorder = (name, value) => {
-    if (value)
-      switch (name) {
-        case "sales":
-          return "#5e48e8"
-        case "purchase":
-          return "#00cefd"
-        default:
-          return "#fcb684"
-      }
-    else return "gray"
-  }
-  const getBg = (name, value) => {
-    if (value)
-      switch (name) {
-        case "sales":
-          return "#ebe8fc"
-        case "purchase":
-          return "#dff9ff"
-        default:
-          return "#fff9f5"
-      }
-    else return "#f5f5f5"
-  }
+  useEffect(() => {
+    const d1 = { ...data1, data: tradeStatistics?.map((data) => data.sales) }
+    const d2 = { ...data2, data: tradeStatistics?.map((data) => data.purchase) }
+    const d3 = { ...data3, data: tradeStatistics?.map((data) => data.profit) }
+
+    setChartData({ datasets: [d1, d2, d3], labels: tradeStatistics?.map((data) => data.xLabel) })
+
+    setData1(d1)
+    setData2(d2)
+    setData3(d3)
+  }, [tradeStatistics])
 
   return (
     <div id="graph" className="dashboard-card" style={{ position: cardStyle.position, height: cardStyle.height, width: cardStyle.width }}>
@@ -191,7 +135,7 @@ const DashboardGraph = ({ duration, onchange }) => {
       </div>
       <SelectDuration value={duration} onchange={onchange} />
       <div style={{ width: "100%", height: "90%" }}>
-        <LineChart chartData={chartData} />
+        <LineChart chartData={chartData} modalClick={modalClick} />
       </div>
     </div>
   );

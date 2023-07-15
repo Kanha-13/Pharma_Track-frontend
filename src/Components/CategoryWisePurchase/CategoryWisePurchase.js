@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Doughnut } from 'react-chartjs-2';
 import { useStore } from '../../Store/store';
-import { calculateCategoryPercentage } from '../../utils/billing';
 import SelectDuration from '../DashboardGraph/SelectDuration';
+import { calculateCategoryPercentage } from '../DashboardGraph/utils';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

@@ -11,6 +11,7 @@ const StateStore = (props) => {
   const [currentSettlement, setCurrentSettlementDetial] = useState({})
   const [settlements, setSettlements] = useState([])
   const [tradeAnalysis, setTradeAnalysis] = useState()
+  const [tradeStatistics, setTradeStatistics] = useState()
 
   const states = {
     products,
@@ -21,6 +22,7 @@ const StateStore = (props) => {
     currentSettlement,
     settlements,
     tradeAnalysis,
+    tradeStatistics,
     companies
   }
 
@@ -56,6 +58,10 @@ const StateStore = (props) => {
 
       case ACTION.SET_TRADE_ANALYSIS:
         setTradeAnalysis(payload)
+        break;
+
+      case ACTION.SET_TRADE_STATISTICS:
+        setTradeStatistics(payload)
         break;
 
       case ACTION.SET_COMPANIES:
