@@ -3,7 +3,7 @@ import SearchBar from "../SearchBar/SearchBar";
 
 import "./productslist.css"
 import { checkForScroll, scrollElement } from "../../utils/dom";
-import { getmmyy } from "../../utils/DateConverter";
+import { getmmyy, toddmmyy } from "../../utils/DateConverter";
 
 const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = [], onclick, onchange }) => {
   const [search, setSearch] = useState("");
@@ -42,6 +42,8 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = 
   const getValue = (item, value) => {
     if (value === "expDate")
       return getmmyy(item[value])
+    if (value === "date")
+      return toddmmyy(item[value])
     if (value === "gst")
       return item[value] + " %"
     if (item.category === "TABLET") {

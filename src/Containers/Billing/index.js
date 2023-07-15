@@ -94,6 +94,7 @@ const Billing = () => {
         purchaseRate: stock.netRate,
         stockId: stock._id,
         category: selectedPrduct.category,
+        parentCategory: selectedPrduct.parentCategory,
         expDate: stock.expDate,
         pkg: selectedPrduct.pkg,
         soldQnty: "",

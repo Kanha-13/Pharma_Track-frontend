@@ -38,12 +38,29 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
         break;
       case KEY.ENTER:
         event.preventDefault();
-        onEnter(batchList[currentIndex])
+        handleSelect(null);
         break;
       default:
         break;
     }
   };
+
+  const handleSelect = (item) => {
+    if (item) {
+      const isStockSufficient = item.qnty
+      if (isStockSufficient)
+        onEnter(item)
+      else
+        alert("Insufficient stock")
+    }
+    else {
+      const isStockSufficient = batchList[currentIndex].qnty
+      if (isStockSufficient)
+        onEnter(batchList[currentIndex])
+      else
+        alert("Insufficient stock")
+    }
+  }
 
   useEffect(() => {
     if (!batchList.length && pId)
@@ -70,7 +87,7 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
                 {
                   batchList.map((item, index) => {
                     return (
-                      <tr id="stock-data-container" autoFocus={currentIndex === index} onClick={() => onEnter(item)} key={`${item._id}-stock-list`} className="stock-batch-row" style={{ cursor: "pointer", backgroundColor: currentIndex === index ? "#ededed" : "", height: "5vh", marginBottom: "3vh" }}>
+                      <tr id="stock-data-container" autoFocus={currentIndex === index} onClick={() => handleSelect(item)} key={`${item._id}-stock-list`} className="stock-batch-row" style={{ cursor: "pointer", backgroundColor: currentIndex === index ? "#ededed" : "", height: "5vh", marginBottom: "3vh" }}>
                         {
                           StockInfoHeader.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
                         }

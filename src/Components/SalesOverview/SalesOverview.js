@@ -3,9 +3,10 @@ import Growth from "../../images/icons/growth.png"
 import coin from "../../images/icons/coin.png"
 import ProfitGrowth from "../../images/icons/profitGrowth.png"
 import { useStore } from "../../Store/store"
-import { memo, useEffect } from "react"
+import { memo } from "react"
+import SelectDuration from "../DashboardGraph/SelectDuration"
 
-const SalesOverview = () => {
+const SalesOverview = ({ duration, onchange }) => {
   const { tradeAnalysis } = useStore()
   const Card = ({ img, bgColor, label, value }) => {
     return (
@@ -24,11 +25,7 @@ const SalesOverview = () => {
   return (
     <div className="dashboard-card" style={{ width: "32%", height: "16vh" }}>
       <p className="dashboard-title">Sales Overview</p>
-      <select style={{ width: "1.3vw", border: "none", cursor: "pointer", marginLeft: "auto" }}>
-        <option style={{ fontSize: "1.1rem" }}>Month</option>
-        <option style={{ fontSize: "1.1rem" }}>Year</option>
-        <option style={{ fontSize: "1.1rem" }}>Custom</option>
-      </select>
+      <SelectDuration value={duration} onchange={onchange} />
       <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Sales" value={tradeAnalysis?.tsc} />
       <Card img={Growth} bgColor="#d5ffd5" label="Renvenue" value={tradeAnalysis?.tr} />
       <Card img={coin} bgColor="#ffffbc" label={"Credit"} value={tradeAnalysis?.tscr} />

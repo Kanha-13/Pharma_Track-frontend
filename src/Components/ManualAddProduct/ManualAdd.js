@@ -35,7 +35,7 @@ const ManualAdd = () => {
   }
 
   const formatCompanieslist = (companies) => {
-    let comp = [];
+    let comp = [{ label: "Select Company", value: "" }];
     companies.map((company) => {
       comp.push({ label: company.companyName, value: company.companyName })
     })

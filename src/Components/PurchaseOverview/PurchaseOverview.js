@@ -4,8 +4,9 @@ import coin from "../../images/icons/coin.png"
 import ProfitGrowth from "../../images/icons/profitGrowth.png"
 import { memo } from "react"
 import { useStore } from "../../Store/store"
+import SelectDuration from "../DashboardGraph/SelectDuration"
 
-const PurchaseOverview = () => {
+const PurchaseOverview = ({duration,onchange}) => {
   const { tradeAnalysis } = useStore()
 
   const Card = ({ img, bgColor, label, value }) => {
@@ -24,10 +25,7 @@ const PurchaseOverview = () => {
   return (
     <div className="dashboard-card" style={{ width: "32%", height: "16vh", position: "relative" }}>
       <p className="dashboard-title">Purchase Overview</p>
-      <select style={{ width: "1.3vw", border: "none", cursor: "pointer", marginLeft: "auto" }}>
-        <option style={{ fontSize: "1.1rem" }}>Yearly</option>
-        <option style={{ fontSize: "1.1rem" }}>Custom</option>
-      </select>
+      <SelectDuration value={duration} onchange={onchange} />
       <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Purchase" value={tradeAnalysis?.tpc} />
       <Card img={Growth} bgColor="#d5ffd5" label="Investment" value={tradeAnalysis?.ti} />
       <Card img={coin} bgColor="#ffffbc" label={"Avg. amt"} value={tradeAnalysis?.apa} />

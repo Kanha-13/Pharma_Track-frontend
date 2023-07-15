@@ -7,17 +7,17 @@ import SelectDuration from '../DashboardGraph/SelectDuration';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-const CategoryWiseSale = ({duration,onchange}) => {
+const CategoryWisePurchase = ({duration,onchange}) => {
   const { tradeAnalysis } = useStore()
-  const [categorywisesale, setCategorywisesale] = useState({})
+  const [categorywisepurchase, setCategorywisepurchase] = useState({})
 
   const data = {
     labels: ['ALLOPATHIC', 'AYURVEDIC', 'GENERAL', 'GENERIC', 'SURGICAL'],
     datasets: [
       {
         data: [
-          categorywisesale.allopathic, categorywisesale.ayurvedic,
-          categorywisesale.general, categorywisesale.generic, categorywisesale.surgical
+          categorywisepurchase.allopathic, categorywisepurchase.ayurvedic,
+          categorywisepurchase.general, categorywisepurchase.generic, categorywisepurchase.surgical
         ],
         label: '',
         backgroundColor: [
@@ -34,10 +34,10 @@ const CategoryWiseSale = ({duration,onchange}) => {
 
 
   useEffect(() => {
-    if (tradeAnalysis?.categoryWiseSale) {
-      const { allopathicSale, ayurvedicSale, generalSale, genericSale, surgicalSale } = tradeAnalysis.categoryWiseSale
-      const { allopathicPercent, ayurvedicPercent, generalPercent, genericPercent, surgicalPercent } = calculateCategoryPercentage(allopathicSale, ayurvedicSale, generalSale, genericSale, surgicalSale)
-      setCategorywisesale({
+    if (tradeAnalysis?.categoryWisePurchase) {
+      const { allopathicPurchase, ayurvedicPurchase, generalPurchase, genericPurchase, surgicalPurchase } = tradeAnalysis.categoryWisePurchase
+      const { allopathicPercent, ayurvedicPercent, generalPercent, genericPercent, surgicalPercent } = calculateCategoryPercentage(allopathicPurchase, ayurvedicPurchase, generalPurchase, genericPurchase, surgicalPurchase)
+      setCategorywisepurchase({
         allopathic: allopathicPercent,
         ayurvedic: ayurvedicPercent,
         general: generalPercent,
@@ -48,7 +48,7 @@ const CategoryWiseSale = ({duration,onchange}) => {
   }, [tradeAnalysis])
   return (
     <div className="dashboard-card" style={{ width: "34%", height: "22vh" }}>
-      <p className="dashboard-title">Category wise Sales</p>
+      <p className="dashboard-title">Category wise Purchase</p>
       <SelectDuration value={duration} onchange={onchange} />
       <div style={{ width: "90%", height: "80%", display: "flex", justifyContent: "center", alignItems: "center" }}>
         <Doughnut style={{ width: "100%" }} data={data} options={{
@@ -67,14 +67,14 @@ const CategoryWiseSale = ({duration,onchange}) => {
         }} />
       </div>
       <div style={{ width: "10%", height: "60%", margin: "auto", paddingBottom: "1.5vh", display: "flex", flexDirection: "column", justifyContent: 'space-between' }}>
-        <p className='dashboard-label'>{categorywisesale?.allopathic}%</p>
-        <p className='dashboard-label'>{categorywisesale?.ayurvedic}%</p>
-        <p className='dashboard-label'>{categorywisesale?.general}%</p>
-        <p className='dashboard-label'>{categorywisesale?.generic}%</p>
-        <p className='dashboard-label'>{categorywisesale?.surgical}%</p>
+        <p className='dashboard-label'>{categorywisepurchase?.allopathic}%</p>
+        <p className='dashboard-label'>{categorywisepurchase?.ayurvedic}%</p>
+        <p className='dashboard-label'>{categorywisepurchase?.general}%</p>
+        <p className='dashboard-label'>{categorywisepurchase?.generic}%</p>
+        <p className='dashboard-label'>{categorywisepurchase?.surgical}%</p>
       </div>
     </div>
   );
 }
 
-export default CategoryWiseSale;
+export default CategoryWisePurchase;

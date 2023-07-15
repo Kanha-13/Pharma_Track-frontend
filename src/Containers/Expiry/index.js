@@ -14,11 +14,11 @@ import './index.css'
 import { ROUTES } from "../../Constants/routes_frontend";
 
 const Expiry = () => {
-  const { expiredStocks, nearExpiryStocks, dispatch, currentSettlement } = useStore();
+  const { expiredStocks, nearExpiryStocks, dispatch } = useStore();
   const navigate = useNavigate();
+  const [alertStock, setAlertStock] = useState([])
   const [isMenuOpen, setMenu] = useState(false);
   const [currentStock, setCurrentStock] = useState({})
-  const [search, setSearch] = useState("");
 
   const fetchExpiredStocks = async () => {
     const queryForExpired = { from: "", to: new Date() }
@@ -50,6 +50,7 @@ const Expiry = () => {
           status: "Near expiry"
         }
       })
+      setAlertStock([...expired,...nearExpiry])
       dispatch(ACTION.SET_EXPIRED_STOCKS, expired)
       dispatch(ACTION.SET_NEAR_EXPIRY_STOCKS, nearExpiry)
     } catch (error) {
@@ -57,8 +58,9 @@ const Expiry = () => {
     }
   }
 
-  const onchange = (value) => {
-    setSearch(value)
+  const onchange = (val) => {
+    const filtered = [...expiredStocks,...nearExpiryStocks].filter((stock) => stock.itemName.includes((val).toUpperCase()))
+    setAlertStock(filtered)
   }
 
   const onclickproduct = (stockId) => {
@@ -93,25 +95,27 @@ const Expiry = () => {
   useEffect(() => {
     if (expiredStocks.length === 0 && nearExpiryStocks.length === 0)
       fetchExpiredStocks();
+    else
+      setAlertStock([...expiredStocks,...nearExpiryStocks])
   }, [])
 
   return (
     <Layout>
       <div id="expiry-container" className="layout-body borderbox">
-        <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "5vh" }}>Expiry</p>
-        <div style={{ marginBottom: "2%", display: "flex", width: "100%", height: "10%", color: "#ffffff", justifyContent: "left", alignItems: "center" }}>
-          <div style={{ marginRight: "3vw", display: "flex", alignItems: "center", backgroundColor: "#3d3d3d", borderRadius: "0.4vw", padding: "1vh 1vw" }}>
-            <p style={{ margin: "0px", fontWeight: "bold" }}>Expired: </p>
+        <div style={{ width: "100%", height: "5vh", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "5vh" }}>
+          <p style={{ width: "60%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left" }}>Expiry</p>
+          <div style={{ width: "10%", color: "#3d3d3d", backgroundColor: "#cfcfcf", marginRight: "3vw", display: "flex", alignItems: "center", border: "1px solid #3d3d3d", borderRadius: "0.4vw", padding: "1vh 1vw" }}>
+            <p style={{ margin: "0px", fontWeight: "bold" }}>Expired:</p>
             <p style={{ margin: "0px" }}> {expiredStocks.length || 0}</p>
           </div>
-          <div style={{ marginRight: "3vw", display: "flex", alignItems: "center", backgroundColor: "#df4d4d", borderRadius: "0.4vw", padding: "1vh 1vw" }}>
+          <div style={{ width: "10%", color: "#df4d4d", backgroundColor: "#ffe4e4", marginRight: "3vw", display: "flex", alignItems: "center", border: "1px solid #df4d4d", borderRadius: "0.4vw", padding: "1vh 1vw" }}>
             <p style={{ margin: "0px", fontWeight: "bold" }}>Expiry soon: </p>
             <p style={{ margin: "0px" }}> {nearExpiryStocks.length || 0}</p>
           </div>
-          <button onClick={tosettlements} style={{ backgroundColor: "#5e48e8", border: "none", marginLeft: "auto", cursor: "pointer", width: "25vh", fontSize: "1.1rem", height: "5vh", color: "#ffffff", borderRadius: "0.4vw" }}>Pending Settlement</button>
+          <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={tosettlements}>Pending Settlement</button>
         </div>
         <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
-          onclick={onclickproduct} header={ExpiryListHeader} data={[...nearExpiryStocks, ...expiredStocks]} />
+          onclick={onclickproduct} header={ExpiryListHeader} data={alertStock} />
         {isMenuOpen ? <ExpiryMenu stockDetail={currentStock} onSettle={handleReturnForSettlement} onClose={handleMenuClose} onDelete={handleStockDelete} /> : <></>}
       </div>
     </Layout>

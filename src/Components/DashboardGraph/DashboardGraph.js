@@ -4,13 +4,14 @@ import { useState } from "react";
 import { Data1, Data2, Data3 } from "./Data";
 import { Line } from "react-chartjs-2";
 import MinimizeIcon from "../../images/icons/minimize1.png"
+import SelectDuration from "./SelectDuration";
 Chart.register(CategoryScale);
 
-const DashboardGraph = () => {
+const DashboardGraph = ({ duration, onchange }) => {
   const [cardStyle, setCardStyle] = useState({
     height: "26vh",
     width: "96%",
-    position: "inherit"
+    position: "relative"
   })
   const [data1, setData1] = useState({
     label: "",
@@ -67,7 +68,7 @@ const DashboardGraph = () => {
       setCardStyle({
         height: "26vh",
         width: "96%",
-        position: "inherit"
+        position: "relative"
       })
   }
   const LineChart = ({ chartData }) => {
@@ -188,10 +189,7 @@ const DashboardGraph = () => {
         <button onClick={() => onclickbtn("purchase")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("purchase", show.purchase), marginRight: "1vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("purchase", show.purchase), backgroundColor: getBg("purchase", show.purchase) }}>Purchase</button>
         <button onClick={() => onclickbtn("profit")} style={{ borderRadius: "0.4vw", padding: "0.1rem 0.6rem", color: getColor("profit", show.profit), marginRight: "0vw", cursor: "pointer", borderWidth: "2px", borderColor: getBorder("profit", show.profit), backgroundColor: getBg("profit", show.profit) }}>Profit</button>
       </div>
-      <select style={{ width: "1.3vw", border: "none", cursor: "pointer", marginLeft: "3vw" }}>
-        <option style={{ fontSize: "1.1rem" }}>Yearly</option>
-        <option style={{ fontSize: "1.1rem" }}>Custom</option>
-      </select>
+      <SelectDuration value={duration} onchange={onchange} />
       <div style={{ width: "100%", height: "90%" }}>
         <LineChart chartData={chartData} />
       </div>

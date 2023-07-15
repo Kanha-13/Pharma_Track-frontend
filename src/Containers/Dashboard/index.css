@@ -6,6 +6,7 @@
 }
 
 .dashboard-card {
+  position: relative;
   border-radius: 0.8vw;
   background-color: #ffffff;
   display: flex;

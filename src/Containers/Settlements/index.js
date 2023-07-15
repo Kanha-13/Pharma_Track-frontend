@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../../Components/Layout/Layout";
 import { useStore } from "../../Store/store";
 import { ACTION } from "../../Store/constants";
@@ -6,10 +6,11 @@ import { getSettlements } from "../../apis/settlement";
 
 import './index.css'
 import { SettlementsListHeader } from "../../Schema/settlement";
-import { toddmmyy } from "../../utils/DateConverter";
+import ProductsList from "../../Components/ProductsList/ProductsList";
 
 const Settlements = () => {
   const { settlements, dispatch } = useStore();
+  const [settlementslist, setSettlementslist] = useState([])
   const fetchSettlements = async () => {
     try {
       let res = await getSettlements() || [];
@@ -29,19 +30,27 @@ const Settlements = () => {
           date: row.date
         }
       })
+      setSettlementslist(res)
       dispatch(ACTION.SET_SETTLEMENTS, res)
     } catch (error) {
       console.log(error)
+      alert("unable to get settlements list!")
     }
   }
-  const getValue = (item, value) => {
-    if (value === "date")
-      return toddmmyy(item[value])
-    else
-      return item[value]
+  // const getValue = (item, value) => {
+  //   if (value === "date")
+  //     return toddmmyy(item[value])
+  //   else
+  //     return item[value]
+  // }
+
+  const onchange = (val) => {
+    const filtered = settlements.filter((prod) => prod.itemName.includes((val).toUpperCase()))
+    setSettlementslist(filtered)
   }
+
   useEffect(() => {
-    if (settlements.length > 0) { }
+    if (settlements.length > 0) setSettlementslist(settlements)
     else fetchSettlements()
   }, [])
 
@@ -49,7 +58,7 @@ const Settlements = () => {
     <Layout>
       <div id="settlements-container" className="layout-body borderbox">
         <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "5vh" }}>Settlements</p>
-        <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
+        {/* <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
           <thead style={{
             backgroundColor: "#ebe8fc", height: "5vh",
             marginBottom: "10px", borderBottom: "1px solid gray"
@@ -78,7 +87,9 @@ const Settlements = () => {
                 </tbody>
               </table>
             </div> : <></>
-        }
+        } */}
+        <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
+          onclick={() => { }} header={SettlementsListHeader} data={settlementslist} />
       </div>
     </Layout>
   );
