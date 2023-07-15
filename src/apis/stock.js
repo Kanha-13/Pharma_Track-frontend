@@ -25,3 +25,8 @@ export const deleteStock = async (stockId) => {// it won't reduce stock, rather 
   const res = await axios_instance.delete(API.DELETE_STOCK + stockId)
   return res.data
 }
+
+export const getStocksValuation = async () => {
+  const res = await axios_instance.get(API.GET_STOCKS_VALUATION)
+  return res.data
+}

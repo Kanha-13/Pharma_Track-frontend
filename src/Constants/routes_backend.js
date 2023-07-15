@@ -24,6 +24,7 @@ export const API = {
   ADD_STOCK: '/stock',
   UPDATE_STOCK: '/stock/',
   DELETE_STOCK: '/stock/',
+  GET_STOCKS_VALUATION:"/stocks/valuation",
 
   //vendor
   GET_VENDORS: "/vendors",
