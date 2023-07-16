@@ -29,7 +29,7 @@ const OTP = ({ onSwitch, data = {} }) => {
     try {
       const res = await handleVerifyOTP(Data)
       if (res.token) {
-        localStorage.setItem(process.env.REACT_APP_SESSION, res.token)
+        sessionStorage.setItem(process.env.REACT_APP_SESSION, res.token)
         navigate(ROUTES.PROTECTED_ROUTER + ROUTES.DASHBOARD, { replace: true });
       } else {
         alert("Something wrong in the server!")

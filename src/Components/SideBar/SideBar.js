@@ -29,7 +29,7 @@ const SideBar = ({ onswitch }) => {
   }
   const onlogout = () => {
     alert("All unsaved changes are lost!")
-    localStorage.clear(process.env.REACT_APP_SESSION)
+    sessionStorage.clear(process.env.REACT_APP_SESSION)
     navigate(ROUTES.PUBLIC_ROUTER + ROUTES.LOGIN, { replace: true })
     handleLogout();
   }

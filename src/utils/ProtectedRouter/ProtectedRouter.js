@@ -11,7 +11,7 @@ const ProtectedRouter = () => {
   const navigate = useNavigate()
 
   const checkSession = () => {
-    const session = localStorage.getItem(process.env.REACT_APP_SESSION)
+    const session = sessionStorage.getItem(process.env.REACT_APP_SESSION)
     if (session) return true
     else return false
   }
