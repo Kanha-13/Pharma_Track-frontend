@@ -24,6 +24,7 @@ export const ROUTES = {
   VENDORS_INFO: "vendor/info?",
   VENDORS_BILL_PAYMENT: "vendor/billpayment",
   PATIENTS: "patients",
+  PATIENT_BILL_PAYMENT: "patient/billpayment",
   COMPANY_ADD: "company/add",
   COMPANY_INFO: "company/info?",
   COMPANY: "company",

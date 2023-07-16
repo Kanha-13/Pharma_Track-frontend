@@ -47,7 +47,6 @@ const Dashboard = () => {
           statistics = generateSatistics(res.data.resetAllMonth, "monthly")
         }
         report = generateTradeAnalysis(sum_of_all_month)
-        console.log(statistics)
       }
       dispatch(ACTION.SET_TRADE_ANALYSIS, report)
       dispatch(ACTION.SET_TRADE_STATISTICS, statistics)

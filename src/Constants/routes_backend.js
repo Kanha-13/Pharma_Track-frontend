@@ -24,7 +24,7 @@ export const API = {
   ADD_STOCK: '/stock',
   UPDATE_STOCK: '/stock/',
   DELETE_STOCK: '/stock/',
-  GET_STOCKS_VALUATION:"/stocks/valuation",
+  GET_STOCKS_VALUATION: "/stocks/valuation",
 
   //vendor
   GET_VENDORS: "/vendors",
@@ -64,15 +64,16 @@ export const API = {
 
   //patients
   GET_MEDICINE_HISTORY: "/patient/medicines",
+  PATIENT_BILL_PAYMENT: '/patient/bill/payment',
 
   //trade analysis
-  GET_TRADE_REPORT:"/trade/analysis",
+  GET_TRADE_REPORT: "/trade/analysis",
 
   //company
-  ADD_COMPANY:"/company",
-  GET_COMPANY:"/company/",
-  UPDATE_COMPANY:"/company/",
-  DELETE_COMPANY:"/company/",
-  GET_COMPANYS:"/companys",
+  ADD_COMPANY: "/company",
+  GET_COMPANY: "/company/",
+  UPDATE_COMPANY: "/company/",
+  DELETE_COMPANY: "/company/",
+  GET_COMPANYS: "/companys",
 }
 

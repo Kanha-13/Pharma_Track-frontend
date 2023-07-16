@@ -11,7 +11,7 @@ export const checkoutBill = async (data) => {
   return res.data
 }
 
-export const getBillingHistory = async (mobileNumber = "", invoiceNo = "", patientName = "", prescribedBy = "", dateRange = {}) => {
+export const getBillingHistory = async (mobileNumber = "", invoiceNo = "", patientName = "", prescribedBy = "", dateRange = {}, creditonly) => {
   let searchQuery = "?"
   if (patientName)
     searchQuery += `patientName=${patientName}&`
@@ -22,7 +22,9 @@ export const getBillingHistory = async (mobileNumber = "", invoiceNo = "", patie
   if (invoiceNo)
     searchQuery += `invoiceNo=${invoiceNo}&`
   if (dateRange.from && dateRange.to)
-    searchQuery += `from=${dateRange.from}&to=${dateRange.to}`
+    searchQuery += `from=${dateRange.from}&to=${dateRange.to}&`
+  if (creditonly)
+    searchQuery += "creditbill=true"
   const res = await axios_instance.get(API.GET_BILLING_HISTORY + searchQuery)//using product id because fetching info of stock for a particular product
   return res.data
 }
@@ -74,5 +76,10 @@ export const deleteCN = async (id) => {
 
 export const getLatestBills = async (field, count) => {
   const res = await axios_instance.get(API.GET_LAST_BILLING + "?" + `field=${field}&count=${count}`)
+  return res.data
+}
+
+export const billPayment = async (data) => {
+  const res = await axios_instance.post(API.PATIENT_BILL_PAYMENT, data)
   return res.data
 }
