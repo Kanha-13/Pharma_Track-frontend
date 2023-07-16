@@ -138,7 +138,7 @@ const Billing = () => {
         setIsList(false);
       }
     }
-    else // is the method is called directly by some other function
+    else // if the method is called directly by some other function
       setIsList(false)
   }
 

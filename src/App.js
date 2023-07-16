@@ -36,6 +36,7 @@ import Patients from "./Containers/Patient";
 import Company from "./Containers/Company";
 import CompanyAdd from "./Containers/CompanyAdd";
 import CompanyInfo from "./Containers/CompanyInfo";
+import VendorBillPayment from "./Containers/VendorBillPayment";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
@@ -77,6 +78,7 @@ const App = () => {
               <Route path={ROUTES.VENDORS} element={<Vendors />} />
               <Route path={ROUTES.VENDORS_ADD} element={<VebdorAdd />} />
               <Route path={ROUTES.VENDORS_INFO} element={<VendorInfo />} />
+              <Route path={ROUTES.VENDORS_BILL_PAYMENT} element={<VendorBillPayment />} />
               <Route path={ROUTES.COMPANY} element={<Company />} />
               <Route path={ROUTES.COMPANY_ADD} element={<CompanyAdd />} />
               <Route path={ROUTES.COMPANY_INFO} element={<CompanyInfo />} />

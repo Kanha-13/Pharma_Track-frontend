@@ -38,6 +38,10 @@ const Vendors = () => {
     setVendorsList(filtered)
   }
 
+  const onBillPayment = () => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_BILL_PAYMENT)
+  }
+
   useEffect(() => {
     if (!vendors.length)
       fetchallvendors();
@@ -52,7 +56,8 @@ const Vendors = () => {
           vendors.length ? <>
             <div style={{ width: "100%", height: "5vh", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "5vh" }}>
               <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left" }}>Vendors</p>
-              <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={onAddNewClick}>Add Vendors</button>
+              <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={onBillPayment}>Bill Payment</button>
+              <button style={{ marginLeft: "2vw", width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={onAddNewClick}>Add Vendors</button>
             </div>
             <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
               onclick={onclickvendor} header={VendorsListHeader} data={vendorslist} />

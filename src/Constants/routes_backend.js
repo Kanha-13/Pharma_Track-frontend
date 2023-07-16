@@ -48,6 +48,7 @@ export const API = {
   GET_PURCHASE_DETAIL: '/purchase/',
   UPDATE_PURCHASE: '/purchase/',
   DELETE_PURCHASE: '/purchase/',
+  BILL_PAYMENT_PURCHASE: '/purchase/bill/payment',
 
   //billing
   GET_BILLING_HISTORY: "/billings",

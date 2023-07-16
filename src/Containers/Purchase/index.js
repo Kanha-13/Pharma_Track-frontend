@@ -48,7 +48,7 @@ const Purchase = () => {
     setPurchases([])
     try {
       if (vendorIdToSearch || billNo || (fromDate && toDate)) {
-        const res = await getPurchases(vendorIdToSearch, billNo, { from: fromDate, to: toDate })
+        const res = await getPurchases(vendorIdToSearch, billNo, { from: fromDate, to: toDate }, null)
         setPurchases(res.data)
       } else {
         alert("At least one field is required to search purchase history!")

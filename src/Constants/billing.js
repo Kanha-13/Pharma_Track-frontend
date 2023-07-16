@@ -79,3 +79,9 @@ export const CNProductListHeader = [
   { name: 'Disc%', value: "disc", colSize: "3%", ph: "disc%", type: "text" },
   { name: 'Total', value: "total", colSize: "7%", ph: "total", type: "text" },
 ]
+
+export const BILLTYPES = [
+  { label: "Select type", value: "" },
+  { label: "Chalan", value: "CHALAN" },
+  { label: "Credit", value: "CREDIT" }
+]

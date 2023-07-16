@@ -6,7 +6,7 @@ import { memo } from "react"
 import { useStore } from "../../Store/store"
 import SelectDuration from "../DashboardGraph/SelectDuration"
 
-const PurchaseOverview = ({duration,onchange}) => {
+const PurchaseOverview = ({ duration, onchange }) => {
   const { tradeAnalysis } = useStore()
 
   const Card = ({ img, bgColor, label, value }) => {
@@ -28,7 +28,7 @@ const PurchaseOverview = ({duration,onchange}) => {
       <SelectDuration value={duration} onchange={onchange} />
       <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Purchase" value={tradeAnalysis?.tpc} />
       <Card img={Growth} bgColor="#d5ffd5" label="Investment" value={tradeAnalysis?.ti} />
-      <Card img={coin} bgColor="#ffffbc" label={"Avg. amt"} value={tradeAnalysis?.apa} />
+      <Card img={coin} bgColor="#ffffbc" label={"Credit Paid Off"} value={tradeAnalysis?.cpo} />
       <Card img={ProfitGrowth} bgColor="#ffecca" label={"Credit"} value={tradeAnalysis?.tpcr} />
     </div>
   );

@@ -37,7 +37,7 @@ export const getBg = (name, value) => {
 }
 
 export const sumAllObjectsFields = (trades = []) => {
-  let totalSalesCount = 0, totalRevenue = 0, totalPurchaseCount = 0, totalInvestment = 0, totalProfit = 0, totalSalesCredit = 0, totalPurchaseCredit = 0;
+  let totalSalesCount = 0, totalRevenue = 0, totalPurchaseCount = 0, totalInvestment = 0, totalProfit = 0, totalSalesCredit = 0, totalPurchaseCredit = 0, totalLoss = 0, creditCollection = 0, creditPaidOff = 0;
   let allopathicPurchase = 0, allopathicSale = 0, ayurvedicPurchase = 0, ayurvedicSale = 0, generalPurchase = 0, generalSale = 0, genericPurchase = 0, genericSale = 0, surgicalPurchase = 0, surgicalSale = 0;
   if (!trades.length) return
 
@@ -51,6 +51,9 @@ export const sumAllObjectsFields = (trades = []) => {
     totalProfit += trade.profit
     totalSalesCredit += trade.salesCredit
     totalPurchaseCredit += trade.purchaseCredit
+    totalLoss += trade.totalLoss
+    creditCollection += trade.creditCollection
+    creditPaidOff += trade.creditPaidOff
 
     allopathicSale += trade.categoryWiseSale.allopathic
     ayurvedicSale += trade.categoryWiseSale.ayurvedic
@@ -72,6 +75,9 @@ export const sumAllObjectsFields = (trades = []) => {
     profit: totalProfit,
     salesCredit: totalSalesCredit,
     purchaseCredit: totalPurchaseCredit,
+    totalLoss,
+    creditCollection,
+    creditPaidOff,
     categoryWiseSale: {
       allopathic: allopathicSale,
       ayurvedic: ayurvedicSale,
@@ -97,6 +103,7 @@ export const generateTradeAnalysis = (object) => {
     tscr: object.salesCredit.toFixed(2), tpcr: object.purchaseCredit.toFixed(2),
     asa: (object.revenue / object.salesCount).toFixed(2),
     apa: (object.investment / object.purchaseCount).toFixed(2),
+    cpo: object.creditPaidOff.toFixed(2), cc: object.creditCollection.toFixed(2), tl: object.totalLoss.toFixed(2),
 
     categoryWiseSale: {
       allopathicSale: object.categoryWiseSale.allopathic,
