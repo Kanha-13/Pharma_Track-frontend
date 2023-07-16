@@ -140,8 +140,8 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
         </div>
         <div style={{ width: "55%", height: "100%", display: "flex", justifyContent: "space-around", flexDirection: "column" }}>
           <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Doctor Name" value={prescribedBy} onchange={(name, value) => setPrescribedBy(value)} type="text" />
-          <Card required={true} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Patient name" value={patientName} onchange={(name, value) => setPatient(value)} type="text" />
-          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Mobile name" value={mobileNumber} onchange={(name, value) => setmobileNumber(value)} type="text" />
+          <Card required={true} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Patient Name" value={patientName} onchange={(name, value) => setPatient(value)} type="text" />
+          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Mobile Number" value={mobileNumber} onchange={(name, value) => setmobileNumber(value)} type="text" />
           <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Address" value={address} onchange={(name, value) => setaddress(value)} type="text" />
         </div>
       </div>
@@ -160,7 +160,7 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
           <h5 style={{ height: "20%", margin: "0px" }}>{roundOff}</h5>
           {creditAmt && <h5 style={{ height: "20%", margin: "0px" }}>{creditAmt}</h5>}
           <h5 style={{ height: "20%", margin: "0px", marginTop: "0px", }}>{grandTotal}</h5>
-          <Card min={0} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt. Paid" value={amtPaid} onchange={(name, value) => setamtPaid(value)} type="number" />
+          <Card min={0} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt." value={amtPaid} onchange={(name, value) => setamtPaid(value)} type="number" />
 
         </div>
         <div style={{ width: "100%", height: "4vh", marginTop: "3vh", display: "flex", justifyContent: "space-between" }} >
