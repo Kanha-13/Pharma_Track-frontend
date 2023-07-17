@@ -13,7 +13,7 @@ export const updateSettlement = async (data) => {
   const res = await axios_instance.patch(API.UPDATE_SETTLEMENT + data._id, data)
   return res.data
 }
-export const deleteSettlement = async (settlementId) => {
-  const res = await axios_instance.delete(API.DELETE_SETTLEMENT + settlementId)
+export const deleteSettlement = async (id, date, amt) => {
+  const res = await axios_instance.delete(API.DELETE_SETTLEMENT + id + "?date=" + date + "&amtRefunded=" + amt)
   return res.data
 }

@@ -2,15 +2,21 @@ import { useEffect, useState } from "react";
 import Layout from "../../Components/Layout/Layout";
 import { useStore } from "../../Store/store";
 import { ACTION } from "../../Store/constants";
-import { getSettlements } from "../../apis/settlement";
+import { deleteSettlement, getSettlements } from "../../apis/settlement";
 
 import './index.css'
 import { SettlementsListHeader } from "../../Schema/settlement";
 import ProductsList from "../../Components/ProductsList/ProductsList";
+import SettlementDeleteModal from "../../Components/SettlementDeleteModal/SettlementDeleteModal";
+import { useNavigate } from "react-router-dom";
 
 const Settlements = () => {
+  const navigate = useNavigate()
   const { settlements, dispatch } = useStore();
+  const [settlementId, setSettlementsId] = useState("")
   const [settlementslist, setSettlementslist] = useState([])
+  const [isModal, setModal] = useState(false)
+
   const fetchSettlements = async () => {
     try {
       let res = await getSettlements() || [];
@@ -37,12 +43,28 @@ const Settlements = () => {
       alert("unable to get settlements list!")
     }
   }
-  // const getValue = (item, value) => {
-  //   if (value === "date")
-  //     return toddmmyy(item[value])
-  //   else
-  //     return item[value]
-  // }
+
+  const closeModal = () => {
+    setSettlementsId("")
+    setModal(false)
+  }
+
+  const openModal = (id) => {
+    setSettlementsId(id)
+    setModal(true)
+  }
+
+  const ondeleteSettlement = async (date, amtRefunded) => {
+    setModal(false)
+    try {
+      await deleteSettlement(settlementId, date, amtRefunded)
+      alert("settlement updated!")
+      navigate(0)
+    } catch (error) {
+      console.log(error)
+      alert("Unable to update settlement!")
+    }
+  }
 
   const onchange = (val) => {
     const filtered = settlements.filter((prod) => prod.itemName.includes((val).toUpperCase()))
@@ -58,38 +80,9 @@ const Settlements = () => {
     <Layout>
       <div id="settlements-container" className="layout-body borderbox">
         <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "5vh" }}>Settlements</p>
-        {/* <table style={{ height: "5vh", width: "100%", borderCollapse: "collapse" }}>
-          <thead style={{
-            backgroundColor: "#ebe8fc", height: "5vh",
-            marginBottom: "10px", borderBottom: "1px solid gray"
-          }}>
-            <tr >
-              {SettlementsListHeader.map((head) => <th style={{ width: head.colSize, textAlign: "left" }}>{head.name}</th>)}
-            </tr>
-          </thead>
-        </table>
-        {
-          settlements.length > 0 ?
-            <div id="stock-data-container" style={{ width: "100%", maxHeight: "65vh", overflow: "auto" }}>
-              <table style={{ width: "100%", borderCollapse: "collapse" }}>
-                <tbody style={{ borderCollapse: "collapse" }}>
-                  {
-                    settlements.map((item, index) => {
-                      return (
-                        <tr key={`${item._id}-stock-list`} className="stock-batch-row" style={{ backgroundColor: index % 2 ? "#ededed" : "", height: "5vh" }}>
-                          {
-                            SettlementsListHeader.map((head) => <td style={{ width: head.colSize }}>{getValue(item, head.value)}</td>)
-                          }
-                        </tr>
-                      )
-                    })
-                  }
-                </tbody>
-              </table>
-            </div> : <></>
-        } */}
         <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
-          onclick={() => { }} header={SettlementsListHeader} data={settlementslist} />
+          onclick={openModal} header={SettlementsListHeader} data={settlementslist} />
+        {isModal ? <SettlementDeleteModal onDelete={ondeleteSettlement} oncancel={closeModal} /> : <></>}
       </div>
     </Layout>
   );

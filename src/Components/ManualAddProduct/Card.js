@@ -1,6 +1,3 @@
-import { useEffect, useState } from "react"
-import { PRODUCT } from "../../Schema/products"
-
 import KEY from "../../Constants/keyCode";
 
 const Card = (props) => {
