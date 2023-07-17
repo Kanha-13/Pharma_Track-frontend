@@ -1,5 +1,5 @@
-import SalesCountIcon from "../../images/icons/salesCount.png"
 import Growth from "../../images/icons/growth.png"
+import LossIcon from "../../images/icons/loss.png"
 import coin from "../../images/icons/coin.png"
 import ProfitGrowth from "../../images/icons/profitGrowth.png"
 import { memo } from "react"
@@ -28,7 +28,7 @@ const PurchaseOverview = ({ duration, onchange }) => {
       <SelectDuration value={duration} onchange={onchange} />
       <Card img={Growth} bgColor="#d5ffd5" label="Investment" value={tradeAnalysis?.ti} />
       <Card img={coin} bgColor="#ffffbc" label={"Credit Taken"} value={tradeAnalysis?.tpcr} />
-      <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Purchase" value={tradeAnalysis?.tpc} />
+      <Card img={LossIcon} bgColor="#fddcdc" label="Total Loss" value={tradeAnalysis?.tl} />
       <Card img={ProfitGrowth} bgColor="#ffecca" label={"Credit Paid Off"} value={tradeAnalysis?.cpo} />
     </div>
   );

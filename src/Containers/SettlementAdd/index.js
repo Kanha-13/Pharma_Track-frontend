@@ -57,7 +57,9 @@ const SettlementAdd = () => {
         vId: settlementDetail.vId,
         type: settlementDetail.type,
         date: settlementDetail.date,
-        returnQnty: settlementDetail.returnQnty
+        returnQnty: settlementDetail.returnQnty,
+        netRate: settlementDetail.netRate,
+        pkg: settlementDetail.pkg
       }
       const res = await addSettlement(data)
       dispatch(ACTION.SET_EXPIRED_STOCKS, [])
@@ -67,6 +69,7 @@ const SettlementAdd = () => {
       navigate(ROUTES.PROTECTED_ROUTER + ROUTES.GET_SETTLEMENT)
     } catch (error) {
       console.log(error)
+      alert("Cannot process the settlement")
     }
   }
 
