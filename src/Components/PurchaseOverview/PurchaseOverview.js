@@ -26,10 +26,10 @@ const PurchaseOverview = ({ duration, onchange }) => {
     <div className="dashboard-card" style={{ width: "32%", height: "16vh", position: "relative" }}>
       <p className="dashboard-title">Purchase Overview</p>
       <SelectDuration value={duration} onchange={onchange} />
-      <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Purchase" value={tradeAnalysis?.tpc} />
       <Card img={Growth} bgColor="#d5ffd5" label="Investment" value={tradeAnalysis?.ti} />
-      <Card img={coin} bgColor="#ffffbc" label={"Credit Paid Off"} value={tradeAnalysis?.cpo} />
-      <Card img={ProfitGrowth} bgColor="#ffecca" label={"Credit"} value={tradeAnalysis?.tpcr} />
+      <Card img={coin} bgColor="#ffffbc" label={"Credit Taken"} value={tradeAnalysis?.tpcr} />
+      <Card img={SalesCountIcon} bgColor="#e8dcfd" label="Total Purchase" value={tradeAnalysis?.tpc} />
+      <Card img={ProfitGrowth} bgColor="#ffecca" label={"Credit Paid Off"} value={tradeAnalysis?.cpo} />
     </div>
   );
 }

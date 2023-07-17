@@ -34,6 +34,10 @@ const BillingHistory = () => {
           res = await getCNHistory(mobileNumber, invoiceNo, patientName, prescribedBy, { from: fromDate, to: toDate })
         else
           res = await getBillingHistory(mobileNumber, invoiceNo, patientName, prescribedBy, { from: fromDate, to: toDate }, false)
+
+        if (!res.data?.length)
+          alert("No records found")
+          
         setDataList(res.data)
       } else {
         alert("At least one field is required to search purchase history!")

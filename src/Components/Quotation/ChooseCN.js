@@ -44,6 +44,9 @@ const ChooseCN = ({ onEnter, closeModal }) => {
     try {
       let res = await getCNHistory("", "", patientName, "", {});
       res.data = res.data.filter((prod, index) => prod.status !== "REFUNDED")
+
+      if (!res.data?.length)
+        alert("No credit note found!")
       setDataList(res.data);
     } catch (error) {
       console.log(error)
@@ -52,7 +55,7 @@ const ChooseCN = ({ onEnter, closeModal }) => {
   }
   return (
     <div style={{ display: "flex", alignItems: "center", justifyContent: "center", position: "absolute", top: 0, width: "100%", height: "100%", left: 0, borderRadius: "0.4vw", backgroundColor: "#ffffff", flexDirection: "column" }}>
-      <p style={{ width: "90%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "0vh" }}>Medicine History</p>
+      <p style={{ width: "90%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "0vh" }}>CN History</p>
       <div style={{ display: "flex", width: "90%", height: "10%", alignItems: "center" }}>
         <Card focus={true} require={true} m="1.5% 0px" w="15%" h="2vh" pd="1.1vh 0.5vw" name="patientName" label="" ph="Patient Name" value={patientName} onchange={(name, value) => { setIndex(null); setPatientName(value) }} type="text" />
         <button className="custom-input-fields" onKeyDown={handleKeyDown} onClick={fetchCNList} style={{ marginLeft: "3vh", backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "4vh", width: "5vw", cursor: "pointer" }}>Search</button>

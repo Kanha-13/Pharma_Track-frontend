@@ -150,17 +150,17 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
           <h5 style={{ height: "20%", margin: "0px" }}>Sub Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Discount:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Round Off:</h5>
-          {creditAmt && <h5 style={{ height: "20%", margin: "0px" }}>Credit amt.:</h5>}
+          {creditAmt ? <h5 style={{ height: "20%", margin: "0px" }}>Credit amt.:</h5> : <></>}
           <h5 style={{ height: "20%", margin: "0px" }}>Grand Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Amount {isCN ? "Refund" : "Paid"}:</h5>
         </div>
         <div style={{ marginTop: "2%", height: "80%", width: "40%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
-          <h5 style={{ height: "20%", margin: "0px" }}>{parseFloat(total).toFixed(2)}</h5>
-          <h5 style={{ height: "20%", margin: "0px" }}>{discount}</h5>
-          <h5 style={{ height: "20%", margin: "0px" }}>{roundOff}</h5>
-          {creditAmt && <h5 style={{ height: "20%", margin: "0px" }}>{creditAmt}</h5>}
-          <h5 style={{ height: "20%", margin: "0px", marginTop: "0px", }}>{grandTotal}</h5>
-          <Card min={0} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt." value={amtPaid} onchange={(name, value) => setamtPaid(value)} type="number" />
+          <h5 style={{ height: "20%", margin: "0px" }}>{parseFloat(total || "0").toFixed(2)}</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>{discount || 0}</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>{roundOff || 0}</h5>
+          {creditAmt ? <h5 style={{ height: "20%", margin: "0px" }}>{creditAmt || 0}</h5> : <></>}
+          <h5 style={{ height: "20%", margin: "0px", marginTop: "0px", }}>{grandTotal || 0}</h5>
+          <Card min={0} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt." value={amtPaid || 0} onchange={(name, value) => setamtPaid(value)} type="number" />
 
         </div>
         <div style={{ width: "100%", height: "4vh", marginTop: "3vh", display: "flex", justifyContent: "space-between" }} >
