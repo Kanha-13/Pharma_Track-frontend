@@ -16,7 +16,7 @@ const LineChart = ({ chartData, modalClick }) => {
           plugins: {
             title: {
               display: true,
-              text: "Sales - Purchase - Profit"
+              text: "Sales - Purchase - Profit - Loss"
             },
             legend: {
               display: false,
@@ -30,9 +30,9 @@ const LineChart = ({ chartData, modalClick }) => {
               title: {
                 display: true,
                 text: "Date/Month",
-                padding:"0px",
-                margin:"0px"
-                
+                padding: "0px",
+                margin: "0px"
+
               }
             },
             y: {
@@ -42,8 +42,8 @@ const LineChart = ({ chartData, modalClick }) => {
               title: {
                 display: true,
                 text: "Rupees ₹",
-                padding:"0px",
-                margin:"0px"
+                padding: "0px",
+                margin: "0px"
               }
             },
           },

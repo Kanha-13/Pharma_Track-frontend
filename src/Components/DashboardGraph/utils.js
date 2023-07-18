@@ -5,8 +5,10 @@ export const getColor = (name, value) => {
         return "#5e48e8"
       case "purchase":
         return "#00cefd"
-      default:
+      case "profit":
         return "#fcb684"
+      default:
+        return "#de0a3e"
     }
   else return "gray"
 }
@@ -17,8 +19,10 @@ export const getBorder = (name, value) => {
         return "#5e48e8"
       case "purchase":
         return "#00cefd"
-      default:
+      case "profit":
         return "#fcb684"
+      default:
+        return "#de0a3e"
     }
   else return "gray"
 }
@@ -30,8 +34,10 @@ export const getBg = (name, value) => {
         return "#ebe8fc"
       case "purchase":
         return "#dff9ff"
-      default:
+      case "profit":
         return "#fff9f5"
+      default:
+        return "#fddcdc"
     }
   else return "#f5f5f5"
 }
@@ -150,8 +156,7 @@ export const generateSatistics = (dataArray = [], type) => {
         xLabel = xLabel = new Date(2000, (data.month - 1), 1).toLocaleString('default', { month: 'short' })
     else//daily
       xLabel = new Date(data.date).getDate()
-
-    return { xLabel: xLabel, sales: data.revenue, purchase: data.investment, profit: data.profit }
+    return { xLabel: xLabel, sales: data.revenue, purchase: data.investment, profit: data.profit, loss: data.totalLoss }
   })
 
   return statistics;
