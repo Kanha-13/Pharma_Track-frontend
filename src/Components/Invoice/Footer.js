@@ -1,4 +1,4 @@
-const Footer = ({ total, totalTax, discount, roundOff, grandTotal, amtPaid, amtDue }) => {
+const Footer = ({ subTotal, totalTax, discount, roundoff, grandTotal, amtPaid, amtDue }) => {
   return (
     <div style={{ width: "100%", height: "10vh", alignItems: "center", display: "flex", flexWrap: "wrap" }}>
       <div style={{ display: "flex", alignItems: "center", height: "15%", fontWeight: "bolder", margin: "0px", fontSize: "0.7em", width: "100%", textAlign: "center", borderBottom: "2px solid black" }}>Amt. in words. : <span></span></div>
@@ -17,9 +17,9 @@ const Footer = ({ total, totalTax, discount, roundOff, grandTotal, amtPaid, amtD
         <p style={{ margin: "0px", width: "30%" }}>DISCOUNT RS</p>
         <p style={{ margin: "0px", width: "20%" }}>: {discount}</p>
         <p style={{ margin: "0px", width: "30%" }}>SUB TOTAL</p>
-        <p style={{ margin: "0px", width: "20%" }}>: {total}</p>
+        <p style={{ margin: "0px", width: "20%" }}>: {subTotal}</p>
         <p style={{ margin: "0px", width: "30%" }}>ROUND OFF</p>
-        <p style={{ margin: "0px", width: "20%" }}>: {roundOff}</p>
+        <p style={{ margin: "0px", width: "20%" }}>: {roundoff}</p>
         <p style={{ margin: "0px", width: "30%" }}>GRAND TOTAL</p>
         <p style={{ margin: "0px", width: "20%" }}>: {grandTotal}</p>
         <p style={{ margin: "0px", width: "30%" }}>PAID</p>

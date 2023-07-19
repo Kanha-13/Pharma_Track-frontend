@@ -1,10 +1,12 @@
 import { getmmyy } from "../../utils/DateConverter";
 import { InvoiceHeaders } from "./constants";
 
-const Body = ({ productsList = [] }) => {
-  const getValue = (item, value) => {
+const Body = ({ productsDetail = [] }) => {
+  const getValue = (item, value,index) => {
     if (value === "expDate")
-      return getmmyy(item[value])
+    return getmmyy(item[value])
+    if(value==="index")
+    return (index+1)
 
     if (value === "disc" || value === "gst")
       return item[value] + "%"
@@ -21,16 +23,16 @@ const Body = ({ productsList = [] }) => {
         </thead>
       </table>
       {
-        productsList.length > 0 ?
+        productsDetail.length > 0 ?
           <div style={{ width: "100%", overflow: "auto" }}>
             <table style={{ fontSize: "0.8rem", width: "100%", borderCollapse: "collapse" }}>
               <tbody style={{ borderCollapse: "collapse" }}>
                 {
-                  productsList.map((item, index) => {
+                  productsDetail.map((item, index) => {
                     return (
                       <tr key={`${item._id}-stock-list`}>
                         {
-                          InvoiceHeaders.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize, textAlign: "left" }}>{getValue(item, head.value)}</td>)
+                          InvoiceHeaders.map((head) => <td key={head.name + "in-choose-batch-row"} style={{ width: head.colSize, textAlign: "left" }}>{getValue(item, head.value,index)}</td>)
                         }
                       </tr>
                     )

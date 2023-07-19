@@ -11,12 +11,15 @@ import { getyyyymmdd } from "../../utils/DateConverter";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Constants/routes_frontend";
 import CNInfo from "./CNInfo";
+import GSTInvoice from "../Invoice/GSTInvoice";
 
 const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, itemsIncart = [], onchangeqnty, changeDisc, resetCart }) => {
   const navigate = useNavigate();
   const [billingDate, setBillingDate] = useState(getyyyymmdd(new Date()));
   const [invoiceNo, setInvoiceNo] = useState("")
   const [cnData, setCNdata] = useState({})
+  const [printOpen, setOpenPrint] = useState(false)
+  const [billInfoForPrint, setBillToPrint] = useState({})
 
   const oncheckout = async (billInfo, resetBillInfo) => {
     let modified_prod_list = itemsIncart.map((cart) => {
@@ -35,17 +38,18 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
         productsDetail: modified_prod_list
       }
       let res = {}
-      navigate(ROUTES.PROTECTED_ROUTER+ROUTES.PRINT_INVOICE)
-      // if (oldBillId)
-      // res = await cancelSaleBill(oldBillId, data)
-      // else if (isCN)
-      // res = await addCN(data)
-      // else
-      // res = await checkoutBill(data)
+      if (oldBillId)
+        res = await cancelSaleBill(oldBillId, data)
+      else if (isCN)
+        res = await addCN(data)
+      else
+        res = await checkoutBill(data)
       resetBillInfo()
       resetCart()
       addField()
       setCNdata({})
+      setBillToPrint(res.data)
+      setOpenPrint(true)
       navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)// do not remove this it is useful to go from cancel bill to billing
     } catch (error) {
       console.log(error)
@@ -99,6 +103,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
         {cnData._id && <CNInfo data={cnData} />}
       </div>
       <Footer isCN={isCN} addField={addField} oncheckout={oncheckout} carts={itemsIncart} onsetCNInfo={(data) => setCNdata(data)} />
+      {printOpen && <GSTInvoice data={billInfoForPrint} />}
     </div>
   );
 }

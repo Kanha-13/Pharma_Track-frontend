@@ -38,8 +38,6 @@ import CompanyAdd from "./Containers/CompanyAdd";
 import CompanyInfo from "./Containers/CompanyInfo";
 import VendorBillPayment from "./Containers/VendorBillPayment";
 import PatientBillpayment from "./Containers/PatientBillPayment";
-import Invoice from "./Components/Invoice/Invoice";
-import GSTInvoice from "./Components/Invoice/GSTInvoice";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
@@ -72,10 +70,7 @@ const App = () => {
               <Route path={ROUTES.STOCKS} element={<Stocks />} />
               <Route path={ROUTES.STOCK_ADD} element={<StocksAdd />} />
               <Route path={ROUTES.STOCK_INFO} element={<StockInfo />} />
-              <Route path={ROUTES.BILLINGS} element={<div style={{ display: "flex", width: "100vw", height: "100vh", flexDirection: "column" }}>
-                {/* <Invoice /> */}
-                <GSTInvoice />
-              </div>} />
+              <Route path={ROUTES.BILLINGS} element={<Billing />} />
               <Route path={ROUTES.CANCEL_BILLINGS} element={<Billing />} />
               <Route path={ROUTES.BILLING_HISTORY} element={<BillingHistory />} />
               <Route path={ROUTES.BILLING_CN_HISTORY} element={<BillingHistory />} />

@@ -100,6 +100,7 @@ const Billing = () => {
         soldQnty: "",
         total: 0,
         gst: selectedPrduct.gst,
+        hsn_sac: selectedPrduct.hsn_sac,
         disc: 0,
         qnty: stock.qnty,
         rate: calcRate(stock.mrp, selectedPrduct.gst)
@@ -133,7 +134,7 @@ const Billing = () => {
 
   const closeListModal = (event) => {
     if (event.keyCode) {
-      if (event.keyCode === KEY.ESC){
+      if (event.keyCode === KEY.ESC) {
         setIsChosse(false)
         setIsList(false);
       }
