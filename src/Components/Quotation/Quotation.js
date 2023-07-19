@@ -35,12 +35,13 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
         productsDetail: modified_prod_list
       }
       let res = {}
-      if (oldBillId)
-        res = await cancelSaleBill(oldBillId, data)
-      else if (isCN)
-        res = await addCN(data)
-      else
-        res = await checkoutBill(data)
+      navigate(ROUTES.PROTECTED_ROUTER+ROUTES.PRINT_INVOICE)
+      // if (oldBillId)
+      // res = await cancelSaleBill(oldBillId, data)
+      // else if (isCN)
+      // res = await addCN(data)
+      // else
+      // res = await checkoutBill(data)
       resetBillInfo()
       resetCart()
       addField()
@@ -85,7 +86,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
         <Card require={true} m="1vh 0px" w="12%" h="70%" pd="0px 1%" name={"billingDate"} label="Bill Date" value={billingDate} onchange={(name, value) => setBillingDate(value)} type="date" />
       </div>
       <hr width="95%" />
-      <div style={{overflow:"auto", height: "70%", width: "95%", display: "flex", flexDirection: "column", borderBottom: "1px solid gray" }}>
+      <div style={{ overflow: "auto", height: "70%", width: "95%", display: "flex", flexDirection: "column", borderBottom: "1px solid gray" }}>
         <div style={{ borderBottom: "1px solid gray", display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
           {QuotationListHeader.map((head) => <p key={head.name + "in-quotation-table-head"} style={{ width: head.colSize, margin: "0.5vh 0px" }}>{head.name}</p>)}
           <p style={{ margin: "0px" }}></p>

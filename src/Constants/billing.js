@@ -11,7 +11,7 @@ export const BillingListHeader = [
 export const QuotationListHeader = [
   { name: 'Item', value: "itemName", colSize: "20%", ph: "Item name" },
   { name: 'Batch', value: "batch", colSize: "15%", ph: "Batch" },
-  { name: 'Pkg', value: "pkg", colSize: "7%", ph: "Batch" },
+  { name: 'Pkg', value: "pkg", colSize: "7%", ph: "pkg" },
   { name: 'Exp', value: "expDate", colSize: "5%", ph: "Exp" },
   { name: 'Qnt.', value: "soldQnty", colSize: "5%", ph: "Qnt" },
   { name: 'MRP', value: "mrp", colSize: "5%", ph: "MRP" },

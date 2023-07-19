@@ -35,6 +35,8 @@ export const ROUTES = {
 
   PROTECTED_ROUTER: "/admin/",
   PUBLIC_ROUTER: "/",
+
+  PRINT_INVOICE:"invoice"
 }
 // export const ROUTES_NAME = {
 //   DEFAULT: "login",

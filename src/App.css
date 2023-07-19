@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Castellar';
+  src: url('./fonts/Castellar.ttf') format('woff');
+}
+
 :root {
   --app-bg: #D4ADFC;
 }
