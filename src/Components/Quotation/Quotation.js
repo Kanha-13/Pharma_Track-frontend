@@ -44,17 +44,24 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
         res = await addCN(data)
       else
         res = await checkoutBill(data)
+
+      let oldBalance = 0;
+      res.data.pendingBills?.map((bill) => oldBalance += bill.amtDue)
       resetBillInfo()
-      resetCart()
-      addField()
-      setCNdata({})
-      setBillToPrint(res.data)
+      setBillToPrint({ ...res.data.currentBill, oldBalance: oldBalance })
       setOpenPrint(true)
-      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)// do not remove this it is useful to go from cancel bill to billing
     } catch (error) {
       console.log(error)
       alert("Can't process the bill, something went wrong!")
     }
+  }
+
+  const closeAfterPrint = () => {
+    resetCart()
+    addField()
+    setCNdata({})
+    setOpenPrint(false)
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)// do not remove this it is useful to go from cancel bill to billing
   }
 
   const fetchBillingInfo = async (id) => {
@@ -103,7 +110,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
         {cnData._id && <CNInfo data={cnData} />}
       </div>
       <Footer isCN={isCN} addField={addField} oncheckout={oncheckout} carts={itemsIncart} onsetCNInfo={(data) => setCNdata(data)} />
-      {printOpen && <GSTInvoice data={billInfoForPrint} />}
+      {printOpen && <GSTInvoice onClose={closeAfterPrint} data={billInfoForPrint} />}
     </div>
   );
 }

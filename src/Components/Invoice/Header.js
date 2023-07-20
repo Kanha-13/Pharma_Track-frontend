@@ -16,14 +16,14 @@ const Header = ({ billType = "CASH INVOICE", patientName, mobileNumber, prescrib
         <p style={{ margin: "0px", width: "100%" }}>Address : {address}</p>
       </div>
       <div style={{ borderTop: "2px solid black", width: "100%", height: "35%", display: "flex" }}>
-        <div style={{ fontSize: "0.7rem", fontSize: "0.8rem", height: "100%", flexWrap: "wrap", width: "50%", padding: "0.5%", boxSizing: "border-box", borderRight: "2px solid black", display: "flex", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ fontSize: "0.7rem", fontSize: "0.8rem", height: "100%", flexWrap: "wrap", width: "54%", padding: "0.5%", boxSizing: "border-box", borderRight: "2px solid black", display: "flex", alignItems: "center", justifyContent: "center" }}>
           <p style={{ width: "100%", margin: "0px" }}>GSTIN NO. : 22</p>
           <p style={{ width: "100%", margin: "0px" }}>D.L.NO. : CG-RZ1-20-40016, CG-RZ1-21-40017</p>
         </div>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", padding: "0.5%", boxSizing: "border-box", width: "30%", height: "100%" }}>
           <p style={{ fontSize: "1.1rem", fontWeight: "bold", fontFamily: "Castellar", margin: "0px" }}>{billType}</p>
         </div>
-        <div style={{ borderLeft: "2px solid black", height: "100%", width: "40%", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
+        <div style={{ borderLeft: "2px solid black", height: "100%", width: "36%", display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "center" }}>
           <p style={{ margin: "0px", width: "40%" }}>Invoice No.</p>
           <p style={{ margin: "0px", width: "50%" }}>: {invoiceNo}</p>
           <p style={{ margin: "0px", width: "40%" }}>Date</p>
