@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { numbersInWords } from "../../utils/billing";
 
 const Footer = ({ oldBalance, subTotal, discount, roundoff, grandTotal, amtPaid, amtDue }) => {

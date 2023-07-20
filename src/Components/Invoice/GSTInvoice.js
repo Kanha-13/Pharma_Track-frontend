@@ -19,7 +19,7 @@ const GSTInvoice = ({ data = {}, onClose }) => {
   return (
     <div style={{ position: "fixed", width: "100vw", top: 0, left: 0, height: "100vh" }}>
       <div id="invoice-template">
-        <Header {...data} />
+        <Header billType={data.amtDue ? "CREDIT INVOICE" : "CASH INVOICE"} {...data} />
         <Body productsDetail={productsDetail} />
         <Footer {...data} />
       </div>
