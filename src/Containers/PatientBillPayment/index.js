@@ -10,9 +10,12 @@ import { BillingHistoryListHeader } from "../../Constants/billing";
 import BillPayCheckOut from "../../Components/VendorBillPay/BillPayCheckout";
 import KEY from "../../Constants/keyCode";
 import { billPayment, getBillingHistory } from "../../apis/billing";
+import PaymentInvoice from "../../Components/PaymentInvoice/PaymentInvoice";
 
 const PatientBillpayment = () => {
   const navigate = useNavigate();
+  const [printOpen, setPaymentModal] = useState(false);
+  const [billInfoForPrint, setBillToPrint] = useState({})
   const [billingLists, setBillings] = useState([])
   const [patientName, setPatientName] = useState("")
   const [fromDate, setFromDate] = useState("")
@@ -100,12 +103,21 @@ const PatientBillpayment = () => {
         paymentDetail: data,
       }
       const res = await billPayment(requestData)
+      setBillToPrint(res.data)
       alert("Payment recorded successfully!")
-      navigate(0);
+      openPaymentModal()
     } catch (error) {
       console.log(error)
       alert("unable to process payment record!")
     }
+  }
+
+  const openPaymentModal = () => {
+    setPaymentModal(true)
+  }
+
+  const closeAfterPrint = () => {
+    navigate(0);
   }
 
   useEffect(() => {
@@ -197,6 +209,7 @@ const PatientBillpayment = () => {
         </div>
         {isModal && <BillPayCheckOut oncancel={closeModal} billType={"CREDIT"} onsubmit={submitPayment} />}
       </div>
+      {printOpen && <PaymentInvoice onClose={closeAfterPrint} data={billInfoForPrint} totalcreditBills={billingLists} />}
     </Layout>
   );
 }

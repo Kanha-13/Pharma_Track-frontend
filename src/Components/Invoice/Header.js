@@ -6,7 +6,7 @@ const Header = ({ billType = "CASH INVOICE", patientName, mobileNumber, prescrib
       <div style={{ width: "70%", padding: "0.5%", borderRight: "2px solid black", boxSizing: "border-box", height: "65%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "flex-start" }}>
         <p style={{ fontSize: "1.3rem", fontWeight: "bold", fontFamily: "Castellar", margin: "0px" }}>AGRAWAL MEDICAL AND GENERAL STORE</p>
         <p style={{ margin: "0px", fontSize: "0.8rem" }}>BAJRANJ PARA, MAIN ROAD</p>
-        <p style={{ margin: "0px", fontSize: "0.8rem" }}>SILIYARI Raipur (C.G.)</p>
+        <p style={{ margin: "0px", fontSize: "0.8rem" }}>SILIYARI RAIPUR (C.G.)</p>
         <p style={{ margin: "0px", fontSize: "0.8rem" }}>Phone :7987575131</p>
       </div>
       <div style={{ width: "30%", padding: "0.5%", fontSize: "0.8rem", height: "65%", display: "flex", boxSizing: "border-box", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }}>
