@@ -1,10 +1,10 @@
-import { getmmyy } from "../../utils/DateConverter";
+import { toddmmyy } from "../../utils/DateConverter";
 import { PaymentInvoiceHeaders } from "./constants";
 
 const Body = ({ billsPaid = [] }) => {
   const getValue = (item, value, index) => {
     if (value === "billingDate")
-      return getmmyy(item[value])
+      return toddmmyy(item[value])
     if (value === "batch")
       return "vbjhfbjhfbvjhbfgjhgbvhjghvjgjv"
     if (value === "index")
