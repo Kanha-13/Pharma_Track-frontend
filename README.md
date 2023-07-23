@@ -1,4 +1,5 @@
 # PharmaTrack: Your All-in-One Pharmacy Inventory Management App
+![Screenshot (86)](https://github.com/Kanha-13/pharmacy-v2.0/assets/64277596/9da5b918-b053-415a-9e44-9734087a911c)
 
 ## Description
 
