@@ -9,8 +9,10 @@ const GSTInvoice = ({ data = {}, onClose }) => {
   const [printState, setState] = useState(0)
   useEffect(() => {
     if (printState) {
-      window.print()
-      onClose()
+      setTimeout(() => {
+        window.print()
+        onClose()
+      }, 2000);
     }
   }, [printState])
   useEffect(() => {

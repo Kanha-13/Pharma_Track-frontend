@@ -5,14 +5,15 @@ import Body from "./Body";
 
 const PaymentInvoice = ({ onClose, data = {}, totalcreditBills }) => {
   const { patientName, bills = [], paymentDetail } = data
-  console.log(data)
   const [paidBillsData, setPaidBillsData] = useState([])
   const [printState, setPrintState] = useState(false)
   const [totalBalance, setTotalBal] = useState(0)
   useEffect(() => {
     if (printState) {
-      window.print()
-      onClose()
+      setTimeout(() => {
+        window.print()
+        onClose()
+      }, 1000);
     }
   }, [printState])
   useEffect(() => {
@@ -21,11 +22,9 @@ const PaymentInvoice = ({ onClose, data = {}, totalcreditBills }) => {
     let billss = []
     totalcreditBills.map((bill) => {
       amt += bill.grandTotal
-      console.log(bills.includes(bill._id))
       if (bills.includes(bill._id))
         billss.push(bill)
     })
-    console.log(billss)
     setPaidBillsData(billss)
     setTotalBal(amt)
   }, [])

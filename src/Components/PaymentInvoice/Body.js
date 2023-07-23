@@ -3,7 +3,7 @@ import { PaymentInvoiceHeaders } from "./constants";
 
 const Body = ({ billsPaid = [] }) => {
   const getValue = (item, value, index) => {
-    if (value === "expDate")
+    if (value === "billingDate")
       return getmmyy(item[value])
     if (value === "batch")
       return "vbjhfbjhfbvjhbfgjhgbvhjghvjgjv"
