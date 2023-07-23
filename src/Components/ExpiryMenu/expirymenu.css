@@ -1,0 +1,39 @@
+#expiremenu-pop button{
+  background-color: pink;
+  cursor: pointer;
+  display: inline-block;
+  width: 50%;
+  height: 15%;
+  border: none;
+  border-radius: 0.8vw;
+  color: #ffffff;
+  font-weight: bold;
+  margin-top: 1vh;
+}
+#expiremenu-pop-box {
+  padding-top: 2vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.8vw;
+  position: relative;
+  width: 35%;
+  height: 35%;
+  background-color: #ffffff;
+}
+#expiremenu-pop label{
+  font-size: 1.3rem;
+  margin-bottom: 2vh;
+}
+#expiremenu-pop {
+  background-color: #8a8a8a8c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 90%;
+  z-index: 100;
+  position: absolute;
+}

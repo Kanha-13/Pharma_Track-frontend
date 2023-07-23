@@ -1,0 +1,52 @@
+#prodInfo-container {
+  justify-content: space-between;
+  align-items: start;
+  flex-direction: row;
+  flex-wrap: wrap;
+  border-radius: 0.8vw;
+}
+
+#submit-delete-prod {
+  color: #ffffff;
+  font-size: 1.3em;
+  text-align: center;
+  background-color: #ef3737;
+  padding: 1.5%;
+  width: 28%;
+  border-radius: 0.8vw;
+  margin: 1.5%;
+  cursor: pointer;
+  border: none;
+}
+
+#delete-pop button{
+  cursor: pointer;
+  color: #ffffff;
+  font-weight: bold;
+  display: inline-block;
+  width: 50%;
+  height: 15%;
+  border-radius: 0.8vw;
+  margin: 2vh;
+}
+#delete-pop-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.8vw;
+  position: relative;
+  width: 35%;
+  height: 35%;
+  background-color: #848484;
+}
+#delete-pop {
+  background-color: #8a8a8a8c;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 90%;
+  position: absolute;
+}

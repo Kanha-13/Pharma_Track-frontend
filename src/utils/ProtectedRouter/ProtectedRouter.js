@@ -11,7 +11,7 @@ const ProtectedRouter = () => {
   const navigate = useNavigate()
 
   const checkSession = () => {
-    const session = localStorage.getItem(process.env.REACT_APP_SESSION)
+    const session = sessionStorage.getItem(process.env.REACT_APP_SESSION)
     if (session) return true
     else return false
   }
@@ -25,7 +25,6 @@ const ProtectedRouter = () => {
   }
 
   useEffect(() => {
-    console.log("user fall in protected router!")
     routeResolver()
   }, [])
   return (

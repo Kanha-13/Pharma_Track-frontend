@@ -1,41 +1,98 @@
-import { useEffect, useState } from "react";
 import Layout from "../../Components/Layout/Layout";
-import DashboardCard from "../../Components/Dashboard/Card";
-import AlertIcon from "../../images/icons/alert.png"
 
 import "./index.css"
-import Loading from "../../Components/Loading/Loading";
+import PurchaseOverview from "../../Components/PurchaseOverview/PurchaseOverview";
+import SalesOverview from "../../Components/SalesOverview/SalesOverview";
+import InventorySummary from "../../Components/InventorySummary/InventorySummary";
+import ProductDetails from "../../Components/ProductDetails/ProductDetails";
+// import LastSales from "../../Components/LastSales/LastSales";
+import CategoryWiseSale from "../../Components/CategoryWiseSale/CategoryWiseSale";
+import DashboardGraph from "../../Components/DashboardGraph/DashboardGraph";
+import { memo, useEffect, useState } from "react";
+import { useStore } from "../../Store/store";
+import { ACTION } from "../../Store/constants";
+import { getTradeReport } from "../../apis/trade"
+import CategoryWisePurchase from "../../Components/CategoryWisePurchase/CategoryWisePurchase";
+import { generateSatistics, generateTradeAnalysis, sumAllObjectsFields } from "../../Components/DashboardGraph/utils";
 
 const Dashboard = () => {
-  const [loading, setLoading] = useState(true)
+  const { tradeAnalysis, dispatch } = useStore();
+  const [duration, setDuration] = useState("month")
+
+  const fetchTradeAnalysis = async (durations) => {
+    let query = {}
+    let report = {}
+    let statistics = {}
+    if (durations === "month")
+      query = ({ period: "month" })
+    else if (durations === "year")
+      query = ({ period: "year" })
+    else
+      query = (durations)
+    try {
+      const res = await getTradeReport(query)
+      if (durations === "month") {
+        let month_sum = sumAllObjectsFields(res.data.currentMonth)
+        report = generateTradeAnalysis(month_sum)
+        statistics = generateSatistics(res.data.currentMonth, "daily")
+      }
+      else {
+        let currentMonth, sum_of_all_month;
+        currentMonth = sumAllObjectsFields(res.data.currentMonth)
+        if (currentMonth) {
+          sum_of_all_month = sumAllObjectsFields([...res.data.resetAllMonth, currentMonth])
+          statistics = generateSatistics([...res.data.resetAllMonth, currentMonth], "monthly")
+        } else {
+          sum_of_all_month = sumAllObjectsFields(res.data.resetAllMonth)
+          statistics = generateSatistics(res.data.resetAllMonth, "monthly")
+        }
+        report = generateTradeAnalysis(sum_of_all_month)
+      }
+      dispatch(ACTION.SET_TRADE_ANALYSIS, report)
+      dispatch(ACTION.SET_TRADE_STATISTICS, statistics)
+    } catch (error) {
+      console.log(error)
+      alert("unable to get sales overview!")
+    }
+  }
+
+  const handlechange = (value) => {
+    let duration;
+    dispatch(ACTION.SET_TRADE_ANALYSIS, {})
+    switch (value) {
+      case "month":
+        duration = value
+        setDuration(value)
+        break;
+      case "year":
+        duration = value
+        setDuration(value)
+        break;
+
+      default:
+        duration = value
+        setDuration("custom")
+        break;
+    }
+    fetchTradeAnalysis(value);
+  }
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false)
-    }, 1000);
+    if (!tradeAnalysis)
+      fetchTradeAnalysis(duration);
   }, [])
   return (
     <Layout>
-      {
-        loading ? <Loading /> : <div id="home-container" className="layout-body">
-          <div style={{ display: "flex", width: "100%", height: "20%", justifyContent: "space-between", alignItems: "center" }}>
-            <DashboardCard w="20%" h="100%" icon={AlertIcon} bgColor={"#f95252"} label="Expiry Alert" onclick={() => { }} />
-            <DashboardCard w="20%" h="100%" bgColor={"#f95252"} label="Out Of Stock" onclick={() => { }} />
-            <DashboardCard w="20%" h="100%" bgColor={"#f95252"} label="Bill pending" onclick={() => { }} />
-            <DashboardCard w="20%" h="100%" bgColor={"#f95252"} label="Delivery alert" onclick={() => { }} />
-          </div>
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexDirection: "row", width: "100%", height: "30%", borderRadius: "0.8vw" }}>
-            <DashboardCard w="30%" h="100%" bgColor="#ffffff" label="Recent Sale" onclick={() => { }} />
-            <DashboardCard w="30%" h="100%" bgColor="#ffffff" label="Recent Purchase" onclick={() => { }} />
-            <DashboardCard w="30%" h="100%" bgColor="#ffffff" label="Recent Product" onclick={() => { }} />
-          </div>
-          <div style={{ width: "100%", height: "40%", display: "flex", flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderRadius: "0.8vw" }}>
-            <DashboardCard w="45%" h="100%" onclick={() => { }} label="Monthly Sale" />
-            <DashboardCard w="45%" h="100%" onclick={() => { }} label="Monthly Purchase" />
-          </div>
-        </div >
-      }
+      <div id="dashboard-container" className="layout-body borderbox">
+        <SalesOverview duration={duration} onchange={handlechange} />
+        <InventorySummary />
+        <PurchaseOverview duration={duration} onchange={handlechange} />
+        <CategoryWiseSale duration={duration} onchange={handlechange} />
+        <ProductDetails />
+        <CategoryWisePurchase duration={duration} onchange={handlechange} />
+        <DashboardGraph duration={duration} onchange={handlechange} />
+      </div >
     </Layout>
   );
 }
-export default Dashboard;
+export default memo(Dashboard);

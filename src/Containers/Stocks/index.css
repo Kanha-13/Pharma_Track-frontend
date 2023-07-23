@@ -1,0 +1,22 @@
+#stocks-container {
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#stock-enter {
+  color: #ffffff;
+  font-size: 1.3em;
+  text-align: center;
+  padding: 1.5%;
+  width: 28%;
+  background-color: #7763f2;
+  border-radius: 0.8vw;
+  margin: 1.5%;
+  cursor: pointer;
+  border: none;
+}
+
+#stock-enter:focus {
+  background-color: #5e48e8;
+}

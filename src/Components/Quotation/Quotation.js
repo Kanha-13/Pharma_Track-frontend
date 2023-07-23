@@ -1,108 +1,116 @@
-import { useEffect, useState } from "react";
+import { QuotationListHeader } from "../../Constants/billing";
+import { addCN, cancelSaleBill, checkoutBill, getBillingInfo } from "../../apis/billing";
+
 import Footer from "./Footer";
-import { datetoJSformat, getmmyy } from "../../utils/DateConverter";
-import { prodCheckout } from "../../apis/products";
-import { getInvoiceCount } from "../../apis/billing";
+import CartRow from "./CartRow";
 
 import './quotation.css'
+import Card from "../ManualAddProduct/Card";
+import { useEffect, useState } from "react";
+import { getyyyymmdd } from "../../utils/DateConverter";
+import { useNavigate } from "react-router-dom";
+import { ROUTES } from "../../Constants/routes_frontend";
+import CNInfo from "./CNInfo";
+import GSTInvoice from "../Invoice/GSTInvoice";
 
+const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, itemsIncart = [], onchangeqnty, changeDisc, resetCart }) => {
+  const navigate = useNavigate();
+  const [billingDate, setBillingDate] = useState(getyyyymmdd(new Date()));
+  const [invoiceNo, setInvoiceNo] = useState("")
+  const [cnData, setCNdata] = useState({})
+  const [printOpen, setOpenPrint] = useState(false)
+  const [billInfoForPrint, setBillToPrint] = useState({})
 
-const Quotation = ({ onremoveItem, itemsIncart = [], onchangeqnty, onReset }) => {
-  const [invoiceNumber, setInvoiceNumber] = useState("");
-
-  const calculateProfit = (data = {}) => {
-    let costPrice = 0;
-    itemsIncart.map((item) => {
-      const qnt = item.category === "bottle" ? 1 : item.qnty
-      costPrice += (item.netRate / qnt) * item.soldQnt
+  const oncheckout = async (billInfo, resetBillInfo) => {
+    let modified_prod_list = itemsIncart.map((cart) => {
+      delete cart.qnty
+      return cart
     })
-    let profit = Math.round(data.gttl - costPrice);
-    return profit
-  }
 
-  const oncheckout = async (data, resetFields) => {
-    data.invoiceNo = invoiceNumber
-    data.profit = calculateProfit(data)
-    let Data = [{ ...data }]
+    billInfo.billingDate = billingDate
+    //below data when CN is mergend with the current bill
+    billInfo.cnId = cnData._id || null
+    billInfo.creditAmt = cnData.amtRefund || 0
 
-    itemsIncart.map((item, index) => {
-      Data[index + 1] = {
-        _id: item._id,
-        soldQnt: item.soldQnt,
-        disc: data.discount,
-        total: parseFloat(item.soldQnt * (item.mrp / item.qnty)).toFixed(2)
+    try {
+      let data = {
+        billInfo: billInfo,
+        productsDetail: modified_prod_list
       }
-    })
+      let res = {}
+      if (oldBillId)
+        res = await cancelSaleBill(oldBillId, data)
+      else if (isCN)
+        res = await addCN(data)
+      else
+        res = await checkoutBill(data)
 
-    try {
-      const res = await prodCheckout([Data, []])
-      updateInvoiceNumber();
-      resetFields();
-      onReset();
+      let oldBalance = 0;
+      res.data.pendingBills?.map((bill) => oldBalance += bill.amtDue)
+      resetBillInfo()
+      setBillToPrint({ ...res.data.currentBill, oldBalance: oldBalance })
+      setOpenPrint(true)
     } catch (error) {
-      alert("Something went wrong")
+      console.log(error)
+      alert("Can't process the bill, something went wrong!")
     }
   }
 
+  const closeAfterPrint = () => {
+    resetCart()
+    addField()
+    setCNdata({})
+    setOpenPrint(false)
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)// do not remove this it is useful to go from cancel bill to billing
+  }
 
-  const updateInvoiceNumber = async () => {
+  const fetchBillingInfo = async (id) => {
     try {
-      const data = await getInvoiceCount();
-      setInvoiceNumber(data.invoCount)
+      const res = await getBillingInfo(id);
+      res.data.billingDate = getyyyymmdd(res.data.billingDate)
+      setInvoiceNo(res.data.invoiceNo)
+      setBillingDate(res.data.billingDate)
     } catch (error) {
-      alert("Something went wrong.Try again later!")
+      console.log(error)
+      alert("Unable to cancel bill")
     }
   }
+
+  const getTitle = () => {
+    if (isCN)
+      return "CREDIT NOTE"
+    else
+      return `INVOICE #${invoiceNo}`
+  }
+
   useEffect(() => {
-    updateInvoiceNumber()
+    if (oldBillId)// if routed from cancel bill
+      fetchBillingInfo(oldBillId)
   }, [])
+
   return (
-    <div id="quotation-container" className="layout-body" style={{
+    <div id="quotation-container" className="borderbox" style={{
 
     }}>
-      <h2 style={{ margin: "1% 0%" }}>Invoice #{invoiceNumber}</h2>
-      <hr width="90%" />
-      <div style={{ height: "70%", width: "90%" }}>
-        <table>
-          <thead style={{ borderBottom: "1px solid gray" }}>
-            <tr>
-              <th>S.No.</th>
-              <th>Item</th>
-              <th>Batch</th>
-              <th>MRP</th>
-              <th>Exp. date</th>
-              <th>Qnt.</th>
-              <th>Total</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody >
-            {
-              itemsIncart.map((item, index) => {
-                item.qnty = item.category === "bottle" ? 1 : item.qnty
-
-                return (
-                  <tr key={`${index}-quotation`} style={{  }}>
-                    <td style={{ width: "5%" }}>{index + 1}</td>
-                    <td style={{ width: "25%" }}>{item.itemName}</td>
-                    <td style={{ width: "15%" }}>{item.batch}</td>
-                    <td style={{ width: "10%" }}>{item.mrp}</td>
-                    <td style={{ width: "15%" }}>{getmmyy(item.expDate)}</td>
-                    <input className="quotation-soldqnty" autoFocus={itemsIncart.length - 1 === index} type="number" min={1}
-                      max={item.stock} value={item.soldQnt}
-                      onChange={(e) => onchangeqnty(index, e.target.value)} />
-                    <td style={{ width: "10%" }}>{parseFloat(item.soldQnt * (item.mrp / item.qnty)).toFixed(2)}</td>
-                    <td onClick={() => onremoveItem(item.itemName)}
-                      style={{ width: "5%" }}><button tabIndex={-1} className="removeCartBtn">X</button></td>
-                  </tr>
-                )
-              })
-            }
-          </tbody>
-        </table>
+      <div style={{ height: "10%", width: "100%", display: "flex", justifyContent: "space-between" }}>
+        <h2 style={{ margin: "1% 0%", width: "55%", textAlign: "right" }}>{getTitle()}</h2>
+        <Card require={true} m="1vh 0px" w="12%" h="70%" pd="0px 1%" name={"billingDate"} label="Bill Date" value={billingDate} onchange={(name, value) => setBillingDate(value)} type="date" />
       </div>
-      <hr width="90%" />
-      <Footer oncheckout={oncheckout} carts={itemsIncart} />
+      <hr width="95%" />
+      <div style={{ overflow: "auto", height: "70%", width: "95%", display: "flex", flexDirection: "column", borderBottom: "1px solid gray" }}>
+        <div style={{ borderBottom: "1px solid gray", display: "flex", flexDirection: "row", width: "100%", justifyContent: "space-between" }}>
+          {QuotationListHeader.map((head) => <p key={head.name + "in-quotation-table-head"} style={{ width: head.colSize, margin: "0.5vh 0px" }}>{head.name}</p>)}
+          <p style={{ margin: "0px" }}></p>
+        </div>
+        <div style={{ height: "auto", borderBottom: "1px solid gray", display: "flex", flexDirection: "column", width: "100%" }}>
+          {
+            itemsIncart.map((item, index) => <CartRow isCN={isCN} key={item._id + "billing-quotation-cartrow"} openProductLists={openProductLists} onRemove={onremoveItem} item={item} onchangedisc={changeDisc} onchange={onchangeqnty} index={index} />)
+          }
+        </div>
+        {cnData._id && <CNInfo data={cnData} />}
+      </div>
+      <Footer isCN={isCN} addField={addField} oncheckout={oncheckout} carts={itemsIncart} onsetCNInfo={(data) => setCNdata(data)} />
+      {printOpen && <GSTInvoice onClose={closeAfterPrint} data={billInfoForPrint} />}
     </div>
   );
 }

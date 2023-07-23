@@ -1,28 +1,28 @@
-import { useContext, useEffect, useState } from "react";
-import Layout from "../../Components/Layout/Layout";
-import SearchBar from "../../Components/SearchBar/SearchBar";
-
-import AddInfoIllustration from "../../images/illustrations/addInfo.svg"
-
-import './index.css'
-import ManualAdd from "../../Components/ManualAddProduct/ManualAdd";
-import ProductsList from "../../Components/ProductsList/ProductsList";
-import { StateContext } from "../../Store/store";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useStore } from "../../Store/store";
 import { ACTION } from "../../Store/constants";
 import { getProductWithInitials } from "../../apis/products";
-import Card from "../../Components/Products/Card";
-const Products = () => {
-  const { products, dispatch } = useContext(StateContext)
-  const [mode, setMode] = useState(-1)
-  const [productsList, setProductsList] = useState([])
-  const [isSearchActive, setSearchActive] = useState(0)
+import { ROUTES } from "../../Constants/routes_frontend";
+import { ProductListHeader } from "../../Constants/product";
 
-  const openManualAdd = (mod) => {
-    setMode(mod)
+import Layout from "../../Components/Layout/Layout";
+import ProductsList from "../../Components/ProductsList/ProductsList";
+
+import './index.css'
+
+const Products = () => {
+  const navigate = useNavigate();
+  const { products, dispatch } = useStore();
+  const [productsList, setProductsList] = useState([])
+  const [isSearchActive, setSearchActive] = useState(false)
+
+  const toManualAdd = () => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD_MANUAL)
   }
 
-  const onclickproduct = (itemname) => {
-
+  const onclickproduct = (pId) => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_INFO + "id=" + pId)
   }
 
   const fetchProducts = async (initial, val) => {
@@ -36,16 +36,11 @@ const Products = () => {
   }
 
   const onchange = (val) => {
+    val = val.trim()
     if (val === "") {
       setProductsList([])
-      setTimeout(() => {
-        setSearchActive(0)
-      }, 300);
       return
     }
-    setTimeout(() => {
-      setSearchActive(1)
-    }, 200);
     val = val.toLowerCase()
     let initialletter = val.split("")[0]
     if (products[0]?.itemName.split("")[0].toLowerCase() === initialletter.toLowerCase()) {
@@ -57,26 +52,29 @@ const Products = () => {
     }
   }
 
+  const onaddclick = () => {
+    navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD)
+  }
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (productsList.length)
+        setSearchActive(true)
+      else
+        setSearchActive(false)
+    }, 100);
+  }, [productsList])
+
   return (
     <Layout>
-      <div id="products-container" className="layout-body">
-        {
-          mode === -1 ?
-            <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column" }} >
-              <ProductsList showRate={true} mh="400%" h="100%" w="100%" onchange={onchange} onclick={onclickproduct} products={productsList} />
-              {isSearchActive ? <></> : <div style={{
-                display: "flex", alignItems: "start", justifyContent: "space-around"
-                , width: "100%", height: "80%", marginTop: "10%"
-              }}>
-                <Card onclick={() => openManualAdd(0)} title="Manual method" image={AddInfoIllustration} btnLabel=" + Add product manually" />
-                <p style={{ alignSelf: "center", color: "#8C8CA1", fontSize: "2rem", fontWeight: "bold" }}>OR</p>
-                <Card onclick={() => openManualAdd(1)} title="Scan QR code" image={AddInfoIllustration} btnLabel=" + Add product manually" />
-              </div>}
-            </div> :
-
-            mode === 0 ?
-              <ManualAdd /> : <></>
-        }
+      <div id="products-container" className="layout-body borderbox">
+        <div style={{ width: "100%",height:"5vh", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px",display:"flex",marginBottom:"5vh" }}>
+          <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left" }}>Products</p>
+          <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={onaddclick}>Add Products</button>
+        </div>
+        <ProductsList header={ProductListHeader} data={productsList}
+          mh="400%" h="100%" w="100%"
+          onchange={onchange} onclick={onclickproduct} />
       </div>
     </Layout>
   );

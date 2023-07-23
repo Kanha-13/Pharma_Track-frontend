@@ -1,14 +1,22 @@
 import { useEffect, useState } from "react"
+import KEY from "../../Constants/keyCode"
+import Card from "../ManualAddProduct/Card"
+import ChooseCN from "./ChooseCN"
+import { getCNInfo } from "../../apis/billing"
+import { calcProfit } from "../../utils/billing"
 
-const Footer = ({ carts = [], oncheckout }) => {
+const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
   const [patientName, setPatient] = useState("")
   const [prescribedBy, setPrescribedBy] = useState("")
   const [mobileNumber, setmobileNumber] = useState("")
   const [address, setaddress] = useState("")
   const [total, setTotal] = useState(0)
   const [discount, setDiscount] = useState(0)
+  const [roundOff, setRoundOff] = useState(0)
+  const [creditAmt, setCreditAmt] = useState()
   const [grandTotal, setGrandTotal] = useState(0)
   const [amtPaid, setamtPaid] = useState(0)
+  const [isMergeCN, setIsMergeCN] = useState(false)
 
   const resetFields = () => {
     setPatient("");
@@ -19,26 +27,36 @@ const Footer = ({ carts = [], oncheckout }) => {
     setDiscount(0)
     setGrandTotal(0)
     setamtPaid(0)
+    setCreditAmt()
   }
 
-  const oncheckOut = (e) => {
+  const onMergeCN = () => {
+    setIsMergeCN(true)
+  }
+
+  const onSumbmit = (e) => {
     e.preventDefault()
     alert("happy shopping")
 
     if (carts.length) {
+      const profit = calcProfit(carts)
       const billDetail = {
         patientName: patientName,
-        mobileNo: mobileNumber,
+        mobileNumber: mobileNumber,
         address: address,
         prescribedBy: prescribedBy,
-        gttl: grandTotal,
-        paid: amtPaid,
+        subTotal: total,
+        grandTotal: grandTotal,
+        amtPaid: amtPaid,
         amtDue: grandTotal - amtPaid,
         discount: discount,
-        date: new Date(),
-        roundoff: grandTotal - (parseFloat(total - (total * discount / 100)).toFixed(3)),
-        changeInProfit: 0,
-        changeInSell: 0,
+        roundoff: roundOff,
+        creditAmt: creditAmt,
+        profit: profit - (roundOff * -1)
+      }
+      if (isCN) {
+        billDetail.amtRefund = amtPaid
+        delete billDetail.amtPaid
       }
       oncheckout(billDetail, resetFields)
     } else {
@@ -46,24 +64,69 @@ const Footer = ({ carts = [], oncheckout }) => {
     }
   }
 
+  const handleChooseCN = async (cnId) => {
+    try {
+      const res = await getCNInfo(cnId);
+      setCreditAmt(res.data.amtRefund)
+      setGrandTotal((prev) => prev - res.data.amtRefund)
+      setamtPaid((prev) => prev - res.data.amtRefund)
+      onsetCNInfo(res.data)
+    } catch (error) {
+      console.log(error)
+      alert("Unable to get cn info!")
+    }
+    setIsMergeCN(false)
+  }
+
   useEffect(() => {
-    let total = 0;
-    carts.map((cart, index) => {
-      total += cart.soldQnt * (cart.mrp / cart.qnty)
-    })
-    setTotal(total.toFixed(2))
-    total = parseFloat(total - (total * discount / 100)).toFixed(2)
-    setGrandTotal(Math.round(total))
+    try {
+      let subtotal = "0";// for total without discount
+      let total = "0";//for total with discount
+      carts.map((cart, index) => {
+        let mrp_per_unit = cart.mrp  // tablet or bottle
+        if (cart.category === "TABLET")
+          mrp_per_unit = cart.mrp / cart.pkg
+        subtotal = parseFloat(mrp_per_unit * cart.soldQnty) + parseFloat(subtotal)
+        total = parseFloat(cart.total) + parseFloat(total)
+      })
+      let discountInRS = parseFloat(subtotal - total).toFixed(2)
+      setDiscount(discountInRS)
+      let gttl = Math.round(total)
+      setRoundOff(parseFloat(gttl - (subtotal - discountInRS)).toFixed(2))
+      setTotal(parseFloat(subtotal).toFixed(2))
+      setGrandTotal(gttl)
+      setamtPaid(gttl)
+    } catch (error) {
+    }
   }, [carts])
 
+  const handleKeyUp = (event) => {
+    switch (event.keyCode) {
+      case KEY.F9:
+        event.preventDefault();
+        addField();
+        break;
+      case KEY.F10:
+        event.preventDefault();
+        onSumbmit(event)
+        break;
+      default:
+        break;
+    }
+  };
+
   useEffect(() => {
-    setGrandTotal(Math.round(total - (total * discount / 100)))
-  }, [discount])
+    document.addEventListener('keydown', handleKeyUp);
+    return () => {
+      document.removeEventListener('keydown', handleKeyUp);
+    };
+  }, []);
+
 
   return (
-    <form onSubmit={oncheckOut} style={{
+    <div onSubmit={onSumbmit} style={{
       display: "flex",
-      justifyContent: "space-between", alignItems: "center", flexDirection: "row", height: "30%", width: "90%"
+      justifyContent: "space-between", alignItems: "center", flexDirection: "row", height: "30%", width: "95%"
     }}>
       <div style={{
         height: "100%", width: "60%",
@@ -76,36 +139,47 @@ const Footer = ({ carts = [], oncheckout }) => {
           <h5 style={{ margin: "5px" }}>Address:</h5>
         </div>
         <div style={{ width: "55%", height: "100%", display: "flex", justifyContent: "space-around", flexDirection: "column" }}>
-          <input required placeholder="Doctor name" onChange={(e) => setPrescribedBy(e.target.value)} value={prescribedBy} />
-          <input required placeholder="Patient name" onChange={(e) => setPatient(e.target.value)} value={patientName} />
-          <input required placeholder="Mobile name" onChange={(e) => setmobileNumber(e.target.value)} value={mobileNumber} />
-          <input required placeholder="Address" onChange={(e) => setaddress(e.target.value)} value={address} />
+          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Doctor Name" value={prescribedBy} onchange={(name, value) => setPrescribedBy(value)} type="text" />
+          <Card required={true} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Patient Name" value={patientName} onchange={(name, value) => setPatient(value)} type="text" />
+          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Mobile Number" value={mobileNumber} onchange={(name, value) => setmobileNumber(value)} type="text" />
+          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Address" value={address} onchange={(name, value) => setaddress(value)} type="text" />
         </div>
       </div>
-      <div style={{ height: "100%", width: "39%", display: "flex", justifyContent: "centre", alignItems: "start" }}>
-        <div style={{ marginTop: "5%", height: "100%", width: "60%", display: "flex", justifyContent: "start", flexDirection: "column" }}>
-          <h5 style={{ height: "20%", margin: "0px" }}>Total:</h5>
+      <div style={{ height: "100%", width: "39%", flexWrap: "wrap", display: "flex", justifyContent: "centre", alignItems: "start" }}>
+        <div style={{ marginTop: "2%", height: "80%", width: "60%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+          <h5 style={{ height: "20%", margin: "0px" }}>Sub Total:</h5>
           <h5 style={{ height: "20%", margin: "0px" }}>Discount:</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>Round Off:</h5>
+          {creditAmt ? <h5 style={{ height: "20%", margin: "0px" }}>Credit amt.:</h5> : <></>}
           <h5 style={{ height: "20%", margin: "0px" }}>Grand Total:</h5>
-          <h5 style={{ height: "20%", margin: "0px" }}>Amount Paid:</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>Amount {isCN ? "Refund" : "Paid"}:</h5>
         </div>
-        <div style={{ marginTop: "5%", width: "40%", height: "100%", display: "flex", justifyContent: "start", flexDirection: "column" }}>
-          <h5 style={{ height: "15%", margin: "0px" }}>{total}</h5>
-          <input type="number" min={0} max={100} style={{
-            height: "15%", margin: "10% 0px"
-          }} onChange={(e) => setDiscount(e.target.value)} value={discount} />
-          <h5 style={{ height: "15%", margin: "0px", marginTop: "1.2vh", }}>{grandTotal}</h5>
-          <input type="number" min={0} style={{
-            height: "15%", margin: "10% 0px"
-          }} onChange={(e) => setamtPaid(e.target.value)} value={amtPaid} />
-          <button disabled={!carts.length} type="submit" style={{
-            height: "25%", width: "100%", marginTop: "10%",
+        <div style={{ marginTop: "2%", height: "80%", width: "40%", display: "flex", justifyContent: "space-between", flexDirection: "column" }}>
+          <h5 style={{ height: "20%", margin: "0px" }}>{parseFloat(total || "0").toFixed(2)}</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>{discount || 0}</h5>
+          <h5 style={{ height: "20%", margin: "0px" }}>{roundOff || 0}</h5>
+          {creditAmt ? <h5 style={{ height: "20%", margin: "0px" }}>{creditAmt || 0}</h5> : <></>}
+          <h5 style={{ height: "20%", margin: "0px", marginTop: "0px", }}>{grandTotal || 0}</h5>
+          <Card min={0} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt." value={amtPaid || 0} onchange={(name, value) => setamtPaid(value)} type="number" />
+
+        </div>
+        <div style={{ width: "100%", height: "4vh", marginTop: "3vh", display: "flex", justifyContent: "space-between" }} >
+          <button onClick={onSumbmit} className="custom-input-fields" disabled={!carts.length} type="submit" style={{
+            height: "100%", width: "40%", fontSize: "1rem",
             border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
             borderRadius: "0.5vw", fontWeight: "bold"
           }}>Check Out</button>
+          {!isCN && <button onClick={onMergeCN} className="custom-input-fields" disabled={!carts.length} type="submit" style={{
+            height: "100%", width: "40%", fontSize: "1rem",
+            border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
+            borderRadius: "0.5vw", fontWeight: "bold"
+          }}>Merge CN</button>}
         </div>
       </div>
-    </form>
+      {
+        isMergeCN && <ChooseCN onEnter={handleChooseCN} closeModal={() => setIsMergeCN(false)} />
+      }
+    </div>
   );
 }
 export default Footer;
