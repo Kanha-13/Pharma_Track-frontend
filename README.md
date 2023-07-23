@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+# PharmaTrack: Your All-in-One Pharmacy Inventory Management App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Description
 
-## Available Scripts
+PharmaTrack is a cutting-edge web application tailor-made for pharmacy shops, revolutionizing inventory management. Built using React, Node.js, Express.js, and MongoDB, it offers seamless performance and a user-friendly experience. Say goodbye to manual stock tracking and expired products with our intuitive interface.
 
-In the project directory, you can run:
+### Key Features:
 
-### `npm start`
+1. Inventory Tracking: Keep tabs on your pharmacy's stock levels with real-time updates and never run out of essential items.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. Expiry Alerts: Stay ahead of expiring products with timely alerts, ensuring optimal stock rotation and minimizing wastage.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. Invoice Generation: Create professional invoices effortlessly, streamlining the billing process for faster transactions.
 
-### `npm test`
+4. Vendor Tracking: Keep vendor information organized, track orders, and manage supplier relationships efficiently.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. Powerful Dashboard: Get a comprehensive view of sales, purchases, profits, losses, and credit history, empowering data-driven decisions.
 
-### `npm run build`
+6. Graphical Analytics: Visualize sales, purchase, profit, and loss trends with beautiful graphs, enabling quick analysis and strategic planning.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+7. Category-wise Analysis: Dive deeper into sales and purchase trends across different product categories for enhanced insights.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+8. Customer Purchasing History: Track individual customer purchases, enabling personalized service and loyalty programs.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+PharmaTrack is a game-changer, optimizing your pharmacy's operations, improving customer satisfaction, and increasing profitability. Experience the future of inventory management today.
 
-### `npm run eject`
+## Table of Contents
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [License](#license)
+- [Author](#author)
+- [Contact](#contact)
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Requirements
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- NodeJs
+- Npm / Yarn or any other package manager
+- MongoDB ( only if you want to setup DB locally )
+- Elastic mail account for OTP service or you can replace it with any other provider
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## Installation
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Follow the steps to set up in your local system:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+1. `git clone https://github.com/Kanha-13/pharmacy-v2.0.git`
+2. cd to the cloned repo
+3. Install the dependencies `npm install`
+4. create a ".env" file at the root and copy and paste the content from ".env.example", replace the credentials with your own
+5. Start the application with `npm start`
+6. Now setup the backend app, cd back to the root, then use `git clone https://github.com/Kanha-13/pharmacyERP_Solution.git`
+7. cd to the cloned repo
+8. Install the dependencies `npm install`
+9. You will again find a ".env.example" file in that repo as well. Follow step 3 again
+10. `npm start` or `nodemon` for dev mode
 
-### Code Splitting
+## Usage
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+This app is specially designed for Pharmacy store
 
-### Analyzing the Bundle Size
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Open for any type of contribution
 
-### Making a Progressive Web App
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+=======
+The MIT License (MIT)
 
-### Advanced Configuration
+Copyright (c) 2023 Kanha Agrawal
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-### Deployment
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
 
-### `npm run build` fails to minify
+## Author
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[Kanha Agrawal](https://github.com/kanha-13/)
+
+## Contact
+
+kanha.agr11@gmail.com
+
+Feel free to reach out if you have any questions or suggestions!
