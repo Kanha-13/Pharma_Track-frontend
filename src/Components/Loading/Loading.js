@@ -3,12 +3,7 @@ const Loading = () => {
   return (
     <div id='loading-container' >
       <p>Loading...</p>
-      <div class="loader">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
-    </div>
+      <div className="lds-dual-ring"></div>
     </div>
   );
 }
