@@ -15,7 +15,7 @@ import './layout.css'
 const Layout = (props) => {
   const navigate = useNavigate();
   const { dispatch } = useStore();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const onswitch = (window) => {
     dispatch(ACTION.SET_WINDOW, ROUTES.PROTECTED_ROUTER + window)
@@ -46,7 +46,6 @@ const Layout = (props) => {
   };
 
   const handleRouteChange = () => {
-    setLoading(true)
     return setTimeout(() => {
       setLoading(false)
     }, 1000);
@@ -61,7 +60,7 @@ const Layout = (props) => {
 
   useEffect(() => {
     handleRouteChange()
-  }, [navigate]);
+  }, []);
 
   return (
     <div id="layout-container">
