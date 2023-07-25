@@ -1,8 +1,14 @@
 import './loading.css'
-const Loading = () =>{
-  return(
+const Loading = () => {
+  return (
     <div id='loading-container' >
-      <h2>Loading...</h2>
+      <p>Loading...</p>
+      <div class="loader">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
     </div>
   );
 }

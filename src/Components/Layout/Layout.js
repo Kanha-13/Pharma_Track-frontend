@@ -1,5 +1,5 @@
 import { useStore } from "../../Store/store";
-import { useEffect, useState } from "react";
+import { useEffect, useState, cloneElement } from "react";
 import { ACTION } from "../../Store/constants";
 import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Constants/routes_frontend";
@@ -59,6 +59,10 @@ const Layout = (props) => {
     };
   }, []);
 
+  const onLoad = () => {
+    setLoading((prev) => !prev)
+  }
+
   useEffect(() => {
     handleRouteChange()
   }, [navigate]);
@@ -69,8 +73,9 @@ const Layout = (props) => {
       <div style={{ width: "100vw", height: "93vh", display: "flex" }}>
         <SideBar onswitch={onswitch} />
         <div style={{ position: "relative", width: "85vw", height: "93vh", overflow: "hidden" }}>
-          {loading ? <Loading /> : props.children}
+          {cloneElement(props.children, { onLoad: onLoad })}
         </div>
+        {loading ? <Loading /> : <></>}
       </div>
     </div>
   );
