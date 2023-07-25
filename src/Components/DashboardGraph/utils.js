@@ -102,7 +102,20 @@ export const sumAllObjectsFields = (trades = []) => {
   })
 }
 
-export const generateTradeAnalysis = (object) => {
+export const generateTradeAnalysis = (object = {}) => {
+  if (!Object.keys(object).length) return {
+    tsc: 0,
+    tp: 0,
+    tpcr: 0,
+    tscr: 0,
+    asa: 0,
+    apa: 0,
+    cpo: 0,
+    tr: 0,
+    ti: 0,
+    tl: 0,
+    cc: 0,
+  }
   return ({
     tsc: object.salesCount, tpc: object.purchaseCount,
     tp: object.profit.toFixed(2), ti: object.investment.toFixed(2), tr: object.revenue.toFixed(2),
