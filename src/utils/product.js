@@ -8,6 +8,8 @@ export const validateAddRequest = (data) => {
 
 export const validateUpdateRequest = (data) => {
   delete data.__v
+  delete data.minQnty
+  delete data.qnty
   if (!data._id)
     return false
   for (const key in data)

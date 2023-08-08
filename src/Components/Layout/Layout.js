@@ -40,6 +40,10 @@ const Layout = (props) => {
         event.preventDefault();
         navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD)
         break;
+      case KEY.ESC:
+        event.preventDefault();
+        navigate(-1)
+        break;
       default:
         break;
     }

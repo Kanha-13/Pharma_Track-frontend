@@ -135,8 +135,14 @@ const Billing = () => {
   const closeListModal = (event) => {
     if (event.keyCode) {
       if (event.keyCode === KEY.ESC) {
-        setIsChosse(false)
-        setIsList(false);
+        setIsChosse((prev) => {
+          if (prev) event.stopPropagation()
+          return false
+        })
+        setIsList((prev) => {
+          if (prev) event.stopPropagation()
+          return false
+        });
       }
     }
     else // if the method is called directly by some other function

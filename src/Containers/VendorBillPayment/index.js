@@ -156,8 +156,12 @@ const VendorBillPayment = () => {
 
   const closeModal = (event) => {
     if (event?.keyCode) {
-      if (event.keyCode === KEY.ESC)
-        setModal(false)
+      if (event.keyCode === KEY.ESC){
+        setModal((prev) => {
+          if (prev) event.stopPropagation()
+          return false
+        })
+      }
     }
     else // if the method is called directly by some other function
       setModal(false)
