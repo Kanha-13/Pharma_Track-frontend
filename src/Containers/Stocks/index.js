@@ -24,7 +24,7 @@ const Stocks = () => {
     try {
       const data = await getProductWithInitials(initial)
       setStockList(data || [])
-      dispatch(ACTION.SET_PRODUCTS, data)
+      // dispatch(ACTION.SET_PRODUCTS, data)
     } catch (error) {
       alert("Something went wrong!")
     }
@@ -34,18 +34,18 @@ const Stocks = () => {
     val = val.trim()
     if (val === "") {
       setStockList([])
-      // setNextFocus(false)
       return
     }
-    val = val.toLowerCase()
-    let initialletter = val.split("")[0]
-    if (products[0]?.itemName.split("")[0].toLowerCase() === initialletter.toLowerCase()) {
-      setStockList(products.filter((item) => item.itemName.toLowerCase().includes((val))))
-    }
-    else {
-      setStockList([])
-      fetchProducts(initialletter[0], val)
-    }
+    // val = val.toLowerCase()
+    // let initialletter = val.split("")[0]
+    // if (products[0]?.itemName.split("")[0].toLowerCase() === initialletter.toLowerCase()) {
+    //   setStockList(products.filter((item) => item.itemName.toLowerCase().includes((val))))
+    // }
+    // else {
+    //   setStockList([])
+    //   fetchProducts(initialletter[0], val)
+    // }
+    fetchProducts(val)
   }
 
   const onaddclick = () => {

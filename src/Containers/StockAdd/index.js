@@ -37,7 +37,7 @@ const StocksAdd = () => {
     try {
       const data = await getProductWithInitials(initial)
       setStockList(data || [])
-      dispatch(ACTION.SET_PRODUCTS, data)
+      // dispatch(ACTION.SET_PRODUCTS, data)
     } catch (error) {
       alert("Something went wrong!")
     }
@@ -49,15 +49,17 @@ const StocksAdd = () => {
       setStockList([])
       return
     }
-    val = val.toLowerCase()
-    let initialletter = val.split("")[0]
-    if (products[0]?.itemName.split("")[0].toLowerCase() === initialletter.toLowerCase()) {
-      setStockList(products.filter((item) => item.itemName.toLowerCase().includes((val))))
-    }
-    else {
-      setStockList([])
-      fetchProducts(initialletter[0])
-    }
+    // val = val.toLowerCase()
+    // let initialletter = val.split("")[0]
+    // if (products[0]?.itemName.split("")[0].toLowerCase() === initialletter.toLowerCase()) {
+    //   setStockList(products.filter((item) => item.itemName.toLowerCase().includes((val))))
+    // }
+    // else {
+    //   setStockList([])
+    //   fetchProducts(initialletter[0])
+    // }
+    fetchProducts(val)
+
   }
 
   const onchangeStockDetail = (name, val) => {
