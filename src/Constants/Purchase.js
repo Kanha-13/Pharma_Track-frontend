@@ -1,5 +1,5 @@
 export const PurchaseProductListHeader = [
-  { name: 'Item Name', value: "pId", colSize: "14%", ph: "Item name", type: "select" },
+  { name: 'Item Name', value: "itemName", colSize: "14%", ph: "Item name", type: "text" },
   { name: 'Pkg.', value: "pkg", colSize: "5%", ph: "Pkg" },
   { name: 'Qnty.', value: "qnty", colSize: "4.5%", ph: "Qnty", type: "number" },
   { name: 'Free', value: "free", colSize: "4%", ph: "Free", type: "number" },

@@ -54,9 +54,9 @@ const PurchaseAdd = () => {
 
   const fetchProductsList = async () => {
     try {
-      const res = await getAllProducts();
-      formateproductslist(res.data)
-      dispatch(ACTION.SET_PRODUCTS, res.data)
+      // const res = await getAllProducts();
+      // formateproductslist(res.data)
+      // dispatch(ACTION.SET_PRODUCTS, res.data)
     } catch (error) {
       alert("Unable to get products list!")
     }

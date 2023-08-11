@@ -35,7 +35,7 @@ const Card = (props) => {
       default:
         return <input min={min} className="custom-input-fields" style={{fontSize:fs}} max={max} onKeyDown={checkForEnterKey} placeholder={ph || label}
           autoFocus={focus} required={require} value={value} type={type}
-          onChange={(e) => onchange(name, e.target.value)} />
+          onChange={(e) => onchange(name, e.target.value)} name={ph} />
     }
   }
 
