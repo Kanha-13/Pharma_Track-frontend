@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useStore } from "../../Store/store";
-import { getCompanies } from "../../apis/company";
+import { getCompanies, getCompanyQuery } from "../../apis/company";
 import { ACTION } from "../../Store/constants";
 import { ROUTES } from "../../Constants/routes_frontend";
 
@@ -17,9 +17,9 @@ const Company = () => {
   const { companies, dispatch } = useStore()
   const [companieslist, setcompanieslist] = useState([])
 
-  const fetchallcompanys = async () => {
+  const fetchacompanys = async (key) => {
     try {
-      const res = await getCompanies()
+      const res = await getCompanyQuery(key)
       setcompanieslist(res.data)
       dispatch(ACTION.SET_COMPANIES, res.data)
     } catch (error) {
@@ -28,8 +28,7 @@ const Company = () => {
   }
 
   const onchange = (val) => {
-    // const filtered = companies.filter((comp) => comp.companyName.includes((val).toUpperCase()))
-    // setcompanieslist(filtered)
+    fetchacompanys(val);
   }
 
   const onAddNewClick = () => {
@@ -39,12 +38,9 @@ const Company = () => {
     navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_INFO + "id=" + companyId)
   }
 
-  // useEffect(() => {
-  //   if (!companies.length)
-  //     fetchallcompanys();
-  //   else
-  //     setcompanieslist(companies)
-  // }, [])
+  useEffect(()=>{
+    fetchacompanys("a")
+  },[])
 
   return (
     <Layout>
