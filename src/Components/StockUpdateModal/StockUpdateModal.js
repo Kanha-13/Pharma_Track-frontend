@@ -5,6 +5,7 @@ import { useStore } from "../../Store/store";
 import { getVendors } from "../../apis/vendors";
 import { getyyyymm } from "../../utils/DateConverter";
 import { ACTION } from "../../Store/constants";
+import InputDate from "../CustomDateInput/DateInput";
 
 const StockUpdateModal = ({ oncancel, onupdate, ondelete, info }) => {
   const { dispatch, vendors } = useStore();
@@ -54,7 +55,7 @@ const StockUpdateModal = ({ oncancel, onupdate, ondelete, info }) => {
   return (
     <div style={{ position: "absolute", width: "91%", height: "81%", backgroundColor: "#ffffff", borderRadius: "0.4vw", top: "12.5vh", left: "4.2vw", display: "flex", flexWrap: "wrap" }}>
       <Card focus={true} require={true} w="25%" h="4%" name={STOCK.BATCH} label="Batch" value={stockInfo.batch} onchange={onchange} type="text" />
-      <Card require={true} w="25%" h="4%" name={STOCK.EXPDATE} label="Exp. Date" value={getyyyymm(stockInfo.expDate)} onchange={onchange} type="month" />
+      <InputDate require={true} w="25%" h="4%" name={STOCK.EXPDATE} label="Exp. Date" value={getyyyymm(stockInfo.expDate)} onchange={onchange} type="month" />
       <Card require={true} w="25%" h="4%" name={STOCK.MRP} label="MRP" value={stockInfo.mrp} onchange={onchange} type="text" />
       <Card require={true} w="25%" h="4%" name={STOCK.QNT} label="Qnty." value={stockInfo.qnty} onchange={() => { }} type="text" />
       <Card require={true} w="25%" h="4%" name={STOCK.MINQNTY} label="Min Qnty." value={stockInfo.minQnty} onchange={onchange} type="number" />

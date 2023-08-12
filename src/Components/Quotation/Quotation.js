@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Constants/routes_frontend";
 import CNInfo from "./CNInfo";
 import GSTInvoice from "../Invoice/GSTInvoice";
+import InputDate from "../CustomDateInput/DateInput";
 
 const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, itemsIncart = [], onchangeqnty, changeDisc, resetCart }) => {
   const navigate = useNavigate();
@@ -94,7 +95,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
     }}>
       <div style={{ height: "10%", width: "100%", display: "flex", justifyContent: "space-between" }}>
         <h2 style={{ margin: "1% 0%", width: "55%", textAlign: "right" }}>{getTitle()}</h2>
-        <Card require={true} m="1vh 0px" w="12%" h="70%" pd="0px 1%" name={"billingDate"} label="Bill Date" value={billingDate} onchange={(name, value) => setBillingDate(value)} type="date" />
+        <InputDate require={true} m="1vh 0px" w="10%" h="70%" pd="0px 1%" name={"billingDate"} label="Bill Date" value={billingDate} onchange={(name, value) => setBillingDate(value)} type="fulldate" />
       </div>
       <hr width="95%" />
       <div style={{ overflow: "auto", height: "70%", width: "95%", display: "flex", flexDirection: "column", borderBottom: "1px solid gray" }}>
