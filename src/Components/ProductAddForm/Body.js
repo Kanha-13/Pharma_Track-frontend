@@ -7,9 +7,11 @@ import { BillingListHeader } from "../../Constants/billing";
 import { ACTION } from "../../Store/constants";
 import { useStore } from "../../Store/store";
 import InputDate from "../CustomDateInput/DateInput";
+import KEY from "../../Constants/keyCode";
 
 const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = () => { } }) => {
   const { dispatch } = useStore()
+  const [keyword, setkey] = useState("")
   const [list, setList] = useState([]);
   const [isLists, setIsProdList] = useState(false)
   const [heads, setHeads] = useState([]);
@@ -18,8 +20,10 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
 
   const handlechange = (index, name, value) => {
     setIndex(index)
-    if (name === "itemName")
+    if (name === "itemName") {
+      setkey(value)
       setIsProdList(true)
+    }
     else
       onChange(index, name, value)
   }
@@ -56,6 +60,28 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
     fetchProducts(val)
   }
 
+  const closeListModal = (event) => {
+    if (event.keyCode) {
+      if (event.keyCode === KEY.ESC) {
+        setIsProdList((prev) => {
+          if (prev) event.stopPropagation()
+          return false
+        });
+      }
+    }
+    else // if the method is called directly by some other function
+      setIsProdList(false)
+  }
+
+  useEffect(() => {
+    document.addEventListener('click', closeListModal);
+    document.addEventListener('keydown', closeListModal);
+    return () => {
+      document.removeEventListener('click', closeListModal);
+      document.removeEventListener('keydown', closeListModal);
+    };
+  }, [])
+
   useEffect(() => {
     setList(dataList)
     setHeads(headers)
@@ -65,7 +91,7 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
       {isLists &&
         <div style={{ backgroundColor: "#ffffff", position: "absolute", width: "90.5%", zIndex: 2, top: "3vh", height: "91%", display: "flex", flexDirection: 'column' }}>
           <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
-            onclick={onclickproduct} header={BillingListHeader} data={productsList} />
+            onclick={onclickproduct} header={BillingListHeader} data={productsList} keyword={keyword} />
         </div>
       }
       {

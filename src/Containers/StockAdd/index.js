@@ -16,6 +16,7 @@ import InputDate from "../../Components/CustomDateInput/DateInput";
 
 const StocksAdd = () => {
   const { products, dispatch } = useStore();
+  const [keyword, setkey] = useState("")
   const [stockList, setStockList] = useState([])
   const [stockDetail, setStockDetail] = useState(stockdetail)
   const [isSearchOpen, setIsSearchOpen] = useState(true);
@@ -53,8 +54,10 @@ const StocksAdd = () => {
   }
 
   const onchangeStockDetail = (name, val) => {
-    if (name === "itemName")
+    if (name === "itemName") {
+      setkey(val)
       setIsSearchOpen(true)
+    }
     setStockDetail({ ...stockDetail, [name]: val })
   }
 
@@ -95,7 +98,7 @@ const StocksAdd = () => {
         {
           isSearchOpen ?
             <ProductsList show={isSearchOpen} mh="400%" h="100%" w="100%" onchange={onchange}
-              onclick={onclickproduct} header={StockListHeader} data={stockList} /> :
+              onclick={onclickproduct} header={StockListHeader} data={stockList} keyword={keyword} /> :
             <div style={{
               display: "flex", alignItems: "start", flexWrap: "wrap", flexDirection: "row",
               width: "100%", height: "65%"

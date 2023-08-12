@@ -13,8 +13,8 @@ const CartRow = ({ isCN, item, onRemove, onchange, openProductLists, onchangedis
     onchangedisc(index, value)
   }
 
-  const onclicked = () => {
-    openProductLists(index)
+  const onclicked = (name,value) => {
+    openProductLists(index,value)
   }
 
   return (

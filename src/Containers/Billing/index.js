@@ -19,6 +19,7 @@ import KEY from "../../Constants/keyCode";
 const Billing = () => {
   const { products, dispatch } = useStore();
   const navigate = useNavigate()
+  const [keyword, setkey] = useState("")
   const { oldBillId } = useParams()
   const [currentPID, setPID] = useState("")
   const [productsList, setProductsList] = useState([])//this product list is the filtered list
@@ -114,8 +115,9 @@ const Billing = () => {
     setIsCN(prev => !prev)
   }
 
-  const openList = (index) => {
+  const openList = (index, value) => {
     setCurrentIndex(index)
+    setkey(value)
     setIsList(true)
   }
 
@@ -155,7 +157,7 @@ const Billing = () => {
         {isLists &&
           <div style={{ backgroundColor: "#ffffff", position: "absolute", width: "90.5%", zIndex: 2, top: "3vh", height: "91%", display: "flex", flexDirection: 'column' }}>
             <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
-              onclick={onclickproduct} header={BillingListHeader} data={productsList} />
+              onclick={onclickproduct} header={BillingListHeader} data={productsList} keyword={keyword} />
           </div>
         }
         <div style={{ height: "5vh", width: "100%", display: "flex" }}>

@@ -5,7 +5,7 @@ import "./productslist.css"
 import { checkForScroll, scrollElement } from "../../utils/dom";
 import { getmmyy, toddmmyy } from "../../utils/DateConverter";
 
-const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = [], onclick, onchange }) => {
+const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = [], onclick, onchange, keyword = "" }) => {
   const [search, setSearch] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [listClass, setClass] = useState("borderbox close-animation");
@@ -90,6 +90,11 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = 
     else
       setClass("borderbox close-animation")
   }, [data])
+
+  useEffect(() => {
+    if (keyword)
+      setSearch(keyword)
+  }, [keyword])
 
   return (
     <div id="productslist-container" style={{ display: show ? "flex" : "none", height: h, width: w }} className={listClass}>
