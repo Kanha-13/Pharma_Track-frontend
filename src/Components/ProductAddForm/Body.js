@@ -6,6 +6,7 @@ import { getProductWithInitials } from "../../apis/products";
 import { BillingListHeader } from "../../Constants/billing";
 import { ACTION } from "../../Store/constants";
 import { useStore } from "../../Store/store";
+import InputDate from "../CustomDateInput/DateInput";
 
 const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = () => { } }) => {
   const { dispatch } = useStore()
@@ -14,12 +15,6 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
   const [heads, setHeads] = useState([]);
   const [productsList, setProductsList] = useState([]);
   const [currentIndex, setIndex] = useState(null)
-  const getValue = (item, name) => {
-    if (name === "expDate" && item[name]) {
-      return getyyyymm(item[name])
-    }
-    return item[name] || ""
-  }
 
   const handlechange = (index, name, value) => {
     setIndex(index)
@@ -78,8 +73,13 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
           const onchangeProductDetail = (name, value) => { handlechange(index, name, value) }
           return (
             <div id="purchase-data-container" onClick={() => { }} key={`${item?._id}-purchase-list-${index}`} className="purchase-batch-row" style={{ height: "5vh", margin: "2vh 0px", width: "100%", display: "flex", justifyContent: "space-between" }}>
-              {heads.map((head, index) => <Card key={head.value + "in-body-list"} require={true} value={getValue(item, head.value)} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />)}
-              {mode === "add" ? <button onClick={() => onDelete(index)} tabIndex={-1} style={{ display: list.length === 1 ? "none" : "block", padding: "0px", fontSize: "1.5rem", textAlign: "left", minWidth: "1.5vw", cursor: "pointer", backgroundColor: "transparent", border: "none" }}>x</button> : <></>}
+              {
+                heads.map((head, index) => {
+                  if (head.value === "expDate") return <InputDate key={head.value + "in-body-list"} require={true} value={item[head.value]} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />
+                  return <Card key={head.value + "in-body-list"} require={true} value={item[head.value]} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />
+                })
+              }
+              {mode === "add" ? <button disabled={list.length === 1} onClick={() => onDelete(index)} tabIndex={-1} style={{ display: "block", padding: "0px", fontSize: "1rem", textAlign: "left", minWidth: "0.5vw", cursor: "pointer", backgroundColor: "transparent", border: "none" }}>x</button> : <></>}
             </div>
           )
         })

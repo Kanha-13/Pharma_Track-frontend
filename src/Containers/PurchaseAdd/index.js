@@ -17,6 +17,7 @@ import './index.css'
 import Layout from "../../Components/Layout/Layout";
 import Card from "../../Components/ManualAddProduct/Card";
 import ProductAddForm from "../../Components/ProductAddForm/ProductAddForm";
+import InputDate from "../../Components/CustomDateInput/DateInput";
 
 const PurchaseAdd = () => {
   const [searchParams] = useSearchParams();
@@ -73,7 +74,7 @@ const PurchaseAdd = () => {
           if (name === PURCHASEPRODUCTINFO.PRODUCTID) {//feeding extra detail needed to calculate netrate later
             const selectedProd = products.filter((prod, index) => prod._id === value)[0]
             if (selectedProd)
-              return { ...detail, [name]: value, itemName: selectedProd.itemName, pkg: selectedProd.pkg, category: selectedProd.category, gst: selectedProd.gst, vId: purchaseBillDetail.vId, parentCategory:selectedProd.parentCategory }
+              return { ...detail, [name]: value, itemName: selectedProd.itemName, pkg: selectedProd.pkg, category: selectedProd.category, gst: selectedProd.gst, vId: purchaseBillDetail.vId, parentCategory: selectedProd.parentCategory }
           }
           else if (name === PURCHASEPRODUCTINFO.QNT || name === PURCHASEPRODUCTINFO.SC || name === PURCHASEPRODUCTINFO.RATE || name === PURCHASEPRODUCTINFO.CD || name === PURCHASEPRODUCTINFO.FREE) {
             let { netvalue, nettax, netamt, netrateperunit } = getNet(name, purchaseProducts[index], value)
@@ -176,7 +177,7 @@ const PurchaseAdd = () => {
         <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", height: "15%", width: "100%" }}>
           <Card focus={true} require={true} value={purchaseBillDetail.vId} m="1.5% 0px" w="25%" h="15%" name={PURCHASEBILLINFO.VENDORID} label="Vendor Name" onchange={onchangeBillDetail} type="select" options={vendorslist} />
           <Card require={true} value={purchaseBillDetail.billNo} m="1.5% 1%" w="15%" h="15%" name={PURCHASEBILLINFO.BILLNUMBER} label="Bill No." onchange={onchangeBillDetail} type="text" />
-          <Card require={true} value={purchaseBillDetail.purDate} m="1.5% 1%" w="15%" h="15%" name={PURCHASEBILLINFO.PURCHASEDATE} label="Purchase Date" onchange={onchangeBillDetail} type="date" />
+          <InputDate require={true} value={purchaseBillDetail.purDate} m="1.5% 1%" w="15%" h="2%" pd="2%" name={PURCHASEBILLINFO.PURCHASEDATE} label="Purchase Date" onchange={onchangeBillDetail} type="fulldate" />
           <Card require={true} value={purchaseBillDetail.paymentType} m="1.5% 1%" w="10%" h="15%" name={PURCHASEBILLINFO.PAYMENTTYPE} label="Payment Type" onchange={onchangeBillDetail} type="select" options={PaymentTypesLits} />
         </div>
         {

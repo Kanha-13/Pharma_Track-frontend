@@ -84,7 +84,7 @@ const StocksAdd = () => {
           <Card require={true} w="9%" h="4%" name={STOCK.TABS} label="Tablet" value={stockDetail.tabs} onchange={onchangeStockDetail} type="number" />
         </>
         :
-        <Card require={true} w="25%" h="4%" name={STOCK.QNT} label="Quantity" value={stockDetail.qnty} onchange={onchangeStockDetail} type="number" />
+        <Card require={true} w="10%" h="4%" name={STOCK.QNT} label="Quantity" value={stockDetail.qnty} onchange={onchangeStockDetail} type="number" />
     )
   }
 
@@ -101,7 +101,7 @@ const StocksAdd = () => {
               width: "100%", height: "65%"
             }}>
               <Card require={true} w="25%" h="4%" name={STOCK.ITEMNAME} label="Item Name" value={stockDetail.itemName} onchange={onchangeStockDetail} type="text" />
-              <Card focus={true} require={true} w="15%" h="4%" name={STOCK.MRP} label="MRP" value={stockDetail.mrp} onchange={onchangeStockDetail} type="text" />
+              <Card focus={true} require={true} w="10%" h="4%" name={STOCK.MRP} label="MRP" value={stockDetail.mrp} onchange={onchangeStockDetail} type="text" />
               <InputDate require={true} w="10%" h="1.4%" pd="2%" name={STOCK.EXPDATE} label="Exp Date" value={stockDetail.expDate} onchange={onchangeStockDetail} type="month" />
               {getQuantityInput()}
               <Card require={true} w="25%" h="4%" name={STOCK.BATCH} label="Batch Number" value={stockDetail.batch} onchange={onchangeStockDetail} type="text" />

@@ -4,7 +4,7 @@ export const PurchaseProductListHeader = [
   { name: 'Qnty.', value: "qnty", colSize: "4.5%", ph: "Qnty", type: "number" },
   { name: 'Free', value: "free", colSize: "4%", ph: "Free", type: "number" },
   { name: 'Batch', value: "batch", colSize: "6%", ph: "Batch" },
-  { name: 'Exp. Date', value: "expDate", colSize: "13%", ph: "Exp Date", type: "month" },
+  { name: 'Exp. Date', value: "expDate", colSize: "10%", ph: "Exp Date", type: "month" },
   { name: 'MRP', value: "mrp", colSize: "5%", ph: "MRP" },
   { name: 'Rate', value: "rate", colSize: "5%", ph: "Rate" },
   { name: 'SC%', value: "schemeDisc", colSize: "3%", ph: "SC" },
