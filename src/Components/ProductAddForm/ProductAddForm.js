@@ -28,9 +28,6 @@ const ProductAddForm = ({ oncancel, mode, onSubmit, onChange, addField, deleteFi
     };
   }, []);
 
-  useEffect(() => {
-    PurchaseProductListHeader[0].options = products;
-  }, [products])
   return (
     <div style={{ width: "100%", height: "65%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>
       <div style={{ overflow: "auto", width: "100%", height: "90%", display: "flex", flexDirection: "column", justifyContent: "space-between", alignItems: "center" }}>

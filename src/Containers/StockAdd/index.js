@@ -12,6 +12,7 @@ import Card from "../../Components/ManualAddProduct/Card";
 import ProductsList from "../../Components/ProductsList/ProductsList";
 
 import './index.css'
+import InputDate from "../../Components/CustomDateInput/DateInput";
 
 const StocksAdd = () => {
   const { products, dispatch } = useStore();
@@ -68,7 +69,8 @@ const StocksAdd = () => {
         window.location.reload()
         alert("Stock updated successfully!")
       } catch (error) {
-        alert("Unable to update stock!")
+        console.log(error)
+        alert("Unable to add stock!")
       }
     else
       alert("Missing information!")
@@ -99,8 +101,8 @@ const StocksAdd = () => {
               width: "100%", height: "65%"
             }}>
               <Card require={true} w="25%" h="4%" name={STOCK.ITEMNAME} label="Item Name" value={stockDetail.itemName} onchange={onchangeStockDetail} type="text" />
-              <Card focus={true} require={true} w="25%" h="4%" name={STOCK.MRP} label="MRP" value={stockDetail.mrp} onchange={onchangeStockDetail} type="text" />
-              <Card require={true} w="25%" h="4%" name={STOCK.EXPDATE} label="Exp Date" value={stockDetail.expDate} onchange={onchangeStockDetail} type="month" />
+              <Card focus={true} require={true} w="15%" h="4%" name={STOCK.MRP} label="MRP" value={stockDetail.mrp} onchange={onchangeStockDetail} type="text" />
+              <InputDate require={true} w="10%" h="1.4%" pd="2%" name={STOCK.EXPDATE} label="Exp Date" value={stockDetail.expDate} onchange={onchangeStockDetail} type="month" />
               {getQuantityInput()}
               <Card require={true} w="25%" h="4%" name={STOCK.BATCH} label="Batch Number" value={stockDetail.batch} onchange={onchangeStockDetail} type="text" />
               <button className="custom-input-fields" id="stock-enter" tabIndex="" onClick={addStock} type="submit">Add Stock</button>

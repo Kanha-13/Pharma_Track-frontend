@@ -4,8 +4,11 @@ import Card from "../ManualAddProduct/Card";
 import ProductsList from "../ProductsList/ProductsList";
 import { getProductWithInitials } from "../../apis/products";
 import { BillingListHeader } from "../../Constants/billing";
+import { ACTION } from "../../Store/constants";
+import { useStore } from "../../Store/store";
 
 const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = () => { } }) => {
+  const { dispatch } = useStore()
   const [list, setList] = useState([]);
   const [isLists, setIsProdList] = useState(false)
   const [heads, setHeads] = useState([]);
@@ -29,8 +32,6 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
   const onclickproduct = (itemId) => {
     setIsProdList(false)
     onChange(currentIndex, "pId", itemId)
-    const pName = productsList.filter((d) => d._id === itemId)
-    onChange(currentIndex, "itemName", pName[0].itemName)//for label
 
     //below code to focus 'pkg' input
     const inputs = Array.from(document.getElementsByName('Pkg'));
@@ -45,6 +46,7 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
     try {
       const data = await getProductWithInitials(initial)
       setProductsList(data)
+      dispatch(ACTION.SET_PRODUCTS, data)
     } catch (error) {
       alert("Something went wrong!")
     }
