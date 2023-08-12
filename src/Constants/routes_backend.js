@@ -75,5 +75,6 @@ export const API = {
   UPDATE_COMPANY: "/company/",
   DELETE_COMPANY: "/company/",
   GET_COMPANYS: "/companys",
+  GET_COMPANYS_QUERY: "/companys/query",
 }
 

@@ -1,13 +1,13 @@
 import KEY from "../../Constants/keyCode";
 
 const Card = (props) => {
-  let { require = false, w = "25%", h = "15%", ph = "", m = "1.5%", pd = "1.5%",fs="1rem",
+  let { require = false, w = "25%", h = "15%", ph = "", m = "1.5%", pd = "1.5%", fs = "1rem",
     label = "", name = "", value = "", max = "", min = 0, type = "text", onchange, focus = false, options = [] } = props
 
   const checkForEnterKey = (event) => {
     if (event.keyCode === KEY.ENTER) {
       event.preventDefault();
-      if (event.target.value === "")
+      if (event.target.value === "" && require)
         return alert("Cannot be blank!")
       const inputs = Array.from(document.getElementsByClassName('custom-input-fields'));
       const currentIndex = inputs.indexOf(event.target);
@@ -28,12 +28,12 @@ const Card = (props) => {
             margin: "0%", cursor: "pointer",
           }} onChange={(e) => onchange(name, e.target.value)}>
           {
-            options.map((option,index) => <option key={option.label+index} style={{ cursor: "pointer",fontSize:fs }}
+            options.map((option, index) => <option key={option.label + index} style={{ cursor: "pointer", fontSize: fs }}
               value={option.value}>{option.label}</option>)
           }
         </select>
       default:
-        return <input min={min} className="custom-input-fields" style={{fontSize:fs}} max={max} onKeyDown={checkForEnterKey} placeholder={ph || label}
+        return <input min={min} className="custom-input-fields" style={{ fontSize: fs }} max={max} onKeyDown={checkForEnterKey} placeholder={ph || label}
           autoFocus={focus} required={require} value={value} type={type}
           onChange={(e) => onchange(name, e.target.value)} name={ph} />
     }
@@ -45,7 +45,7 @@ const Card = (props) => {
         padding: "0px 2%",
         position: "absolute",
         top: -25, left: 20,
-        color:"#5e48e8",
+        color: "#5e48e8",
         backgroundColor: "#ffffff", textAlign: "left"
       }}>{label}</p>
       {getInputType()}

@@ -51,10 +51,10 @@ const VebdorAdd = () => {
           </div>
           <div className='vendor-form-div-l1'>
             <Card focus={true} require={true} w="60%" h="10%" onchange={onchange} label='Vendor name' name='vendorName' type='text' value={vendorInfo.vendorName} />
-            <Card require={true} w="60%" h="10%" onchange={onchange} label='Address' name='address' type='text' value={vendorInfo.address} />
-            <Card require={true} w="60%" h="10%" onchange={onchange} label='Mobile number' name='mobileNo' type='text' value={vendorInfo.mobileNo} />
-            <Card require={true} w="60%" h="10%" onchange={onchange} label='GST number' name='gstNo' type='text' value={vendorInfo.gstNo} />
-            <Card require={true} w="60%" h="10%" onchange={onchange} label='Licence number' name='licenceNo' type='text' value={vendorInfo.licenceNo} />
+            <Card require={false} w="60%" h="10%" onchange={onchange} label='Address' name='address' type='text' value={vendorInfo.address} />
+            <Card require={false} w="60%" h="10%" onchange={onchange} label='Mobile number' name='mobileNo' type='text' value={vendorInfo.mobileNo} />
+            <Card require={false} w="60%" h="10%" onchange={onchange} label='GST number' name='gstNo' type='text' value={vendorInfo.gstNo} />
+            <Card require={false} w="60%" h="10%" onchange={onchange} label='Licence number' name='licenceNo' type='text' value={vendorInfo.licenceNo} />
             <div style={{ marginTop: "5vh", width: "60%", height: "18%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
               <button className="custom-input-fields" type='submit' style={{ width: "47%", height: "70%", borderRadius: "0.8vw", cursor: "pointer", fontSize: "0.9em", border: "none", backgroundColor: "#5E48E8", color: "#ffffff" }}>Add Vendor</button>
               <button type='reset' onClick={oncancle} style={{ width: "47%", height: "70%", borderRadius: "0.8vw", cursor: "pointer", fontSize: "0.9em", backgroundColor: "#FFFFFF", border: "1px solid #5E48E8", color: "#5E48E8" }}>Cancel</button>

@@ -11,6 +11,7 @@ import Layout from "../../Components/Layout/Layout";
 import Card from "../../Components/ManualAddProduct/Card";
 
 import './index.css'
+import InputDate from "../../Components/CustomDateInput/DateInput";
 
 const SettlementAdd = () => {
   const { currentSettlement, dispatch, vendors } = useStore();
@@ -87,7 +88,7 @@ const SettlementAdd = () => {
           <Card require={true} w="25%" h="4%" name={SETTLEMENT.PURCHASED_FROM} label="Purchased from" value={settlementDetail?.vendorName} onchange={() => { }} type="text" />
           <Card focus={true} require={true} w="25%" h="4%" name={SETTLEMENT.TYPE} label="Return Type" value={settlementDetail?.type} onchange={onchangeSettlementDetail} type="select" options={SettlementTypes} />
           <Card require={true} w="25%" h="4%" name={SETTLEMENT.VID} label="Return to" value={settlementDetail?.vId} onchange={onchangeSettlementDetail} type="select" options={vendorslist} />
-          <Card require={true} w="25%" h="4%" name={SETTLEMENT.DATE} label="Return Date" value={settlementDetail?.date} onchange={onchangeSettlementDetail} type="date" />
+          <InputDate require={true} w="25%" h="4%" name={SETTLEMENT.DATE} label="Return Date" value={settlementDetail?.date} onchange={onchangeSettlementDetail} type="date" />
           <Card require={true} max={settlementDetail?.qnty} min={1} w="25%" h="4%" name={SETTLEMENT.RETURN_QNTY} label="Return Qnty." value={settlementDetail?.returnQnty} onchange={onchangeSettlementDetail} type="number" />
           <button className="custom-input-fields" id="stock-enter" tabIndex="" onClick={addsettltment} type="submit" style={{ height: "8vh" }}>Add Settlement</button>
         </div>

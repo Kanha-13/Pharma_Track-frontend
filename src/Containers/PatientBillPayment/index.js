@@ -11,6 +11,7 @@ import BillPayCheckOut from "../../Components/VendorBillPay/BillPayCheckout";
 import KEY from "../../Constants/keyCode";
 import { billPayment, getBillingHistory } from "../../apis/billing";
 import PaymentInvoice from "../../Components/PaymentInvoice/PaymentInvoice";
+import InputDate from "../../Components/CustomDateInput/DateInput";
 
 const PatientBillpayment = () => {
   const navigate = useNavigate();
@@ -166,8 +167,8 @@ const PatientBillpayment = () => {
         </div>
         <div style={{ alignItems: "center", width: "100%", height: "90%", display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
           <Card focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="Patient Name" value={patientName} onchange={(name, value) => setPatientName(value)} type="text" />
-          <Card require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
-          <Card require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
+          <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
+          <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
           <button className="custom-input-fields" onClick={searchBills} style={{ backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "4vh", width: "5vw", cursor: "pointer" }}>Search</button>
 
           <div style={{ width: "100%", height: "100%" }}>

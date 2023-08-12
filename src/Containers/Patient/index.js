@@ -8,6 +8,7 @@ import { getMedicineHistory } from "../../apis/patient";
 import { toddmmyy } from "../../utils/DateConverter";
 import { ROUTES } from "../../Constants/routes_frontend";
 import { useNavigate } from "react-router-dom";
+import InputDate from "../../Components/CustomDateInput/DateInput";
 
 const Patients = () => {
   const navigate = useNavigate();
@@ -68,8 +69,8 @@ const Patients = () => {
         </div>
         <div style={{ height: "10%", width: "100%", display: "flex", alignItems: "center" }}>
           <Card focus={true} require={true} w="25%" h="2vh" m="0px" pd="1.1vh 0.5vw" ph="Patient name" name="patientName" label="" value={patientName} onchange={(name, value) => setPatientName(value)} type="text" />
-          <Card require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
-          <Card require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
+          <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
+          <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
           <button id="searchBtn" disabled={isDisabled} className="custom-input-fields" onClick={fetchMedicineHistory} style={{ backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "5vh", width: "5vw", cursor: "pointer", margin: "0px auto 0px 2vw" }}>Search</button>
           {medicineHistory.length > 0 && <Card require={true} w="25%" h="2vh" m="0px" pd="1.1vh 0.5vw" ph="Medicine name" name="itemName" label="" value={itemName} onchange={onfilterList} type="text" />}
         </div>

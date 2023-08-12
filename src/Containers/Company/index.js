@@ -28,8 +28,8 @@ const Company = () => {
   }
 
   const onchange = (val) => {
-    const filtered = companies.filter((comp) => comp.companyName.includes((val).toUpperCase()))
-    setcompanieslist(filtered)
+    // const filtered = companies.filter((comp) => comp.companyName.includes((val).toUpperCase()))
+    // setcompanieslist(filtered)
   }
 
   const onAddNewClick = () => {
@@ -39,12 +39,12 @@ const Company = () => {
     navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_INFO + "id=" + companyId)
   }
 
-  useEffect(() => {
-    if (!companies.length)
-      fetchallcompanys();
-    else
-      setcompanieslist(companies)
-  }, [])
+  // useEffect(() => {
+  //   if (!companies.length)
+  //     fetchallcompanys();
+  //   else
+  //     setcompanieslist(companies)
+  // }, [])
 
   return (
     <Layout>

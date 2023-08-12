@@ -11,6 +11,11 @@ export const getCompanies = async () => {
   return res.data
 }
 
+export const getCompanyQuery = async (val) => {
+  const res = await axios_instance.get(API.GET_COMPANYS_QUERY + "?key=" + val)
+  return res.data
+}
+
 export const getCompany = async (id) => {
   const res = await axios_instance.get(API.GET_COMPANY + id)
   return res.data

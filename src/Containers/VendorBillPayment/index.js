@@ -14,6 +14,7 @@ import './index.css'
 import { BILLTYPES } from "../../Constants/billing";
 import BillPayCheckOut from "../../Components/VendorBillPay/BillPayCheckout";
 import KEY from "../../Constants/keyCode";
+import InputDate from "../../Components/CustomDateInput/DateInput";
 
 const VendorBillPayment = () => {
   const { vendors, dispatch } = useStore();
@@ -55,7 +56,7 @@ const VendorBillPayment = () => {
         const res = await getPurchases(vendorIdToSearch, null, { from: fromDate, to: toDate }, billType)
         if (!res.data?.length)
           alert("no records found")
-          
+
         setPurchases(res.data)
       } else {
         alert("At least one field is required to search purchase history!")
@@ -156,7 +157,7 @@ const VendorBillPayment = () => {
 
   const closeModal = (event) => {
     if (event?.keyCode) {
-      if (event.keyCode === KEY.ESC){
+      if (event.keyCode === KEY.ESC) {
         setModal((prev) => {
           if (prev) event.stopPropagation()
           return false
@@ -184,8 +185,8 @@ const VendorBillPayment = () => {
         <div style={{ alignItems: "center", width: "100%", height: "90%", display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
           <Card focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorIdToSearch} onchange={(name, value) => setVendorIdToSearch(value)} type="select" options={vendorslist} />
           <Card require={true} w="15%" h="2vh" pd="1.1vh 0.5vw" name="billType" label="" ph="Bill Type" value={billType} onchange={(name, value) => setBillType(value)} type="select" options={BILLTYPES} />
-          <Card require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
-          <Card require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
+          <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
+          <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
           <button className="custom-input-fields" onClick={searchPurchaseHistory} style={{ backgroundColor: "#5E48E8", border: "none", fontSize: "1rem", color: "#ffffff", borderRadius: "0.5vw", height: "4vh", width: "5vw", cursor: "pointer" }}>Search</button>
 
           <div style={{ width: "100%", height: "100%" }}>
