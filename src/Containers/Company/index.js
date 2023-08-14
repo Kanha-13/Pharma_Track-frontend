@@ -51,7 +51,7 @@ const Company = () => {
               <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left" }}>Companies</p>
               <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={onAddNewClick}>Add Company</button>
             </div>
-            <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
+            <ProductsList mh="400%" h="100%" w="100%" onchange={onchange} ph="Search company..."
               onclick={onclickcompany} header={CompanyListHeader} data={companieslist} />
           </> :
             <Message onAdd={onAddNewClick} title="No Company in the list" btnLabel="Add Company" />

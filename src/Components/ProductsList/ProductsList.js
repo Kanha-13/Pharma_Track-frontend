@@ -4,8 +4,13 @@ import SearchBar from "../SearchBar/SearchBar";
 import "./productslist.css"
 import { checkForScroll, scrollElement } from "../../utils/dom";
 import { getmmyy, toddmmyy } from "../../utils/DateConverter";
+import { useLocation, useNavigate } from "react-router-dom";
+import KEY from "../../Constants/keyCode";
+import { ROUTES } from "../../Constants/routes_frontend";
 
-const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = [], onclick, onchange, keyword = "" }) => {
+const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "Search product...", data = [], onclick, onchange, keyword = "" }) => {
+  const navigate = useNavigate();
+  const location = useLocation()
   const [search, setSearch] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [listClass, setClass] = useState("borderbox close-animation");
@@ -96,10 +101,67 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", data = 
       setSearch(keyword)
   }, [keyword])
 
+  const get_ToAdd_Location = () => {
+    let index = 0;
+    setCurrentIndex((prev) => {
+      index = prev
+      return prev
+    })
+
+    const paths = [
+      "stock",
+      "billing",
+      "purchase"
+    ]
+    if (paths.some(v => location.pathname.includes(v)) && data[index])
+      return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD_MANUAL
+  }
+
+  const get_ToUpdate_Location = () => {
+    let index = 0;
+    setCurrentIndex((prev) => {
+      index = prev
+      return prev
+    })
+
+    const paths = [
+      "stock",
+      "billing",
+      "purchase"
+    ]
+    if (paths.some(v => location.pathname.includes(v)) && data[index])
+      return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_INFO + "id=" + data[index]._id
+
+  }
+
+  const handleKeyUp = (event) => {
+    switch (event.keyCode) {
+      case KEY.F2:
+        event.preventDefault();
+        event.stopPropagation();
+        navigate(get_ToAdd_Location(), { state: { callBackPath: location.pathname } })
+        break;
+      case KEY.F3:
+        event.preventDefault();
+        event.stopPropagation();
+        navigate(get_ToUpdate_Location(), { state: { callBackPath: location.pathname } })
+        break;
+      default:
+        break;
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyUp);
+    };
+  }, [data]);
+
   return (
     <div id="productslist-container" style={{ display: show ? "flex" : "none", height: h, width: w }} className={listClass}>
       <div style={{ backgroundColor: "#ffffff", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "8vh", width: "100%", position: "sticky", top: "0px" }}>
-        <SearchBar onEnter={handleEnterPress} onNav={handleListNav} onchange={onchangeval} h="3vh" w="90%" placeholder="Search product..." val={search} />
+        <SearchBar onEnter={handleEnterPress} onNav={handleListNav} onchange={onchangeval} h="3vh" w="90%" placeholder={ph} val={search} />
       </div>
       {
         data.length > 0 ?

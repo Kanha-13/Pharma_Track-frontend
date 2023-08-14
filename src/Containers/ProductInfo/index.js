@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useStore } from "../../Store/store";
 import { deleteProduct, getProduct, udpateProduct } from "../../apis/products";
 import { ROUTES } from "../../Constants/routes_frontend";
@@ -14,6 +14,7 @@ import Card from "../../Components/ManualAddProduct/Card";
 import './index.css'
 
 const ProductInfo = () => {
+  const location = useLocation();
   const navigate = useNavigate()
   const { dispatch } = useStore();
   const [searchParams] = useSearchParams();
@@ -49,7 +50,10 @@ const ProductInfo = () => {
         const res = await udpateProduct(productDetail._id, productDetail)
         dispatch(ACTION.SET_PRODUCTS, [])
         alert("Product updated successfully!")
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCTS)
+        if (location.state.callBackPath)
+          navigate(location.state.callBackPath)
+        else
+          navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCTS)
       }
       else throw new Error("Fields should not be empty")
     } catch (error) {

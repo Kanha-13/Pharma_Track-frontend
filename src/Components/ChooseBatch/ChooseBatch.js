@@ -47,14 +47,14 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
 
   const handleSelect = (item) => {
     if (item) {
-      const isStockSufficient = item.qnty
+      const isStockSufficient = item?.qnty
       if (isStockSufficient)
         onEnter(item)
       else
         alert("Insufficient stock")
     }
     else {
-      const isStockSufficient = batchList[currentIndex].qnty
+      const isStockSufficient = batchList[currentIndex]?.qnty
       if (isStockSufficient)
         onEnter(batchList[currentIndex])
       else

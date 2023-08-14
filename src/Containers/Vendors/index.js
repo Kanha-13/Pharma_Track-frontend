@@ -59,7 +59,7 @@ const Vendors = () => {
               <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={onBillPayment}>Bill Payment</button>
               <button style={{ marginLeft: "2vw", width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={onAddNewClick}>Add Vendors</button>
             </div>
-            <ProductsList mh="400%" h="100%" w="100%" onchange={onchange}
+            <ProductsList mh="400%" h="100%" w="100%" onchange={onchange} ph="Search vendor..."
               onclick={onclickvendor} header={VendorsListHeader} data={vendorslist} />
           </> :
             <Message onAdd={onAddNewClick} title="No Vendors in the list" btnLabel="Add Vendor" />

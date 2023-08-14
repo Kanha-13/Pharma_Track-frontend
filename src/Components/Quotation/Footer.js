@@ -140,7 +140,7 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
         </div>
         <div style={{ width: "55%", height: "100%", display: "flex", justifyContent: "space-around", flexDirection: "column" }}>
           <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Doctor Name" value={prescribedBy} onchange={(name, value) => setPrescribedBy(value)} type="text" />
-          <Card required={true} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Patient Name" value={patientName} onchange={(name, value) => setPatient(value)} type="text" />
+          <Card require={true} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Patient Name" value={patientName} onchange={(name, value) => setPatient(value)} type="text" />
           <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Mobile Number" value={mobileNumber} onchange={(name, value) => setmobileNumber(value)} type="text" />
           <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Address" value={address} onchange={(name, value) => setaddress(value)} type="text" />
         </div>
