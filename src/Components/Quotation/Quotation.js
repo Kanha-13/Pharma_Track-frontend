@@ -5,7 +5,6 @@ import Footer from "./Footer";
 import CartRow from "./CartRow";
 
 import './quotation.css'
-import Card from "../ManualAddProduct/Card";
 import { useEffect, useState } from "react";
 import { getyyyymmdd } from "../../utils/DateConverter";
 import { useNavigate } from "react-router-dom";

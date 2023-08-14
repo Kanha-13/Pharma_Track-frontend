@@ -31,7 +31,8 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
   }
 
   const onMergeCN = () => {
-    setIsMergeCN(true)
+    if (carts[0].pId) setIsMergeCN(true)
+    else alert("Empty cart! Add items first")
   }
 
   const onSumbmit = (e) => {
