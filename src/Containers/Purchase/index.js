@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
 import { getVendors } from "../../apis/vendors";
 import { ACTION } from "../../Store/constants";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Constants/routes_frontend";
 import { getPurchases } from "../../apis/purchase";
 import { PurchaseHistoryListHeader } from "../../Constants/Purchase";
@@ -13,10 +13,12 @@ import Card from "../../Components/ManualAddProduct/Card";
 
 import './index.css'
 import InputDate from "../../Components/CustomDateInput/DateInput";
+import KEY from "../../Constants/keyCode";
 
 const Purchase = () => {
   const { vendors, dispatch } = useStore();
   const navigate = useNavigate();
+  const location = useLocation();
   const [purchaseLists, setPurchases] = useState([])
   const [billNo, setBillNumber] = useState("")
   const [vendorIdToSearch, setVendorIdToSearch] = useState("")
@@ -50,7 +52,7 @@ const Purchase = () => {
     try {
       if (vendorIdToSearch || billNo || (fromDate && toDate)) {
         const res = await getPurchases(vendorIdToSearch, billNo, { from: fromDate, to: toDate }, null)
-        if(!res.data?.length) alert("No records found")
+        if (!res.data?.length) alert("No records found")
         setPurchases(res.data)
       } else {
         alert("At least one field is required to search purchase history!")
@@ -78,6 +80,24 @@ const Purchase = () => {
       fetchVendorsList();
   }, [])
 
+  const handleKeyUpOnVendor = (event) => {
+    switch (event.keyCode) {
+      case KEY.F2:
+        event.preventDefault();
+        event.stopPropagation();
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD, { state: { callBackPath: location.pathname } })
+        break;
+      case KEY.F3:
+        event.preventDefault();
+        event.stopPropagation();
+        if (vendorIdToSearch)
+          navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_INFO + "id=" + vendorIdToSearch, { state: { callBackPath: location.pathname } })
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Layout>
       <div id="products-container" className="layout-body borderbox">
@@ -86,7 +106,7 @@ const Purchase = () => {
           <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={toaddpurchase}>Purchase Entry</button>
         </div>
         <div style={{ alignItems: "center", width: "100%", height: "90%", display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-          <Card focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorIdToSearch} onchange={(name, value) => setVendorIdToSearch(value)} type="select" options={vendorslist} />
+          <Card keypress={handleKeyUpOnVendor} focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorIdToSearch} onchange={(name, value) => setVendorIdToSearch(value)} type="select" options={vendorslist} />
           <Card require={true} w="15%" h="2vh" pd="1.1vh 0.5vw" name="billNo" label="" ph="Bill no." value={billNo} onchange={(name, value) => setBillNumber(value)} type="text" />
           <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
           <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />

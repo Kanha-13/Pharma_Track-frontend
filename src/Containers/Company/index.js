@@ -39,7 +39,7 @@ const Company = () => {
   }
 
   useEffect(()=>{
-    fetchacompanys("a")
+    fetchacompanys("")
   },[])
 
   return (
