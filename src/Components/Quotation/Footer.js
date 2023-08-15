@@ -103,11 +103,11 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
 
   const handleKeyUp = (event) => {
     switch (event.keyCode) {
-      case KEY.F9:
+      case KEY.F10:
         event.preventDefault();
         addField();
         break;
-      case KEY.F10:
+      case KEY.F11:
         event.preventDefault();
         onSumbmit(event)
         break;

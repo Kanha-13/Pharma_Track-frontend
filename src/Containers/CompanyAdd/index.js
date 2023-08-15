@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { addCompanyDetial } from '../../apis/company';
 import { companydetail } from '../../Schema/company';
 import { ROUTES } from '../../Constants/routes_frontend';
@@ -14,7 +14,7 @@ import { useStore } from '../../Store/store';
 
 const CompanyAdd = () => {
   const { dispatch } = useStore();
-
+  const location = useLocation();
   const navigate = useNavigate();
   const [companyInfo, setCompanyInfo] = useState(companydetail)
 
@@ -26,8 +26,11 @@ const CompanyAdd = () => {
     try {
       const res = await addCompanyDetial(data)
       alert("Company added successfully! 👍")
-      dispatch(ACTION.SET_COMPANIES,[])
-      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY)
+      dispatch(ACTION.SET_COMPANIES, [])
+      if (location.state.callBackPath)
+        navigate(location.state.callBackPath)
+      else
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY)
     } catch (error) {
       console.log(error)
     }

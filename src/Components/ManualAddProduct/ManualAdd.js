@@ -14,25 +14,33 @@ import './card.css'
 import { ROUTES } from "../../Constants/routes_frontend";
 import KEY from "../../Constants/keyCode";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useLocalStorage } from "../../utils/useLocalStorage";
 
 const ManualAdd = () => {
+  const { dispatch, companies } = useStore();
   const navigate = useNavigate();
   const location = useLocation();
-  const { dispatch, companies } = useStore();
+  const [storedValue, setValue] = useLocalStorage("pendingProductAdd")
   const [productDetail, setProductDetail] = useState(productdetail);
   const [companieslist, setCompanieslist] = useState([])
 
   const onchange = (name, value) => {
     setProductDetail({ ...productDetail, [name]: value })
+    setValue({ ...productDetail, [name]: value })
   }
 
   const addProd = async (e) => {
     e.preventDefault();
     try {
       const res = await addProdManually(productDetail)
+      setValue(null)
       setProductDetail(productdetail)
       dispatch(ACTION.SET_PRODUCTS, [])
       alert("Product added successfully 👍")
+      if (location.state.callBackPath)
+        navigate(location.state.callBackPath)
+      else
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)
       window.location.reload()
     } catch (error) {
       alert("Something went wrong!")
@@ -66,8 +74,8 @@ const ManualAdd = () => {
   }, [])
 
   const handleKeyUp = (event) => {
-    let prod={};
-    setProductDetail((prev)=>{
+    let prod = {};
+    setProductDetail((prev) => {
       prod = prev
       return prev
     })
@@ -75,11 +83,13 @@ const ManualAdd = () => {
       case KEY.F2:
         event.stopPropagation();
         event.preventDefault();
+        dispatch(ACTION.SET_COMPANIES, [])
         navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_ADD, { state: { callBackPath: location.pathname } })
         break;
       case KEY.F3:
         event.stopPropagation();
         event.preventDefault();
+        dispatch(ACTION.SET_COMPANIES, [])
         const cId = companies?.filter((comp) => comp.companyName === prod.company)
         if (cId[0])
           if (cId[0]._id)
@@ -89,6 +99,11 @@ const ManualAdd = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    if (storedValue)
+      setProductDetail(storedValue)
+  }, [])
 
   return (
     <Layout>

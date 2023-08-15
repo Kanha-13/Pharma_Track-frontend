@@ -18,8 +18,8 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
   const [billingDate, setBillingDate] = useState(getyyyymmdd(new Date()));
   const [invoiceNo, setInvoiceNo] = useState("")
   const [cnData, setCNdata] = useState({})
-  const [printOpen, setOpenPrint] = useState(false)
   const [billInfoForPrint, setBillToPrint] = useState({})
+  const [printOpen, setOpenPrint] = useState(false)
 
   const oncheckout = async (billInfo, resetBillInfo) => {
     let modified_prod_list = itemsIncart.map((cart) => {
@@ -48,7 +48,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
       let oldBalance = 0;
       res.data.pendingBills?.map((bill) => oldBalance += bill.amtDue)
       resetBillInfo()
-      setBillToPrint({ ...res.data.currentBill, oldBalance: oldBalance })
+      setBillToPrint({ ...res.data.currentBill, oldBalance: oldBalance, type: "CN" })
       setOpenPrint(true)
     } catch (error) {
       console.log(error)

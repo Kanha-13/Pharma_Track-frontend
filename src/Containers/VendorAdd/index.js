@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { addVendor } from '../../apis/vendors';
 import { vendordetail } from '../../Schema/vendor';
 import { ROUTES } from '../../Constants/routes_frontend';
@@ -14,6 +14,7 @@ import { useStore } from '../../Store/store';
 
 const VebdorAdd = () => {
   const { dispatch } = useStore();
+  const location = useLocation();
   const navigate = useNavigate();
   const [vendorInfo, setVendorInfo] = useState(vendordetail)
 
@@ -26,7 +27,10 @@ const VebdorAdd = () => {
       const res = await addVendor(data)
       alert("Vendor added successfully! 👍")
       dispatch(ACTION.SET_VENDORS, [])
-      navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)
+      if (location.state.callBackPath)
+        navigate(location.state.callBackPath)
+      else
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)
     } catch (error) {
       console.log(error)
     }

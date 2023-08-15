@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useStore } from "../../Store/store";
 import { ROUTES } from "../../Constants/routes_frontend";
 import { validateUpdateRequest } from "../../utils/vendor";
@@ -14,11 +14,12 @@ import { deleteCompany, getCompany, updateCompany } from "../../apis/company";
 
 const CompanyInfo = () => {
   const navigate = useNavigate()
+  const location = useLocation();
   const { dispatch } = useStore();
   const [searchParams] = useSearchParams();
   const [deletePop, setDeletePop] = useState(0);
   const [companyDetail, setCompanyDetail] = useState(companydetail);
-  const [disableBtn,setDisableBtn] = useState(false)
+  const [disableBtn, setDisableBtn] = useState(false)
 
   const onchange = (name, value) => {
     setCompanyDetail({ ...companyDetail, [name]: value })
@@ -45,7 +46,7 @@ const CompanyInfo = () => {
       alert("Unable to delete company!")
     }
   }
-  
+
   const onUpdate = async () => {
     setDisableBtn(true)
     try {
@@ -53,7 +54,10 @@ const CompanyInfo = () => {
         const res = await updateCompany(companyDetail._id, companyDetail)
         dispatch(ACTION.SET_COMPANIES, [])
         alert("Company updated successfully!")
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY)
+        if (location.state.callBackPath)
+          navigate(location.state.callBackPath)
+        else
+          navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY)
       }
       else throw new Error("Fields should not be empty")
     } catch (error) {

@@ -38,13 +38,13 @@ export const calcProfit = (cart) => {
   return (profit).toFixed(2)
 }
 
-export const numbersInWords = (n) => {
+export const numbersInWords = (n = 0) => {
   if (n < 0)
     return false;
+  if (n === 0) return 'Zero'
   let single_digit = ['', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine']
   let double_digit = ['Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen']
   let below_hundred = ['Twenty', 'Thirty', 'Forty', 'Fifty', 'Sixty', 'Seventy', 'Eighty', 'Ninety']
-  if (n === 0) return 'Zero'
   function translate(n) {
     let word = ""
     if (n < 10) {
@@ -62,12 +62,6 @@ export const numbersInWords = (n) => {
     }
     else if (n < 1000000) {
       word = translate(parseInt(n / 1000)).trim() + ' Thousand ' + translate(n % 1000)
-    }
-    else if (n < 1000000000) {
-      word = translate(parseInt(n / 1000000)).trim() + ' Million ' + translate(n % 1000000)
-    }
-    else {
-      word = translate(parseInt(n / 1000000000)).trim() + ' Billion ' + translate(n % 1000000000)
     }
     return word
   }

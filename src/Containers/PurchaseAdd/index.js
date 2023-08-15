@@ -5,7 +5,6 @@ import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ACTION } from "../../Store/constants";
 import { PaymentTypesLits } from "../../Constants/Purchase";
 import { PURCHASEBILLINFO, PURCHASEPRODUCTINFO, purchasebilldetail, purchaseproductdetail } from "../../Schema/purchase";
-import { getAllProducts } from "../../apis/products";
 import { addPurchaseDetial, getPurchase } from "../../apis/purchase";
 import { checkIfMissingValues, getNet, getTotal, removeBlankRow } from "../../utils/purchase";
 import { ROUTES } from "../../Constants/routes_frontend";
@@ -19,11 +18,13 @@ import Card from "../../Components/ManualAddProduct/Card";
 import ProductAddForm from "../../Components/ProductAddForm/ProductAddForm";
 import InputDate from "../../Components/CustomDateInput/DateInput";
 import KEY from "../../Constants/keyCode";
+import { useLocalStorage } from "../../utils/useLocalStorage";
 
 const PurchaseAdd = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate()
   const location = useLocation()
+  const [storedValue, setValue] = useLocalStorage("pendingPurchaseAdd")
   const { dispatch, vendors, products } = useStore();
   const [purchaseBillDetail, setPurchaseBill] = useState(purchasebilldetail)
   const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 2 }, (_, index) => purchaseproductdetail))
@@ -38,13 +39,6 @@ const PurchaseAdd = () => {
     setVendorlist([{ label: "Select Vendor", value: "" }, ...vendorsoption])
   }
 
-  const formateproductslist = (productss) => {
-    const productoptions = productss.map((product) => {
-      return { label: product.itemName, value: product._id, category: product.category }
-    })
-    setProductslist([{ label: "Select Product", value: "" }, ...productoptions])
-  }
-
   const fetchVendorsList = async () => {
     try {
       const res = await getVendors();
@@ -55,23 +49,14 @@ const PurchaseAdd = () => {
     }
   }
 
-  const fetchProductsList = async () => {
-    try {
-      // const res = await getAllProducts();
-      // formateproductslist(res.data)
-      // dispatch(ACTION.SET_PRODUCTS, res.data)
-    } catch (error) {
-      alert("Unable to get products list!")
-    }
-  }
-
   const onchangeBillDetail = (name, value) => {
     setPurchaseBill({ ...purchaseBillDetail, [name]: value })
+    setValue({ billData: { ...purchaseBillDetail, [name]: value }, prodData: purchaseProducts });
   }
 
   const onchangeproductlist = (index, name, value) => {
     try {
-      setPurchaseProducts(purchaseProducts.map((detail, ind) => {
+      const updatedetail = purchaseProducts.map((detail, ind) => {
         if (ind === index) {
           if (name === PURCHASEPRODUCTINFO.PRODUCTID) {//feeding extra detail needed to calculate netrate later
             const selectedProd = products.filter((prod, index) => prod._id === value)[0]
@@ -91,7 +76,10 @@ const PurchaseAdd = () => {
         }
         else
           return detail
-      }))
+      })
+      setPurchaseProducts(updatedetail);
+      setValue({ billData: purchaseBillDetail, prodData: updatedetail });
+      console.log({ billData: purchaseBillDetail, prodData: updatedetail })
     } catch (error) {
       console.log(error)
     }
@@ -117,6 +105,7 @@ const PurchaseAdd = () => {
         const res = await addPurchaseDetial(data)
         setPurchaseProducts(Array.from({ length: 2 }, (_, index) => purchaseproductdetail))
         setPurchaseBill(purchasebilldetail)
+        setValue(null)
         alert("Pruchase updated successfully!")
         dispatch(ACTION.SET_STOCKS, [])
       }
@@ -165,8 +154,6 @@ const PurchaseAdd = () => {
     const purchaseId = searchParams.get("id")
     if (vendors.length) { formatevendorslist(vendors) }
     else fetchVendorsList();
-    if (products.length) { formateproductslist(products) }
-    else fetchProductsList();
     if (purchaseId) {
       fetchPurchase(purchaseId)
       setMode("update")
@@ -190,6 +177,14 @@ const PurchaseAdd = () => {
         break;
     }
   };
+
+  useEffect(() => {
+    if (storedValue) {
+      console.log(storedValue)
+      setPurchaseBill(storedValue.billData)
+      setPurchaseProducts(storedValue.prodData)
+    }
+  }, []);
 
   return (
     <Layout>

@@ -1,9 +1,9 @@
 import { numbersInWords } from "../../utils/billing";
 
-const Footer = ({ oldBalance, subTotal, discount, roundoff, grandTotal, amtPaid, amtDue }) => {
+const Footer = ({ oldBalance, subTotal, discount, roundoff, grandTotal, amtPaid, amtDue, type, amtRefund }) => {
   return (
     <div style={{ width: "100%", height: "10vh", alignItems: "center", display: "flex", flexWrap: "wrap" }}>
-      <div style={{ display: "flex", alignItems: "center", height: "15%", fontWeight: "bolder", margin: "0px", fontSize: "0.7em", width: "100%", textAlign: "center", borderBottom: "2px solid black" }}>Amt. in words. : {numbersInWords(grandTotal)} only.</div>
+      <div style={{ display: "flex", alignItems: "center", height: "15%", fontWeight: "bolder", margin: "0px", fontSize: "0.7em", width: "100%", textAlign: "center", borderBottom: "2px solid black" }}>Amt. in words. : {numbersInWords(grandTotal || 0)} only.</div>
       <div style={{ fontSize: "0.7rem", height: "85%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "flex-start", padding: "0.5%", boxSizing: "border-box", width: "30%", borderRight: "2px solid black" }}>
         <p style={{ margin: "0px", fontSize: "1rem", fontWeight: "bold", borderBottom: "2px solid black" }}>Terms & Conditions</p>
         <p style={{ margin: "0px" }}>1.Goods once sold will not be taken back or exchanged.</p>
@@ -24,8 +24,8 @@ const Footer = ({ oldBalance, subTotal, discount, roundoff, grandTotal, amtPaid,
         <p style={{ margin: "0px", width: "20%", fontWeight: "600" }}>: {roundoff}</p>
         <p style={{ margin: "0px", width: "30%", fontWeight: "600" }}>GRAND TOTAL</p>
         <p style={{ margin: "0px", width: "20%", fontWeight: "600" }}>: {grandTotal}</p>
-        <p style={{ margin: "0px", width: "30%", fontWeight: "600" }}>PAID</p>
-        <p style={{ margin: "0px", width: "20%", fontWeight: "600" }}>: {amtPaid}</p>
+        <p style={{ margin: "0px", width: "30%", fontWeight: "600" }}>{type === "CN" ? "AMT. REFUND" : "PAID"}</p>
+        <p style={{ margin: "0px", width: "20%", fontWeight: "600" }}>: {type === "CN" ? amtRefund : amtPaid}</p>
         <p style={{ margin: "0px", width: "30%", fontWeight: "600" }}>BALANCE</p>
         <p style={{ margin: "0px", width: "20%", fontWeight: "600" }}>: {amtDue + oldBalance}</p>
         {
