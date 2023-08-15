@@ -79,7 +79,6 @@ const PurchaseAdd = () => {
       })
       setPurchaseProducts(updatedetail);
       setValue({ billData: purchaseBillDetail, prodData: updatedetail });
-      console.log({ billData: purchaseBillDetail, prodData: updatedetail })
     } catch (error) {
       console.log(error)
     }
@@ -180,7 +179,6 @@ const PurchaseAdd = () => {
 
   useEffect(() => {
     if (storedValue) {
-      console.log(storedValue)
       setPurchaseBill(storedValue.billData)
       setPurchaseProducts(storedValue.prodData)
     }
