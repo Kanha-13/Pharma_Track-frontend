@@ -160,7 +160,6 @@ const Billing = () => {
   }, [])
 
   useEffect(() => {
-    console.log(storedValue)
     if (storedValue)
       setCart(storedValue)
   }, [])
