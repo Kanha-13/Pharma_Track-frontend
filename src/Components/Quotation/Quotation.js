@@ -26,6 +26,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
       delete cart.qnty
       return cart
     })
+    modified_prod_list = itemsIncart.filter((cart) => cart.pId)// removing blank field
 
     billInfo.billingDate = billingDate
     //below data when CN is mergend with the current bill

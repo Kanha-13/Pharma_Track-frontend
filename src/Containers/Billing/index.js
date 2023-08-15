@@ -15,10 +15,12 @@ import ChooseBatch from "../../Components/ChooseBatch/ChooseBatch";
 import './index.css'
 import RadioButton from "../../Components/RadioButton/RadioButton";
 import KEY from "../../Constants/keyCode";
+import { useLocalStorage } from "../../utils/useLocalStorage";
 
 const Billing = () => {
   const { products, dispatch } = useStore();
   const navigate = useNavigate()
+  const [storedValue, setValue] = useLocalStorage("pendingBillCart")
   const [keyword, setkey] = useState("")
   const { oldBillId } = useParams()
   const [currentPID, setPID] = useState("")
@@ -56,15 +58,18 @@ const Billing = () => {
   const onchangeqnty = (indx, val) => {
     let updated = inCart.map((cart, index) => index === indx ? { ...cart, soldQnty: val, total: calcTotal(cart, val, cart.disc) } : cart)
     setCart(updated)
+    setValue(updated)
   }
 
   const changeDisc = (indx, val) => {
     let updated = inCart.map((cart, index) => index === indx ? { ...cart, disc: val, total: calcTotal(cart, cart.soldQnty, val) } : cart)
     setCart(updated)
+    setValue(updated)
   }
 
   const onresetall = () => {
     setCart([])
+    setValue([])
     setProductsList([])
     dispatch(ACTION.SET_PRODUCTS, [])
     setPID("")
@@ -72,6 +77,7 @@ const Billing = () => {
 
   const onremoveItem = (stockId) => {
     setCart(inCart.filter((item) => item.stockId !== stockId))
+    setValue(inCart.filter((item) => item.stockId !== stockId))
   }
 
   const handleBatchChoose = (stock) => {
@@ -99,6 +105,7 @@ const Billing = () => {
       }
       inCart[currentIndex] = carItem
       setCart(inCart)
+      setValue(inCart)
     }
     setIsChosse(false)
   }
@@ -123,6 +130,7 @@ const Billing = () => {
 
   const addField = () => {
     setCart((prev) => [...prev, {}])
+    setValue((prev) => [...prev, {}])
   }
 
   const closeListModal = (event) => {
@@ -149,6 +157,12 @@ const Billing = () => {
       document.removeEventListener('click', closeListModal);
       document.removeEventListener('keydown', closeListModal);
     };
+  }, [])
+
+  useEffect(() => {
+    console.log(storedValue)
+    if (storedValue)
+      setCart(storedValue)
   }, [])
 
   return (

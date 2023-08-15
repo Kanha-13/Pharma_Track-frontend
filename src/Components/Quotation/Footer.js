@@ -37,6 +37,8 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
 
   const onSumbmit = (e) => {
     e.preventDefault()
+    if (!patientName)
+      return alert("Patient Name Required!!")
     alert("happy shopping")
 
     if (carts.length) {
@@ -83,7 +85,8 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
     try {
       let subtotal = "0";// for total without discount
       let total = "0";//for total with discount
-      carts.map((cart, index) => {
+      let incarts = carts.filter((cart) => cart.pId)
+      incarts.map((cart, index) => {
         let mrp_per_unit = cart.mrp  // tablet or bottle
         if (cart.category === "TABLET")
           mrp_per_unit = cart.mrp / cart.pkg
