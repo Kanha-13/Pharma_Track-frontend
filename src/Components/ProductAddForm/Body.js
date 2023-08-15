@@ -33,7 +33,7 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
     onChange(currentIndex, "pId", itemId)
 
     //below code to focus 'pkg' input
-    const inputs = Array.from(document.getElementsByName('Pkg'));
+    const inputs = Array.from(document.getElementsByName('Qnty'));
     const nextIndex = currentIndex;
     if (nextIndex < inputs.length + 1) {
       const nextInput = inputs[nextIndex];
@@ -73,6 +73,11 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
       setIsProdList(false)
   }
 
+  const checkDisable = (name) => {
+    if (name === "pkg" || name === "gst") return true
+    return false
+  }
+
   useEffect(() => {
     document.addEventListener('click', closeListModal);
     document.addEventListener('keydown', closeListModal);
@@ -102,7 +107,7 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
               {
                 heads.map((head, index) => {
                   if (head.value === "expDate") return <InputDate key={head.value + "in-body-list"} require={true} value={item[head.value]} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />
-                  return <Card key={head.value + "in-body-list"} require={true} value={item[head.value]} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />
+                  return <Card disable={checkDisable(head.value)} key={head.value + "in-body-list"} require={true} value={item[head.value]} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />
                 })
               }
               {mode === "add" ? <button disabled={list.length === 1} onClick={() => onDelete(index)} tabIndex={-1} style={{ display: "block", padding: "0px", fontSize: "1rem", textAlign: "left", minWidth: "0.5vw", cursor: "pointer", backgroundColor: "transparent", border: "none" }}>x</button> : <></>}
