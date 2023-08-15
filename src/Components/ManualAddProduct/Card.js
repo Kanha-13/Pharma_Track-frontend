@@ -17,7 +17,7 @@ const Card = (props) => {
         try { nextInput.focus(); } catch (error) { }
       }
     }
-    keypress(event)
+    keypress(event,name)
   }
 
   const getInputType = () => {

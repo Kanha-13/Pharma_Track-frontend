@@ -13,6 +13,7 @@ const KEY = {
   F12: 121,
   ENTER: 13,
   ESC: 27,
+  END:35,
   ARROW_UP: 38,
   ARROW_DOWN: 40,
   CTRL: 17,

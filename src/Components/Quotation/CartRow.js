@@ -1,8 +1,9 @@
 import { QuotationListHeader } from "../../Constants/billing";
+import KEY from "../../Constants/keyCode";
 import { getmmyy } from "../../utils/DateConverter";
 import Card from "../ManualAddProduct/Card";
 
-const CartRow = ({ isCN, item, onRemove, onchange, openProductLists, onchangedisc, index }) => {
+const CartRow = ({ addField, isCN, item, onRemove, onchange, openProductLists, onchangedisc, index }) => {
   const changeqnt = (value, qnty) => {
     if (value > qnty && !isCN)
       alert("Insufficient stocks")
@@ -13,8 +14,13 @@ const CartRow = ({ isCN, item, onRemove, onchange, openProductLists, onchangedis
     onchangedisc(index, value)
   }
 
-  const onclicked = (name,value) => {
-    openProductLists(index,value)
+  const onclicked = (name, value) => {
+    openProductLists(index, value)
+  }
+
+  const handlekeypress = (event) => {
+    if (event.keyCode === KEY.ENTER)
+      addField()
   }
 
   return (
@@ -26,7 +32,7 @@ const CartRow = ({ isCN, item, onRemove, onchange, openProductLists, onchangedis
           if (head.value === "soldQnty")
             return <Card key={head + ind} min={1} max={isCN ? "" : item.qnty} require={true} w={head.colSize} h="4%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph={head.ph} value={item[head.value]} onchange={(name, value) => changeqnt(value, item.qnty)} type="number" />
           if (head.value === "disc")
-            return <Card key={head + ind} min={0} max={100} require={true} w={head.colSize} h="4%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph={head.ph} value={item[head.value]} onchange={onchangeDisc} type="number" />
+            return <Card keypress={handlekeypress} key={head + ind} min={0} max={100} require={true} w={head.colSize} h="4%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph={head.ph} value={item[head.value]} onchange={onchangeDisc} type="number" />
           if (head.value === "expDate")
             return <p key={head + ind} style={{ width: head.colSize, margin: "0px" }}>{getmmyy(item[head.value])}</p>
           return <p key={head + ind} style={{ width: head.colSize, margin: "0px" }}>{item[head.value]}</p>

@@ -9,7 +9,7 @@ import { useStore } from "../../Store/store";
 import InputDate from "../CustomDateInput/DateInput";
 import KEY from "../../Constants/keyCode";
 
-const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = () => { } }) => {
+const Body = ({ addField, mode, headers, dataList = [], onChange = () => { }, onDelete = () => { } }) => {
   const { dispatch } = useStore()
   const [keyword, setkey] = useState("")
   const [list, setList] = useState([]);
@@ -73,9 +73,11 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
       setIsProdList(false)
   }
 
-  const checkDisable = (name) => {
-    if (name === "pkg" || name === "gst") return true
-    return false
+  const handlekeypress = (event, name) => {
+    if (name === "netAmt" && event.keyCode === KEY.ENTER && mode === "add") {
+      event.preventDefault()
+      addField();
+    }
   }
 
   useEffect(() => {
@@ -101,13 +103,16 @@ const Body = ({ mode, headers, dataList = [], onChange = () => { }, onDelete = (
       }
       {
         list.map((item, index) => {
-          const onchangeProductDetail = (name, value) => { handlechange(index, name, value) }
+          const onchangeProductDetail = (name, value) => {
+            if (name === "pkg" || name === "gst") return
+            handlechange(index, name, value)
+          }
           return (
             <div id="purchase-data-container" onClick={() => { }} key={`${item?._id}-purchase-list-${index}`} className="purchase-batch-row" style={{ height: "5vh", margin: "2vh 0px", width: "100%", display: "flex", justifyContent: "space-between" }}>
               {
                 heads.map((head, index) => {
                   if (head.value === "expDate") return <InputDate key={head.value + "in-body-list"} require={true} value={item[head.value]} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />
-                  return <Card disable={checkDisable(head.value)} key={head.value + "in-body-list"} require={true} value={item[head.value]} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />
+                  return <Card keypress={handlekeypress} key={head.value + "in-body-list"} require={true} value={item[head.value]} w={head.colSize} h="35%" pd="1.3vh 0.1vw" m="0px" ph={head.ph} name={head.value} label="" onchange={onchangeProductDetail} type={head.type} options={head.options} />
                 })
               }
               {mode === "add" ? <button disabled={list.length === 1} onClick={() => onDelete(index)} tabIndex={-1} style={{ display: "block", padding: "0px", fontSize: "1rem", textAlign: "left", minWidth: "0.5vw", cursor: "pointer", backgroundColor: "transparent", border: "none" }}>x</button> : <></>}

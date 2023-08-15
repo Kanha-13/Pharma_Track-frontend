@@ -105,7 +105,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
         </div>
         <div style={{ height: "auto", borderBottom: "1px solid gray", display: "flex", flexDirection: "column", width: "100%" }}>
           {
-            itemsIncart.map((item, index) => <CartRow isCN={isCN} key={item._id + "billing-quotation-cartrow"} openProductLists={openProductLists} onRemove={onremoveItem} item={item} onchangedisc={changeDisc} onchange={onchangeqnty} index={index} />)
+            itemsIncart.map((item, index) => <CartRow addField={addField} isCN={isCN} key={item._id + "billing-quotation-cartrow"} openProductLists={openProductLists} onRemove={onremoveItem} item={item} onchangedisc={changeDisc} onchange={onchangeqnty} index={index} />)
           }
         </div>
         {cnData._id && <CNInfo data={cnData} />}

@@ -119,8 +119,13 @@ const PurchaseAdd = () => {
   }
 
   const addField = () => {
-
+    const newIndex = purchaseProducts.length
     setPurchaseProducts((prev) => [...prev, purchaseproductdetail])
+    setTimeout(() => {
+      const tags = document.getElementsByName("Item name")
+      const newfield = tags[newIndex]
+      newfield?.focus()
+    }, 200);
   }
 
   const deleteField = (index) => {
@@ -184,6 +189,22 @@ const PurchaseAdd = () => {
     }
   }, []);
 
+  const handlekeypress = (event) => {
+    switch (event.keyCode) {
+      case KEY.END:
+        onsubmit();
+        break;
+      default:
+        break;
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener('keydown', handlekeypress);
+    return () => {
+      document.removeEventListener('keydown', handlekeypress);
+    };
+  }, [])
   return (
     <Layout>
       <div id="purchaseadd-container" className="layout-body borderbox">

@@ -110,9 +110,11 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
         event.preventDefault();
         addField();
         break;
-      case KEY.F11:
+      case KEY.END:
         event.preventDefault();
-        onSumbmit(event)
+        const tags = document.getElementsByName("Doctor Name") || []
+        if (tags[0])
+          tags[0].focus()
         break;
       default:
         break;
