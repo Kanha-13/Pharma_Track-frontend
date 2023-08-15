@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
 import { getVendors } from "../../apis/vendors";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ACTION } from "../../Store/constants";
 import { PaymentTypesLits } from "../../Constants/Purchase";
 import { PURCHASEBILLINFO, PURCHASEPRODUCTINFO, purchasebilldetail, purchaseproductdetail } from "../../Schema/purchase";
@@ -18,10 +18,12 @@ import Layout from "../../Components/Layout/Layout";
 import Card from "../../Components/ManualAddProduct/Card";
 import ProductAddForm from "../../Components/ProductAddForm/ProductAddForm";
 import InputDate from "../../Components/CustomDateInput/DateInput";
+import KEY from "../../Constants/keyCode";
 
 const PurchaseAdd = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate()
+  const location = useLocation()
   const { dispatch, vendors, products } = useStore();
   const [purchaseBillDetail, setPurchaseBill] = useState(purchasebilldetail)
   const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 2 }, (_, index) => purchaseproductdetail))
@@ -170,12 +172,31 @@ const PurchaseAdd = () => {
       setMode("update")
     }
   }, [])
+
+  const handleKeyUpOnVendor = (event) => {
+    switch (event.keyCode) {
+      case KEY.F2:
+        event.preventDefault();
+        event.stopPropagation();
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD, { state: { callBackPath: location.pathname } })
+        break;
+      case KEY.F3:
+        event.preventDefault();
+        event.stopPropagation();
+        if (purchaseBillDetail.vId)
+          navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_INFO + "id=" + purchaseBillDetail.vId, { state: { callBackPath: location.pathname } })
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <Layout>
       <div id="purchaseadd-container" className="layout-body borderbox">
         <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "2vh" }}>Purchase Entry</p>
         <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", height: "15%", width: "100%" }}>
-          <Card focus={true} require={true} value={purchaseBillDetail.vId} m="1.5% 0px" w="25%" h="15%" name={PURCHASEBILLINFO.VENDORID} label="Vendor Name" onchange={onchangeBillDetail} type="select" options={vendorslist} />
+          <Card keypress={handleKeyUpOnVendor} focus={true} require={true} value={purchaseBillDetail.vId} m="1.5% 0px" w="25%" h="15%" name={PURCHASEBILLINFO.VENDORID} label="Vendor Name" onchange={onchangeBillDetail} type="select" options={vendorslist} />
           <Card require={true} value={purchaseBillDetail.billNo} m="1.5% 1%" w="15%" h="15%" name={PURCHASEBILLINFO.BILLNUMBER} label="Bill No." onchange={onchangeBillDetail} type="text" />
           <InputDate require={true} value={purchaseBillDetail.purDate} m="1.5% 1%" w="15%" h="2%" pd="2%" name={PURCHASEBILLINFO.PURCHASEDATE} label="Purchase Date" onchange={onchangeBillDetail} type="fulldate" />
           <Card require={true} value={purchaseBillDetail.paymentType} m="1.5% 1%" w="10%" h="15%" name={PURCHASEBILLINFO.PAYMENTTYPE} label="Payment Type" onchange={onchangeBillDetail} type="select" options={PaymentTypesLits} />

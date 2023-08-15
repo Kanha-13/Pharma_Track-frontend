@@ -26,19 +26,39 @@ const Layout = (props) => {
     switch (event.keyCode) {
       case KEY.F1:
         event.preventDefault();
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.DASHBOARD)
         break;
       case KEY.F2:
         event.preventDefault();
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.STOCK_ADD)
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD_MANUAL)
         break;
       case KEY.F3:
         event.preventDefault();
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD_MANUAL)
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.STOCK_ADD)
         break;
       case KEY.F4:
         event.preventDefault();
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PURCHASE_ADD)
+        break;
+      case KEY.F5:
+        event.preventDefault();
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)
+        break;
+      case KEY.F6:
+        event.preventDefault();
         navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD)
+        break;
+      case KEY.F7:
+        event.preventDefault();
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_ADD)
+        break;
+      case KEY.F8:
+        event.preventDefault();
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PATIENTS)
+        break;
+      case KEY.F9:
+        event.preventDefault();
+        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.EXPIRY)
         break;
       case KEY.ESC:
         event.preventDefault();

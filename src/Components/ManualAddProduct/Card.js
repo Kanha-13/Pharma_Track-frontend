@@ -1,7 +1,7 @@
 import KEY from "../../Constants/keyCode";
 
 const Card = (props) => {
-  let { require = false, w = "25%", h = "15%", ph = "", m = "1.5%", pd = "1.5%", fs = "1rem",
+  let { keypress = () => { }, require = false, w = "25%", h = "15%", ph = "", m = "1.5%", pd = "1.5%", fs = "1rem",
     label = "", name = "", value = "", max = "", min = 0, type = "text", onchange, focus = false, options = [] } = props
 
   const checkForEnterKey = (event) => {
@@ -17,6 +17,7 @@ const Card = (props) => {
         try { nextInput.focus(); } catch (error) { }
       }
     }
+    keypress(event)
   }
 
   const getInputType = () => {

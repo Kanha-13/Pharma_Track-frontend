@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { useStore } from "../../Store/store";
 import { ROUTES } from "../../Constants/routes_frontend";
 import { validateUpdateRequest } from "../../utils/vendor";
@@ -14,6 +14,7 @@ import './index.css'
 
 const VendorInfo = () => {
   const navigate = useNavigate()
+  const location = useLocation();
   const { dispatch } = useStore();
   const [searchParams] = useSearchParams();
   const [deletePop, setDeletePop] = useState(0);
@@ -49,7 +50,10 @@ const VendorInfo = () => {
         const res = await udpateVendor(vendorDetail._id, vendorDetail)
         dispatch(ACTION.SET_VENDORS, [])
         alert("Vendor updated successfully!")
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)
+        if (location.state.callBackPath)
+          navigate(location.state.callBackPath)
+        else
+          navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)
       }
       else throw new Error("Fields should not be empty")
     } catch (error) {

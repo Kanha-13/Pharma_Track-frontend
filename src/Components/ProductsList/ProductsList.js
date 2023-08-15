@@ -113,7 +113,7 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "S
       "billing",
       "purchase"
     ]
-    if (paths.some(v => location.pathname.includes(v)) && data[index])
+    if (paths.some(v => location.pathname.includes(v)))
       return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD_MANUAL
   }
 
@@ -137,13 +137,13 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "S
   const handleKeyUp = (event) => {
     switch (event.keyCode) {
       case KEY.F2:
-        event.preventDefault();
         event.stopPropagation();
+        event.preventDefault();
         navigate(get_ToAdd_Location(), { state: { callBackPath: location.pathname } })
         break;
       case KEY.F3:
-        event.preventDefault();
         event.stopPropagation();
+        event.preventDefault();
         navigate(get_ToUpdate_Location(), { state: { callBackPath: location.pathname } })
         break;
       default:
@@ -151,17 +151,10 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "S
     }
   };
 
-  useEffect(() => {
-    window.addEventListener('keydown', handleKeyUp);
-    return () => {
-      window.removeEventListener('keydown', handleKeyUp);
-    };
-  }, [data]);
-
   return (
     <div id="productslist-container" style={{ display: show ? "flex" : "none", height: h, width: w }} className={listClass}>
       <div style={{ backgroundColor: "#ffffff", display: "flex", justifyContent: "center", alignItems: "center", minHeight: "8vh", width: "100%", position: "sticky", top: "0px" }}>
-        <SearchBar onEnter={handleEnterPress} onNav={handleListNav} onchange={onchangeval} h="3vh" w="90%" placeholder={ph} val={search} />
+        <SearchBar keyPress={handleKeyUp} onEnter={handleEnterPress} onNav={handleListNav} onchange={onchangeval} h="3vh" w="90%" placeholder={ph} val={search} />
       </div>
       {
         data.length > 0 ?

@@ -1,7 +1,7 @@
 import KEY from "../../Constants/keyCode";
 import ProductSearch from "../../images/icons/productSearch.svg"
 import './searchbar.css'
-const SearchBar = ({ m = "1%", onEnter = () => { }, mt = "2.5%", h = "40%", w = "60%", val = "", onchange, placeholder = "", onNav = () => { } }) => {
+const SearchBar = ({ keyPress = () => { }, m = "1%", onEnter = () => { }, mt = "2.5%", h = "40%", w = "60%", val = "", onchange, placeholder = "", onNav = () => { } }) => {
   const handleNavToList = (event) => {
     if (event.keyCode === KEY.ENTER) {
       event.preventDefault()
@@ -15,6 +15,7 @@ const SearchBar = ({ m = "1%", onEnter = () => { }, mt = "2.5%", h = "40%", w = 
       event.preventDefault()
       onNav("up")
     }
+    keyPress(event);
   }
   return (
     <div className="search-bar-div" style={{ margin: m, marginTop: mt, width: w, height: h }}>
