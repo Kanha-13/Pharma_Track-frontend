@@ -27,7 +27,7 @@ const PurchaseAdd = () => {
   const [storedValue, setValue] = useLocalStorage("pendingPurchaseAdd")
   const { dispatch, vendors, products } = useStore();
   const [purchaseBillDetail, setPurchaseBill] = useState(purchasebilldetail)
-  const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 2 }, (_, index) => purchaseproductdetail))
+  const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 1 }, (_, index) => purchaseproductdetail))
   const [vendorslist, setVendorlist] = useState([]);
   const [productslist, setProductslist] = useState([]);
   const [mode, setMode] = useState("add")
@@ -93,7 +93,10 @@ const PurchaseAdd = () => {
 
   const addPurchase = async () => {
     try {
-      const cleared_productlist = removeBlankRow(purchaseProducts)
+      const addingVid = purchaseProducts.map((prod) => {
+        return { ...prod, vId: purchaseBillDetail.vId }
+      })
+      const cleared_productlist = removeBlankRow(addingVid)
       if (checkIfMissingValues(purchaseBillDetail, cleared_productlist))
         alert("No missing values allowed")
       else {
@@ -102,7 +105,7 @@ const PurchaseAdd = () => {
           productsDetail: cleared_productlist
         }
         const res = await addPurchaseDetial(data)
-        setPurchaseProducts(Array.from({ length: 2 }, (_, index) => purchaseproductdetail))
+        setPurchaseProducts(Array.from({ length: 1 }, (_, index) => purchaseproductdetail))
         setPurchaseBill(purchasebilldetail)
         setValue(null)
         alert("Pruchase updated successfully!")
@@ -204,7 +207,7 @@ const PurchaseAdd = () => {
     return () => {
       document.removeEventListener('keydown', handlekeypress);
     };
-  }, [])
+  }, [purchaseBillDetail, purchaseProducts])
   return (
     <Layout>
       <div id="purchaseadd-container" className="layout-body borderbox">

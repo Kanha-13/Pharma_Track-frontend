@@ -34,7 +34,7 @@ const Card = (props) => {
           }
         </select>
       default:
-        return <input disabled={disable} min={min} className="custom-input-fields" style={{ fontSize: fs }} max={max} onKeyDown={checkForEnterKey} placeholder={ph || label}
+        return <input autoComplete="off" disabled={disable} min={min} className="custom-input-fields" style={{ fontSize: fs }} max={max} onKeyDown={checkForEnterKey} placeholder={ph || label}
           autoFocus={focus} required={require} value={value} type={type}
           onChange={(e) => onchange(name, e.target.value)} name={ph} />
     }
