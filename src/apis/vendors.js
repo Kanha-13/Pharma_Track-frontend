@@ -6,6 +6,11 @@ export const getVendors = async () => {
   return res.data
 }
 
+export const getVendorsQuery = async (val) => {
+  const res = await axios_instance.get(API.GET_VENDORS_QUERY + "?key=" + val)
+  return res.data
+}
+
 export const getVendor = async (id) => {
   const res = await axios_instance.get(API.GET_VENDOR + id)
   return res.data

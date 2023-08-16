@@ -8,7 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import KEY from "../../Constants/keyCode";
 import { ROUTES } from "../../Constants/routes_frontend";
 
-const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "Search product...", data = [], onclick, onchange, keyword = "" }) => {
+const ProductsList = ({ listName = "products", show = true, header = [], h = "100%", w = "43%", ph = "Search product...", data = [], onclick, onchange, keyword = "" }) => {
   const navigate = useNavigate();
   const location = useLocation()
   const [search, setSearch] = useState("");
@@ -113,10 +113,13 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "S
       "billing",
       "purchase"
     ]
-    if (paths.some(v => location.pathname.includes(v)))
+
+    if (listName === "products")
       return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD_MANUAL
-    else if (location.pathname.includes("product"))
+    else if (listName === "companys")
       return ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_ADD
+    else if (listName === "vendors")
+      return ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD
   }
 
   const get_ToUpdate_Location = () => {
@@ -131,11 +134,12 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "S
       "billing",
       "purchase"
     ]
-    if (paths.some(v => location.pathname.includes(v)) && data[index])
+    if (listName === "products" && data[index])
       return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_INFO + "id=" + data[index]._id
-    else if (location.pathname.includes("product") && data[index])
+    else if (listName === "companys" && data[index])
       return ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_INFO + "id=" + data[index]._id
-
+    else if (listName === "vendors" && data[index])
+      return ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_INFO + "id=" + data[index]._id
   }
 
   const handleKeyUp = (event) => {

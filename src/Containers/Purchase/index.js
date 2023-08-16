@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
-import { getVendors } from "../../apis/vendors";
+import { getVendors, getVendorsQuery } from "../../apis/vendors";
 import { ACTION } from "../../Store/constants";
 import { useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../Constants/routes_frontend";
@@ -14,29 +14,24 @@ import Card from "../../Components/ManualAddProduct/Card";
 import './index.css'
 import InputDate from "../../Components/CustomDateInput/DateInput";
 import KEY from "../../Constants/keyCode";
+import { VendorsListHeader } from "../../Constants/vendors";
+import ProductsList from "../../Components/ProductsList/ProductsList";
 
 const Purchase = () => {
   const { vendors, dispatch } = useStore();
   const navigate = useNavigate();
-  const location = useLocation();
   const [purchaseLists, setPurchases] = useState([])
   const [billNo, setBillNumber] = useState("")
   const [vendorIdToSearch, setVendorIdToSearch] = useState("")
   const [fromDate, setFromDate] = useState("")
   const [toDate, setToDate] = useState("")
-  const [vendorslist, setVendorlist] = useState([])
+  const [vendorName, setVendorName] = useState("")
+  const [keyword, setkeyword] = useState("")
+  const [isVendors, setIsVendors] = useState(false)
 
-  const formatevendorslist = (vendorss) => {
-    const vendorsoption = vendorss.map((vendor) => {
-      return { label: vendor.vendorName, value: vendor._id }
-    })
-    setVendorlist([{ label: "Select Vendor", value: "" }, ...vendorsoption])
-  }
-
-  const fetchVendorsList = async () => {
+  const fetchVendorsList = async (value) => {
     try {
-      const res = await getVendors();
-      formatevendorslist(res.data)
+      const res = await getVendorsQuery(value);
       dispatch(ACTION.SET_VENDORS, res.data)
     } catch (error) {
       alert("Unable to get vendors list!")
@@ -74,29 +69,20 @@ const Purchase = () => {
     navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PURCHASE_INFO + `id=${id}`)
   }
 
-  useEffect(() => {
-    if (vendors.length) { formatevendorslist(vendors) }
-    else
-      fetchVendorsList();
-  }, [])
+  const openvendorlist = (name, value) => {
+    setkeyword(value)
+    setIsVendors(true)
+  }
 
-  const handleKeyUpOnVendor = (event) => {
-    switch (event.keyCode) {
-      case KEY.F2:
-        event.preventDefault();
-        event.stopPropagation();
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD, { state: { callBackPath: location.pathname } })
-        break;
-      case KEY.F3:
-        event.preventDefault();
-        event.stopPropagation();
-        if (vendorIdToSearch)
-          navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_INFO + "id=" + vendorIdToSearch, { state: { callBackPath: location.pathname } })
-        break;
-      default:
-        break;
-    }
-  };
+  const onclickVendor = (value) => {
+    const filterr = vendors.filter((ven) => ven._id === value)[0]
+    setVendorIdToSearch(value)
+    setVendorName(filterr.vendorName)
+    setIsVendors(false)
+    const tags = document.getElementsByName("billNo")
+    if (tags[0])
+      tags[0].focus()
+  }
 
   return (
     <Layout>
@@ -106,7 +92,7 @@ const Purchase = () => {
           <button style={{ width: "15%", height: "100%", borderRadius: "0.5vw", backgroundColor: "#5E48E8", border: "none", color: "#ffffff", fontSize: "0.9em", cursor: "pointer" }} onClick={toaddpurchase}>Purchase Entry</button>
         </div>
         <div style={{ alignItems: "center", width: "100%", height: "90%", display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-          <Card keypress={handleKeyUpOnVendor} focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorIdToSearch} onchange={(name, value) => setVendorIdToSearch(value)} type="select" options={vendorslist} />
+          <Card focus={true} require={true} ph="Search vendor..." w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorName} onchange={openvendorlist} type="text" />
           <Card require={true} w="15%" h="2vh" pd="1.1vh 0.5vw" name="billNo" label="" ph="Bill no." value={billNo} onchange={(name, value) => setBillNumber(value)} type="text" />
           <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
           <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
@@ -146,6 +132,12 @@ const Purchase = () => {
           </div>
         </div>
       </div>
+      {isVendors &&
+        <div style={{ backgroundColor: "#ffffff", left: "4vw", alignItems: "center", justifyContent: "center", position: "absolute", width: "90.5%", zIndex: 2, top: "3vh", height: "91%", display: "flex", flexDirection: 'column' }}>
+          <ProductsList listName="vendors" mh="400%" h="100%" w="100%" onchange={fetchVendorsList}
+            onclick={onclickVendor} header={VendorsListHeader} data={vendors} keyword={keyword} />
+        </div>
+      }
     </Layout>
   );
 }

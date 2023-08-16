@@ -103,7 +103,7 @@ const ManualAdd = () => {
     <Layout>
       <div id="manualadd-prod-container" className="layout-body borderbox" >
         {
-          iscompList ? <ProductsList show={iscompList} mh="400%" h="100%" w="100%" onchange={fetchCompanies}
+          iscompList ? <ProductsList listName="companys" show={iscompList} mh="400%" h="100%" w="100%" onchange={fetchCompanies}
             onclick={onclickproduct} header={CompanyListHeader} data={companies} keyword={keyword} /> :
             <>
               <div style={{ width: "100%", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px" }}>

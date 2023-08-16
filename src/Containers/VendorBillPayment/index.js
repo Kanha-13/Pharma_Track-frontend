@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
-import { getVendors } from "../../apis/vendors";
+import { getVendors, getVendorsQuery } from "../../apis/vendors";
 import { ACTION } from "../../Store/constants";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getPurchases, purchaseBillPayment } from "../../apis/purchase";
@@ -15,6 +15,8 @@ import { BILLTYPES } from "../../Constants/billing";
 import BillPayCheckOut from "../../Components/VendorBillPay/BillPayCheckout";
 import KEY from "../../Constants/keyCode";
 import InputDate from "../../Components/CustomDateInput/DateInput";
+import { VendorsListHeader } from "../../Constants/vendors";
+import ProductsList from "../../Components/ProductsList/ProductsList";
 
 const VendorBillPayment = () => {
   const { vendors, dispatch } = useStore();
@@ -31,18 +33,13 @@ const VendorBillPayment = () => {
   const [totalPay, setTotalPay] = useState(0)
   const [remainingBal, setRemainingBal] = useState(0)
   const [isModal, setModal] = useState(false)
+  const [vendorName, setVendorName] = useState("")
+  const [keyword, setkeyword] = useState("")
+  const [isVendors, setIsVendors] = useState(false)
 
-  const formatevendorslist = (vendorss) => {
-    const vendorsoption = vendorss.map((vendor) => {
-      return { label: vendor.vendorName, value: vendor._id }
-    })
-    setVendorlist([{ label: "Select Vendor", value: "" }, ...vendorsoption])
-  }
-
-  const fetchVendorsList = async () => {
+  const fetchVendorsList = async (value) => {
     try {
-      const res = await getVendors();
-      formatevendorslist(res.data)
+      const res = await getVendorsQuery(value);
       dispatch(ACTION.SET_VENDORS, res.data)
     } catch (error) {
       alert("Unable to get vendors list!")
@@ -142,17 +139,27 @@ const VendorBillPayment = () => {
     setRemainingBal(total)
   }, [purchaseLists])
 
-  useEffect(() => {
-    if (vendors.length) { formatevendorslist(vendors) }
-    else fetchVendorsList();
-  }, [])
-
   const openModal = (e) => {
     e.stopPropagation();
     if (checkedBills.length)
       setModal(true);
     else
       alert("No bill selected")
+  }
+
+  const openvendorlist = (name, value) => {
+    setkeyword(value)
+    setIsVendors(true)
+  }
+
+  const onclickVendor = (value) => {
+    const filterr = vendors.filter((ven) => ven._id === value)[0]
+    setVendorIdToSearch(value)
+    setVendorName(filterr.vendorName)
+    setIsVendors(false)
+    const tags = document.getElementsByName("billNo")
+    if (tags[0])
+      tags[0].focus()
   }
 
   const closeModal = (event) => {
@@ -162,7 +169,14 @@ const VendorBillPayment = () => {
           if (prev) event.stopPropagation()
           return false
         })
+        setIsVendors((prev) => {
+          if (prev) event.stopPropagation()
+          return false
+        })
       }
+      const tags = document.getElementsByName("vId")
+      if(tags[0])
+        tags[0].focus()
     }
     else // if the method is called directly by some other function
       setModal(false)
@@ -183,7 +197,7 @@ const VendorBillPayment = () => {
           <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left" }}>Vendor Bill-Payment</p>
         </div>
         <div style={{ alignItems: "center", width: "100%", height: "90%", display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-          <Card focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorIdToSearch} onchange={(name, value) => setVendorIdToSearch(value)} type="select" options={vendorslist} />
+          <Card ph="Search vendor..." focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorName} onchange={openvendorlist} type="text"  />
           <Card require={true} w="15%" h="2vh" pd="1.1vh 0.5vw" name="billType" label="" ph="Bill Type" value={billType} onchange={(name, value) => setBillType(value)} type="select" options={BILLTYPES} />
           <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
           <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />
@@ -232,6 +246,12 @@ const VendorBillPayment = () => {
         </div>
         {isModal && <BillPayCheckOut oncancel={closeModal} billType={billType} onsubmit={submitPayment} />}
       </div>
+      {isVendors &&
+        <div style={{ backgroundColor: "#ffffff", left: "4vw", alignItems: "center", justifyContent: "center", position: "absolute", width: "90.5%", zIndex: 2, top: "3vh", height: "91%", display: "flex", flexDirection: 'column' }}>
+          <ProductsList listName="vendors" mh="400%" h="100%" w="100%" onchange={fetchVendorsList}
+            onclick={onclickVendor} header={VendorsListHeader} data={vendors} keyword={keyword} />
+        </div>
+      }
     </Layout>
   );
 }

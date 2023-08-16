@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
-import { getVendors } from "../../apis/vendors";
+import { getVendorsQuery } from "../../apis/vendors";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ACTION } from "../../Store/constants";
 import { PaymentTypesLits } from "../../Constants/Purchase";
@@ -19,6 +19,8 @@ import ProductAddForm from "../../Components/ProductAddForm/ProductAddForm";
 import InputDate from "../../Components/CustomDateInput/DateInput";
 import KEY from "../../Constants/keyCode";
 import { useLocalStorage } from "../../utils/useLocalStorage";
+import ProductsList from "../../Components/ProductsList/ProductsList";
+import { VendorsListHeader } from "../../Constants/vendors";
 
 const PurchaseAdd = () => {
   const [searchParams] = useSearchParams();
@@ -28,21 +30,13 @@ const PurchaseAdd = () => {
   const { dispatch, vendors, products } = useStore();
   const [purchaseBillDetail, setPurchaseBill] = useState(purchasebilldetail)
   const [purchaseProducts, setPurchaseProducts] = useState(Array.from({ length: 1 }, (_, index) => purchaseproductdetail))
-  const [vendorslist, setVendorlist] = useState([]);
-  const [productslist, setProductslist] = useState([]);
   const [mode, setMode] = useState("add")
+  const [keyword, setkeyword] = useState("")
+  const [isVendors, setIsVendors] = useState(false)
 
-  const formatevendorslist = (vendorss) => {
-    const vendorsoption = vendorss.map((vendor) => {
-      return { label: vendor.vendorName, value: vendor._id }
-    })
-    setVendorlist([{ label: "Select Vendor", value: "" }, ...vendorsoption])
-  }
-
-  const fetchVendorsList = async () => {
+  const fetchVendorsList = async (value) => {
     try {
-      const res = await getVendors();
-      formatevendorslist(res.data)
+      const res = await getVendorsQuery(value);
       dispatch(ACTION.SET_VENDORS, res.data)
     } catch (error) {
       alert("Unable to get vendors list!")
@@ -50,6 +44,10 @@ const PurchaseAdd = () => {
   }
 
   const onchangeBillDetail = (name, value) => {
+    if (name === "vId") {
+      setkeyword(value)
+      setIsVendors(true)
+    }
     setPurchaseBill({ ...purchaseBillDetail, [name]: value })
     setValue({ billData: { ...purchaseBillDetail, [name]: value }, prodData: purchaseProducts });
   }
@@ -159,31 +157,21 @@ const PurchaseAdd = () => {
 
   useEffect(() => {
     const purchaseId = searchParams.get("id")
-    if (vendors.length) { formatevendorslist(vendors) }
-    else fetchVendorsList();
     if (purchaseId) {
       fetchPurchase(purchaseId)
       setMode("update")
     }
   }, [])
 
-  const handleKeyUpOnVendor = (event) => {
-    switch (event.keyCode) {
-      case KEY.F2:
-        event.preventDefault();
-        event.stopPropagation();
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD, { state: { callBackPath: location.pathname } })
-        break;
-      case KEY.F3:
-        event.preventDefault();
-        event.stopPropagation();
-        if (purchaseBillDetail.vId)
-          navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_INFO + "id=" + purchaseBillDetail.vId, { state: { callBackPath: location.pathname } })
-        break;
-      default:
-        break;
-    }
-  };
+  const onclickVendor = (value) => {
+    const filterr = vendors.filter((ven) => ven._id === value)[0]
+    setPurchaseBill({ ...purchaseBillDetail, vId: value, vendorName: filterr.vendorName })
+    setValue({ billData: { ...purchaseBillDetail, vId: value, vendorName: filterr.vendorName }, prodData: purchaseProducts });
+    setIsVendors(false)
+    const tags = document.getElementsByName("billNo")
+    if (tags[0])
+      tags[0].focus()
+  }
 
   useEffect(() => {
     if (storedValue) {
@@ -196,6 +184,12 @@ const PurchaseAdd = () => {
     switch (event.keyCode) {
       case KEY.END:
         onsubmit();
+        break;
+      case KEY.ESC:
+        setIsVendors((prev) => {
+          if (prev) event.stopPropagation()
+          return false
+        })
         break;
       default:
         break;
@@ -213,14 +207,14 @@ const PurchaseAdd = () => {
       <div id="purchaseadd-container" className="layout-body borderbox">
         <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "2vh" }}>Purchase Entry</p>
         <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", height: "15%", width: "100%" }}>
-          <Card keypress={handleKeyUpOnVendor} focus={true} require={true} value={purchaseBillDetail.vId} m="1.5% 0px" w="25%" h="15%" name={PURCHASEBILLINFO.VENDORID} label="Vendor Name" onchange={onchangeBillDetail} type="select" options={vendorslist} />
+          <Card focus={true} require={true} value={purchaseBillDetail.vendorName} m="1.5% 0px" w="25%" h="15%" name={PURCHASEBILLINFO.VENDORID} label="Vendor Name" onchange={onchangeBillDetail} type="text" />
           <Card require={true} value={purchaseBillDetail.billNo} m="1.5% 1%" w="15%" h="15%" name={PURCHASEBILLINFO.BILLNUMBER} label="Bill No." onchange={onchangeBillDetail} type="text" />
           <InputDate require={true} value={purchaseBillDetail.purDate} m="1.5% 1%" w="15%" h="2%" pd="2%" name={PURCHASEBILLINFO.PURCHASEDATE} label="Purchase Date" onchange={onchangeBillDetail} type="fulldate" />
           <Card require={true} value={purchaseBillDetail.paymentType} m="1.5% 1%" w="10%" h="15%" name={PURCHASEBILLINFO.PAYMENTTYPE} label="Payment Type" onchange={onchangeBillDetail} type="select" options={PaymentTypesLits} />
         </div>
         {
           purchaseProducts.length > 0 ?
-            <ProductAddForm oncancel={oncancel} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} products={productslist} onChange={onchangeproductlist} /> : <></>
+            <ProductAddForm oncancel={oncancel} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} onChange={onchangeproductlist} /> : <></>
         }
         <div style={{ backgroundColor: "#e4e1f4", width: "20%", padding: "1%", alignSelf: "flex-end", height: "12%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
           <div style={{ height: "100%", width: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
@@ -235,6 +229,12 @@ const PurchaseAdd = () => {
           </div>
         </div>
       </div>
+      {isVendors &&
+        <div style={{ backgroundColor: "#ffffff", left: "4vw", alignItems: "center", justifyContent: "center", position: "absolute", width: "90.5%", zIndex: 2, top: "3vh", height: "91%", display: "flex", flexDirection: 'column' }}>
+          <ProductsList listName="vendors" mh="400%" h="100%" w="100%" onchange={fetchVendorsList}
+            onclick={onclickVendor} header={VendorsListHeader} data={vendors} keyword={keyword} />
+        </div>
+      }
     </Layout>
   );
 }

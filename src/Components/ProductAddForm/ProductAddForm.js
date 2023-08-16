@@ -4,7 +4,7 @@ import Body from "./Body";
 import Header from "./Header";
 import KEY from "../../Constants/keyCode";
 
-const ProductAddForm = ({ oncancel, mode, onSubmit, onChange, addField, deleteField, purchaseProducts, products }) => {
+const ProductAddForm = ({ oncancel, mode, onSubmit, onChange, addField, deleteField, purchaseProducts }) => {
 
   const handleKeyUp = (event) => {
     switch (event.keyCode) {
