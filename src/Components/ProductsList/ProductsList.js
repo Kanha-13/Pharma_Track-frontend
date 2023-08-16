@@ -115,6 +115,8 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "S
     ]
     if (paths.some(v => location.pathname.includes(v)))
       return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD_MANUAL
+    else if (location.pathname.includes("product"))
+      return ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_ADD
   }
 
   const get_ToUpdate_Location = () => {
@@ -131,6 +133,8 @@ const ProductsList = ({ show = true, header = [], h = "100%", w = "43%", ph = "S
     ]
     if (paths.some(v => location.pathname.includes(v)) && data[index])
       return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_INFO + "id=" + data[index]._id
+    else if (location.pathname.includes("product") && data[index])
+      return ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_INFO + "id=" + data[index]._id
 
   }
 
