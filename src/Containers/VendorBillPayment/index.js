@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
-import { getVendors, getVendorsQuery } from "../../apis/vendors";
+import { getVendorsQuery } from "../../apis/vendors";
 import { ACTION } from "../../Store/constants";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getPurchases, purchaseBillPayment } from "../../apis/purchase";
 import { PurchaseHistoryListHeader } from "../../Constants/Purchase";
 import { toddmmyy } from "../../utils/DateConverter";
@@ -25,7 +25,6 @@ const VendorBillPayment = () => {
   const [vendorIdToSearch, setVendorIdToSearch] = useState("")
   const [fromDate, setFromDate] = useState("")
   const [toDate, setToDate] = useState("")
-  const [vendorslist, setVendorlist] = useState([])
   const [billType, setBillType] = useState("")
   const [checkAll, setCheckAll] = useState(false);
   const [checkedBills, setCheckedBills] = useState([])
