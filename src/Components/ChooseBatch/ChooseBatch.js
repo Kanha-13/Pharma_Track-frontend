@@ -4,7 +4,7 @@ import { StockInfoHeader } from "../../Containers/StockInfo/Constants";
 import { getmmyy } from "../../utils/DateConverter";
 import KEY from "../../Constants/keyCode";
 
-const ChooseBatch = ({ show, pId, onEnter }) => {
+const ChooseBatch = ({isCN, show, pId, onEnter }) => {
   const [currentIndex, setIndex] = useState(0)
   const [batchList, setBatchList] = useState([])
 
@@ -55,7 +55,7 @@ const ChooseBatch = ({ show, pId, onEnter }) => {
     }
     else {
       const isStockSufficient = batchList[currentIndex]?.qnty
-      if (isStockSufficient)
+      if (isStockSufficient || isCN)
         onEnter(batchList[currentIndex])
       else
         alert("Insufficient stock")

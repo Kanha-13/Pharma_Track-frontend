@@ -156,7 +156,7 @@ const VendorBillPayment = () => {
     setVendorIdToSearch(value)
     setVendorName(filterr.vendorName)
     setIsVendors(false)
-    const tags = document.getElementsByName("billNo")
+    const tags = document.getElementsByName("billType")
     if (tags[0])
       tags[0].focus()
   }
@@ -172,10 +172,10 @@ const VendorBillPayment = () => {
           if (prev) event.stopPropagation()
           return false
         })
+        const tags = document.getElementsByName("vId")
+        if (tags[0])
+          tags[0].focus()
       }
-      const tags = document.getElementsByName("vId")
-      if(tags[0])
-        tags[0].focus()
     }
     else // if the method is called directly by some other function
       setModal(false)
@@ -196,7 +196,7 @@ const VendorBillPayment = () => {
           <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left" }}>Vendor Bill-Payment</p>
         </div>
         <div style={{ alignItems: "center", width: "100%", height: "90%", display: "flex", flexDirection: "row", flexWrap: "wrap" }}>
-          <Card ph="Search vendor..." focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorName} onchange={openvendorlist} type="text"  />
+          <Card ph="Search vendor..." focus={true} require={true} w="20%" h="2vh" m="0px" pd="1.1vh 0.5vw" name="vId" label="" value={vendorName} onchange={openvendorlist} type="text" />
           <Card require={true} w="15%" h="2vh" pd="1.1vh 0.5vw" name="billType" label="" ph="Bill Type" value={billType} onchange={(name, value) => setBillType(value)} type="select" options={BILLTYPES} />
           <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="from" label="From" ph="From" value={fromDate} onchange={(name, value) => setFromDate(value)} type="month" />
           <InputDate require={true} w="13%" h="2vh" pd="1.1vh 0.5vw" name="to" label="To" ph="To" value={toDate} onchange={(name, value) => setToDate(value)} type="month" />

@@ -178,7 +178,7 @@ const Billing = () => {
           <button onClick={toCNHistory} style={{ width: "15%", alignSelf: "flex-end", height: "5vh", marginBottom: "2vh", borderRadius: "0.4vw", border: "none", backgroundColor: "#5e48e8", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>CN History</button>
           <RadioButton title1={"Billing"} title2={"CN"} state={isCN} onSwitch={switchMode} />
         </div>
-        {isChooseOpen ? <ChooseBatch pId={currentPID} show={isChooseOpen} onEnter={handleBatchChoose} /> : <></>}
+        {isChooseOpen ? <ChooseBatch isCN={isCN} pId={currentPID} show={isChooseOpen} onEnter={handleBatchChoose} /> : <></>}
         <Quotation isCN={isCN} oldBillId={oldBillId} addField={addField} openProductLists={openList} changeDisc={changeDisc} onremoveItem={onremoveItem} resetCart={onresetall} itemsIncart={inCart} onchangeqnty={onchangeqnty} />
       </div>
     </Layout>
