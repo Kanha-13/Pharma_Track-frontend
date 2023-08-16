@@ -78,33 +78,6 @@ const ManualAdd = () => {
     }
   }
 
-  const handleKeyUp = (event) => {
-    let prod = {};
-    setProductDetail((prev) => {
-      prod = prev
-      return prev
-    })
-    switch (event.keyCode) {
-      case KEY.F2:
-        event.stopPropagation();
-        event.preventDefault();
-        dispatch(ACTION.SET_COMPANIES, [])
-        navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_ADD, { state: { callBackPath: location.pathname } })
-        break;
-      case KEY.F3:
-        event.stopPropagation();
-        event.preventDefault();
-        dispatch(ACTION.SET_COMPANIES, [])
-        const cId = companies?.filter((comp) => comp.companyName === prod.company)
-        if (cId[0])
-          if (cId[0]._id)
-            navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY_INFO + "id=" + cId[0]._id, { state: { callBackPath: location.pathname } })
-        break;
-      default:
-        break;
-    }
-  };
-
   useEffect(() => {
     if (storedValue)
       setProductDetail(storedValue)
@@ -137,7 +110,7 @@ const ManualAdd = () => {
                 <p style={{ margin: "0px", fontSize: "1.5em" }}>Add Product</p>
               </div>
               <Card focus={true} require={true} w="25%" h="4%" name={PRODUCT.ITEMNAME} label="Item Name" value={productDetail.itemName} onchange={onchange} type="text" />
-              <Card keypress={handleKeyUp} require={true} w="25%" h="4%" name={PRODUCT.COMPANY} label="Company Name" value={productDetail.company} onchange={onchange} type="text" />
+              <Card require={true} w="25%" h="4%" name={PRODUCT.COMPANY} label="Company Name" value={productDetail.company} onchange={onchange} type="text" />
               <Card require={true} w="25%" h="4%" name={PRODUCT.CATEGORY} label="Category" value={productDetail.category} onchange={onchange} type="select" options={ProductCategories} />
               <Card require={true} w="25%" h="4%" name={PRODUCT.PARENT_CATEGORY} label="Parent Cat." value={productDetail.parentCategory} onchange={onchange} type="select" options={ProductParentCategories} />
               <Card require={true} w="25%" h="4%" name={PRODUCT.HSN} label="HSN / SAC" value={productDetail.hsn_sac} onchange={onchange} type="text" />
