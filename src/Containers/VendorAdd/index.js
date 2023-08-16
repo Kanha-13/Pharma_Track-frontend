@@ -27,7 +27,7 @@ const VebdorAdd = () => {
       const res = await addVendor(data)
       alert("Vendor added successfully! 👍")
       dispatch(ACTION.SET_VENDORS, [])
-      if (location.state.callBackPath)
+      if (location?.state?.callBackPath)
         navigate(location.state.callBackPath)
       else
         navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)

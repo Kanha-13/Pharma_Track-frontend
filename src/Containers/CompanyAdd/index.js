@@ -27,7 +27,7 @@ const CompanyAdd = () => {
       const res = await addCompanyDetial(data)
       alert("Company added successfully! 👍")
       dispatch(ACTION.SET_COMPANIES, [])
-      if (location.state.callBackPath)
+      if (location?.state?.callBackPath)
         navigate(location.state.callBackPath)
       else
         navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY)

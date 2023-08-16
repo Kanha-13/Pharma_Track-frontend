@@ -1,7 +1,7 @@
 import KEY from "../../Constants/keyCode";
 
 const Card = (props) => {
-  let { keypress = () => { }, require = false, disable=false, w = "25%", h = "15%", ph = "", m = "1.5%", pd = "1.5%", fs = "1rem",
+  let { keypress = () => { }, require = false, disable = false, w = "25%", h = "15%", ph = "", m = "1.5%", pd = "1.5%", fs = "1rem",
     label = "", name = "", value = "", max = "", min = 0, type = "text", onchange, focus = false, options = [] } = props
 
   const checkForEnterKey = (event) => {
@@ -17,13 +17,13 @@ const Card = (props) => {
         try { nextInput.focus(); } catch (error) { }
       }
     }
-    keypress(event,name)
+    keypress(event, name)
   }
 
   const getInputType = () => {
     switch (type) {
       case "select":
-        return <select disabled={disable} autoFocus={focus} value={value} className="custom-input-fields" onKeyDown={checkForEnterKey}
+        return <select name={name || ph || ""} disabled={disable} autoFocus={focus} value={value} className="custom-input-fields" onKeyDown={checkForEnterKey}
           required={require} style={{
             outline: "none", fontSize: fs, border: "none",
             margin: "0%", cursor: "pointer",
@@ -36,7 +36,7 @@ const Card = (props) => {
       default:
         return <input autoComplete="off" disabled={disable} min={min} className="custom-input-fields" style={{ fontSize: fs }} max={max} onKeyDown={checkForEnterKey} placeholder={ph || label}
           autoFocus={focus} required={require} value={value} type={type}
-          onChange={(e) => onchange(name, e.target.value)} name={ph} />
+          onChange={(e) => onchange(name, e.target.value)} name={name || ph || ""} />
     }
   }
 

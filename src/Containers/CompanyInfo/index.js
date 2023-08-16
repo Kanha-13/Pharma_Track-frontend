@@ -54,7 +54,7 @@ const CompanyInfo = () => {
         const res = await updateCompany(companyDetail._id, companyDetail)
         dispatch(ACTION.SET_COMPANIES, [])
         alert("Company updated successfully!")
-        if (location.state.callBackPath)
+        if (location?.state?.callBackPath)
           navigate(location.state.callBackPath)
         else
           navigate(ROUTES.PROTECTED_ROUTER + ROUTES.COMPANY)

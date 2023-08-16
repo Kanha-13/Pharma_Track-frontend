@@ -33,7 +33,7 @@ const Body = ({ addField, mode, headers, dataList = [], onChange = () => { }, on
     onChange(currentIndex, "pId", itemId)
 
     //below code to focus 'pkg' input
-    const inputs = Array.from(document.getElementsByName('Qnty'));
+    const inputs = Array.from(document.getElementsByName('qnty'));
     const nextIndex = currentIndex;
     if (nextIndex < inputs.length + 1) {
       const nextInput = inputs[nextIndex];

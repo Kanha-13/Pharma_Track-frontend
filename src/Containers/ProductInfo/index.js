@@ -50,7 +50,7 @@ const ProductInfo = () => {
         const res = await udpateProduct(productDetail._id, productDetail)
         dispatch(ACTION.SET_PRODUCTS, [])
         alert("Product updated successfully!")
-        if (location.state.callBackPath)
+        if (location?.state?.callBackPath)
           navigate(location.state.callBackPath)
         else
           navigate(ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCTS)

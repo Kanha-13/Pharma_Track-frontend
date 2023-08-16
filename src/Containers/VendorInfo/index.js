@@ -50,7 +50,7 @@ const VendorInfo = () => {
         const res = await udpateVendor(vendorDetail._id, vendorDetail)
         dispatch(ACTION.SET_VENDORS, [])
         alert("Vendor updated successfully!")
-        if (location.state.callBackPath)
+        if (location?.state?.callBackPath)
           navigate(location.state.callBackPath)
         else
           navigate(ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS)

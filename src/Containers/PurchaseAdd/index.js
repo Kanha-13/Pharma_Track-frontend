@@ -125,7 +125,7 @@ const PurchaseAdd = () => {
     const newIndex = purchaseProducts.length
     setPurchaseProducts((prev) => [...prev, purchaseproductdetail])
     setTimeout(() => {
-      const tags = document.getElementsByName("Item name")
+      const tags = document.getElementsByName("itemName")
       const newfield = tags[newIndex]
       newfield?.focus()
     }, 200);
