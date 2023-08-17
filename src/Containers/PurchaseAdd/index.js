@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
-import { getVendorsQuery } from "../../apis/vendors";
+import { getVendor, getVendorsQuery } from "../../apis/vendors";
 import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { ACTION } from "../../Store/constants";
 import { PaymentTypesLits } from "../../Constants/Purchase";
 import { PURCHASEBILLINFO, PURCHASEPRODUCTINFO, purchasebilldetail, purchaseproductdetail } from "../../Schema/purchase";
 import { addPurchaseDetial, getPurchase } from "../../apis/purchase";
-import { checkIfMissingValues, getNet, getTotal, removeBlankRow } from "../../utils/purchase";
+import { checkIfMissingValues, checkInvalidFormatAndType, getNet, getTotal, removeBlankRow } from "../../utils/purchase";
 import { ROUTES } from "../../Constants/routes_frontend";
 import { getyyyymm, getyyyymmdd } from "../../utils/DateConverter";
 
@@ -21,6 +21,7 @@ import KEY from "../../Constants/keyCode";
 import { useLocalStorage } from "../../utils/useLocalStorage";
 import ProductsList from "../../Components/ProductsList/ProductsList";
 import { VendorsListHeader } from "../../Constants/vendors";
+import ErrorModal from "../../Components/ErrorModal/ErrorModal";
 
 const PurchaseAdd = () => {
   const [searchParams] = useSearchParams();
@@ -33,6 +34,7 @@ const PurchaseAdd = () => {
   const [mode, setMode] = useState("add")
   const [keyword, setkeyword] = useState("")
   const [isVendors, setIsVendors] = useState(false)
+  const [errMsg, seterr] = useState(false)
 
   const fetchVendorsList = async (value) => {
     try {
@@ -95,8 +97,11 @@ const PurchaseAdd = () => {
         return { ...prod, vId: purchaseBillDetail.vId }
       })
       const cleared_productlist = removeBlankRow(addingVid)
-      if (checkIfMissingValues(purchaseBillDetail, cleared_productlist))
-        alert("No missing values allowed")
+      const error = checkInvalidFormatAndType(purchaseBillDetail, cleared_productlist)
+      if (error)
+        seterr(error)
+      else if (checkIfMissingValues(purchaseBillDetail, cleared_productlist))
+        seterr("No missing values allowed")
       else {
         const data = {
           billInfo: purchaseBillDetail,
@@ -111,7 +116,8 @@ const PurchaseAdd = () => {
       }
     } catch (error) {
       console.log(error)
-      alert("Unable to add purchase entry!")
+      // alert("Unable to add purchase entry!")
+      seterr(error)
     }
   }
 
@@ -143,7 +149,8 @@ const PurchaseAdd = () => {
       setPurchaseProducts(calc_data)
       delete res_data.productsDetail
       res_data.purDate = getyyyymmdd(res_data.purDate)
-      setPurchaseBill(res_data)
+      const vendor = await getvendorname(res_data.vId)
+      setPurchaseBill({ ...res_data, vendorName: vendor })
     } catch (error) {
       console.log(error)
       alert("Unable to get purchase information!")
@@ -171,6 +178,17 @@ const PurchaseAdd = () => {
     const tags = document.getElementsByName("billNo")
     if (tags[0])
       tags[0].focus()
+  }
+
+  const getvendorname = async (vid) => {
+    const res = await getVendor(vid);
+    return res?.data?.vendorName || ""
+  }
+
+  const resetAllfield = () => {
+    setPurchaseBill(purchasebilldetail)
+    setPurchaseProducts(Array.from({ length: 1 }, (_, index) => purchaseproductdetail))
+    setValue(null);
   }
 
   useEffect(() => {
@@ -214,7 +232,7 @@ const PurchaseAdd = () => {
         </div>
         {
           purchaseProducts.length > 0 ?
-            <ProductAddForm oncancel={oncancel} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} onChange={onchangeproductlist} /> : <></>
+            <ProductAddForm resetall={resetAllfield} oncancel={oncancel} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} onChange={onchangeproductlist} /> : <></>
         }
         <div style={{ backgroundColor: "#e4e1f4", width: "20%", padding: "1%", alignSelf: "flex-end", height: "12%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
           <div style={{ height: "100%", width: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
@@ -234,6 +252,9 @@ const PurchaseAdd = () => {
           <ProductsList listName="vendors" mh="400%" h="100%" w="100%" onchange={fetchVendorsList}
             onclick={onclickVendor} header={VendorsListHeader} data={vendors} keyword={keyword} />
         </div>
+      }
+      {
+        errMsg ? <ErrorModal error={errMsg} closeModal={() => seterr(null)} /> : <></>
       }
     </Layout>
   );

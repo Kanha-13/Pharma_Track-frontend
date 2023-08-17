@@ -10,6 +10,16 @@ export const checkIfMissingValues = (billInfo, products = []) => {
     return true
 }
 
+export const checkInvalidFormatAndType = (bill, products) => {
+  let err = ""
+  products.map((prod) => {
+    if (prod.category === "TABLET" && /[a-z0-9]/i.test(prod.pkg))
+      err = "TABLET / CAPSULE package invalid"
+  })
+
+  return err
+}
+
 export const getNet = (name, product, value) => {
   let prod = { ...product, [name]: value }
   let rate = prod.rate
@@ -19,14 +29,20 @@ export const getNet = (name, product, value) => {
   let free = parseInt(prod.free)
   let gst = product.gst
 
-  let taxedAmt = (rate * gst / 100) * qnty
-  let netDiscountedRate_perunit = (rate - rate * sc / 100) - (rate - rate * sc / 100) * cd / 100
-  let total = ((netDiscountedRate_perunit * qnty) + taxedAmt)
+  let total_value = qnty * rate
+  let sc_discount = total_value - (total_value * sc / 100)
+  let cd_discount = sc_discount - (sc_discount * cd / 100)
+
+  let net_rate = cd_discount + (cd_discount * gst / 100)
+  let taxedAmt = net_rate - cd_discount
+  // let taxedAmt = (rate * gst / 100) * qnty
+  // let netDiscountedRate_perunit = (rate - rate * sc / 100) - (rate - rate * sc / 100) * cd / 100
+  // let total = ((netDiscountedRate_perunit * qnty) + taxedAmt)
   return {
-    netvalue: parseFloat(netDiscountedRate_perunit * qnty).toFixed(2),
+    netvalue: parseFloat(cd_discount).toFixed(2),
     nettax: parseFloat(taxedAmt).toFixed(2),
-    netamt: parseFloat(total).toFixed(2),
-    netrateperunit: parseFloat(total / (qnty + free)).toFixed(2)
+    netamt: parseFloat(net_rate).toFixed(2),
+    netrateperunit: parseFloat(net_rate / (qnty + free)).toFixed(2)
   }
 }
 

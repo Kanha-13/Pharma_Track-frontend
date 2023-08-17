@@ -102,18 +102,6 @@ const ProductsList = ({ listName = "products", show = true, header = [], h = "10
   }, [keyword])
 
   const get_ToAdd_Location = () => {
-    let index = 0;
-    setCurrentIndex((prev) => {
-      index = prev
-      return prev
-    })
-
-    const paths = [
-      "stock",
-      "billing",
-      "purchase"
-    ]
-
     if (listName === "products")
       return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_ADD_MANUAL
     else if (listName === "companys")
@@ -122,18 +110,18 @@ const ProductsList = ({ listName = "products", show = true, header = [], h = "10
       return ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_ADD
   }
 
-  const get_ToUpdate_Location = () => {
+  const get_ToUpdate_Location = async () => {
     let index = 0;
-    setCurrentIndex((prev) => {
+    await setCurrentIndex((prev) => {
       index = prev
       return prev
     })
-
     const paths = [
       "stock",
       "billing",
       "purchase"
     ]
+    console.log(data[index])
     if (listName === "products" && data[index])
       return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_INFO + "id=" + data[index]._id
     else if (listName === "companys" && data[index])
@@ -142,7 +130,7 @@ const ProductsList = ({ listName = "products", show = true, header = [], h = "10
       return ROUTES.PROTECTED_ROUTER + ROUTES.VENDORS_INFO + "id=" + data[index]._id
   }
 
-  const handleKeyUp = (event) => {
+  const handleKeyUp = async(event) => {
     switch (event.keyCode) {
       case KEY.F2:
         event.stopPropagation();
@@ -152,7 +140,7 @@ const ProductsList = ({ listName = "products", show = true, header = [], h = "10
       case KEY.F3:
         event.stopPropagation();
         event.preventDefault();
-        navigate(get_ToUpdate_Location(), { state: { callBackPath: location.pathname } })
+        navigate(await get_ToUpdate_Location(), { state: { callBackPath: location.pathname } })
         break;
       default:
         break;
