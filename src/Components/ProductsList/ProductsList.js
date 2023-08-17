@@ -121,7 +121,6 @@ const ProductsList = ({ listName = "products", show = true, header = [], h = "10
       "billing",
       "purchase"
     ]
-    console.log(data[index])
     if (listName === "products" && data[index])
       return ROUTES.PROTECTED_ROUTER + ROUTES.PRODUCT_INFO + "id=" + data[index]._id
     else if (listName === "companys" && data[index])
