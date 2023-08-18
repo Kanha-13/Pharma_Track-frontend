@@ -5,7 +5,7 @@ import ChooseCN from "./ChooseCN"
 import { getCNInfo } from "../../apis/billing"
 import { calcProfit } from "../../utils/billing"
 
-const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
+const Footer = ({ isCN, resetproducts, addField, carts = [], oncheckout, onsetCNInfo }) => {
   const [patientName, setPatient] = useState("")
   const [prescribedBy, setPrescribedBy] = useState("")
   const [mobileNumber, setmobileNumber] = useState("")
@@ -28,6 +28,11 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
     setGrandTotal(0)
     setamtPaid(0)
     setCreditAmt()
+  }
+
+  const resetallfields = () => {
+    resetFields()
+    resetproducts()
   }
 
   const onMergeCN = () => {
@@ -171,15 +176,20 @@ const Footer = ({ isCN, addField, carts = [], oncheckout, onsetCNInfo }) => {
         </div>
         <div style={{ width: "100%", height: "4vh", marginTop: "3vh", display: "flex", justifyContent: "space-between" }} >
           <button onClick={onSumbmit} className="custom-input-fields" disabled={!carts.length} type="submit" style={{
-            height: "100%", width: "40%", fontSize: "1rem",
+            height: "100%", width: "30%", fontSize: "1rem",
             border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
             borderRadius: "0.5vw", fontWeight: "bold"
           }}>Check Out</button>
           {!isCN && <button onClick={onMergeCN} className="custom-input-fields" disabled={!carts.length} type="submit" style={{
-            height: "100%", width: "40%", fontSize: "1rem",
+            height: "100%", width: "30%", fontSize: "1rem",
             border: "none", backgroundColor: carts.length ? "#5E48E8" : "#b0a5ed", color: "#FFFFFF", cursor: "pointer",
             borderRadius: "0.5vw", fontWeight: "bold"
           }}>Merge CN</button>}
+          <button onClick={resetallfields} type="reset" style={{
+            height: "100%", width: "20%", fontSize: "1rem",
+            border: "none", backgroundColor: "#a4a4a4", color: "#FFFFFF", cursor: "pointer",
+            borderRadius: "0.5vw", fontWeight: "bold"
+          }}>Reset</button>
         </div>
       </div>
       {

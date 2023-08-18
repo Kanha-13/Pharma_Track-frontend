@@ -110,7 +110,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
         </div>
         {cnData._id && <CNInfo data={cnData} />}
       </div>
-      <Footer isCN={isCN} addField={addField} oncheckout={oncheckout} carts={itemsIncart} onsetCNInfo={(data) => setCNdata(data)} />
+      <Footer isCN={isCN} resetproducts={resetCart} addField={addField} oncheckout={oncheckout} carts={itemsIncart} onsetCNInfo={(data) => setCNdata(data)} />
       {printOpen && <GSTInvoice onClose={closeAfterPrint} data={billInfoForPrint} />}
     </div>
   );

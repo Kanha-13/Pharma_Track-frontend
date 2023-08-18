@@ -11,6 +11,7 @@ import Body from "../../Components/ProductAddForm/Body";
 import Card from "../../Components/ManualAddProduct/Card";
 
 import './index.css'
+import GSTInvoice from "../../Components/Invoice/GSTInvoice";
 
 const BillingInfo = () => {
   const navigate = useNavigate();
@@ -23,6 +24,11 @@ const BillingInfo = () => {
   const [title, setTitle] = useState("")
   const [isCN, setIsCN] = useState(0)
   const [tableHeaders, setTableHeaders] = useState([])
+  const [printOpen, setOpenPrint] = useState(false)
+
+  const onbillPrint = () => {
+    setOpenPrint(true)
+  }
 
   const fetchBillingInfo = async (id, iscn) => {
     try {
@@ -199,11 +205,13 @@ const BillingInfo = () => {
                 <>
                   <button disabled={btnDissable} onClick={onbillUpdate} className="custom-input-fields" style={{ width: "10%", margin: "0px 1.5vw", height: "30%", borderRadius: "0.4vw", backgroundColor: "#5e48e8", border: "none", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Update Bill</button>
                   <button disabled={btnDissable} onClick={onbillCancel} style={{ width: "10%", height: "30%", borderRadius: "0.4vw", backgroundColor: "#ef3737", border: "none", color: "#ffffff", fontSize: "1rem", cursor: "pointer" }}>Cancel Bill</button>
+                  <button onClick={onbillPrint} style={{ width: "10%", height: "30%", borderRadius: "0.4vw", backgroundColor: "#a4a4a4", border: "none", color: "#ffffff", fontSize: "1rem", cursor: "pointer", marginLeft: "auto" }}>Print Bill</button>
                 </>
             }
           </div>
         </div>
       </div>
+      {printOpen && <GSTInvoice onClose={()=>setOpenPrint(false)} data={billingInfo} />}
     </Layout>
   );
 }

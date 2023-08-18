@@ -190,6 +190,7 @@ const PurchaseAdd = () => {
     setPurchaseBill(purchasebilldetail)
     setPurchaseProducts(Array.from({ length: 1 }, (_, index) => purchaseproductdetail))
     setValue(null);
+    window.location.reload()
   }
 
   useEffect(() => {

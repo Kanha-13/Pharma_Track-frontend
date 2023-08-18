@@ -18,7 +18,7 @@ import KEY from "../../Constants/keyCode";
 import { useLocalStorage } from "../../utils/useLocalStorage";
 
 const Billing = () => {
-  const { products, dispatch } = useStore();
+  const { dispatch } = useStore();
   const navigate = useNavigate()
   const [storedValue, setValue] = useLocalStorage("pendingBillCart")
   const [keyword, setkey] = useState("")
@@ -68,8 +68,8 @@ const Billing = () => {
   }
 
   const onresetall = () => {
-    setCart([])
-    setValue([])
+    setCart([{}])
+    setValue(null)
     setProductsList([])
     dispatch(ACTION.SET_PRODUCTS, [])
     setPID("")

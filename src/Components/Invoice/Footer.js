@@ -1,6 +1,6 @@
 import { numbersInWords } from "../../utils/billing";
 
-const Footer = ({ oldBalance, subTotal, discount, roundoff, grandTotal, amtPaid, amtDue, type, amtRefund }) => {
+const Footer = ({ oldBalance = 0, subTotal, discount, roundoff, grandTotal, amtPaid, amtDue, type, amtRefund }) => {
   return (
     <div style={{ width: "100%", height: "10vh", alignItems: "center", display: "flex", flexWrap: "wrap" }}>
       <div style={{ display: "flex", alignItems: "center", height: "15%", fontWeight: "bolder", margin: "0px", fontSize: "0.7em", width: "100%", textAlign: "center", borderBottom: "2px solid black" }}>Amt. in words. : {numbersInWords(grandTotal || 0)} only.</div>
