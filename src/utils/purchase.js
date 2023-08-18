@@ -12,8 +12,9 @@ export const checkIfMissingValues = (billInfo, products = []) => {
 
 export const checkInvalidFormatAndType = (bill, products) => {
   let err = ""
+  const regex = /[a-zA-Z]/g;
   products.map((prod) => {
-    if (prod.category === "TABLET" && /[a-z0-9]/i.test(prod.pkg))
+    if (prod.category === "TABLET" && prod.pkg.match(regex))
       err = "TABLET / CAPSULE package invalid"
   })
 

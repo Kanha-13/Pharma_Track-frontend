@@ -113,6 +113,7 @@ const PurchaseAdd = () => {
         setValue(null)
         alert("Pruchase updated successfully!")
         dispatch(ACTION.SET_STOCKS, [])
+        window.location.reload()
       }
     } catch (error) {
       console.log(error)
