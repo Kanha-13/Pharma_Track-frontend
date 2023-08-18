@@ -49,7 +49,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
       let oldBalance = 0;
       res.data.pendingBills?.map((bill) => oldBalance += bill.amtDue)
       resetBillInfo()
-      setBillToPrint({ ...res.data.currentBill, oldBalance: oldBalance, type: "CN" })
+      setBillToPrint({ ...res.data.currentBill, oldBalance: oldBalance, type: isCN ? "CN" : "" })
       setOpenPrint(true)
     } catch (error) {
       console.log(error)

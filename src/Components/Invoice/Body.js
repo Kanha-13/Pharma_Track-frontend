@@ -5,13 +5,11 @@ const Body = ({ productsDetail = [] }) => {
   const getValue = (item, value, index) => {
     if (value === "expDate")
       return getmmyy(item[value])
-    if (value === "batch")
-      return "vbjhfbjhfbvjhbfgjhgbvhjghvjgjv"
-    if (value === "index")
+    else if (value === "index")
       return (index + 1)
-    if (item.pkg / 1 && value === "soldQnty")
-      return item[value] + " TAB"
-    if (value === "disc" || value === "gst")
+    else if (item.pkg / 1 && value === "soldQnty")
+      return item[value] || item.returnedQnty + " TAB"
+    else if (value === "disc" || value === "gst")
       return item[value] + "%"
     else
       return item[value]
