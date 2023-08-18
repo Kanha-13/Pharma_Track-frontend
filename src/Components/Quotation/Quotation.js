@@ -59,7 +59,7 @@ const Quotation = ({ isCN, oldBillId, addField, onremoveItem, openProductLists, 
 
   const closeAfterPrint = () => {
     resetCart()
-    addField()
+    // addField()
     setCNdata({})
     setOpenPrint(false)
     navigate(ROUTES.PROTECTED_ROUTER + ROUTES.BILLINGS)// do not remove this it is useful to go from cancel bill to billing
