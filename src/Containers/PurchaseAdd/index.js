@@ -35,6 +35,8 @@ const PurchaseAdd = () => {
   const [keyword, setkeyword] = useState("")
   const [isVendors, setIsVendors] = useState(false)
   const [errMsg, seterr] = useState(false)
+  const [pendingEntrys, setPendingEntrys] = useState([])
+  const [pendingEntrySelect, setPendingEntrySelect] = useState(null)
 
   const fetchVendorsList = async (value) => {
     try {
@@ -108,9 +110,17 @@ const PurchaseAdd = () => {
           productsDetail: cleared_productlist
         }
         const res = await addPurchaseDetial(data)
+        setValue(null)//making session storage null
+        if (pendingEntrySelect >= 0) {//making localstorage storage null
+          let ls_data = window.localStorage.getItem("pendingPurchaseBill")
+          if (ls_data) {
+            ls_data = JSON.parse(ls_data)
+            ls_data = ls_data.filter((d) => d.billData.billNo !== purchaseBillDetail.billNo)
+          }
+          window.localStorage.setItem("pendingPurchaseBill", JSON.stringify(ls_data))
+        }
         setPurchaseProducts(Array.from({ length: 1 }, (_, index) => purchaseproductdetail))
         setPurchaseBill(purchasebilldetail)
-        setValue(null)
         alert("Pruchase updated successfully!")
         dispatch(ACTION.SET_STOCKS, [])
         window.location.reload()
@@ -190,14 +200,40 @@ const PurchaseAdd = () => {
     setPurchaseBill(purchasebilldetail)
     setPurchaseProducts(Array.from({ length: 1 }, (_, index) => purchaseproductdetail))
     setValue(null);
+    setPendingEntrySelect(null)
     window.location.reload()
   }
+
+  const saveinLS = async () => {
+    try {
+      let ls_data = window.localStorage.getItem("pendingPurchaseBill")
+      if (ls_data)
+        ls_data = JSON.parse(ls_data)
+      else
+        ls_data = []
+      ls_data.push({ billData: purchaseBillDetail, prodData: purchaseProducts })
+      window.localStorage.setItem("pendingPurchaseBill", JSON.stringify(ls_data));
+      resetAllfield()
+    } catch (error) {
+      alert("Unable to save")
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    if (pendingEntrys[pendingEntrySelect]) {
+      setPurchaseBill(pendingEntrys[pendingEntrySelect].billData)
+      setPurchaseProducts(pendingEntrys[pendingEntrySelect].prodData)
+    }
+  }, [pendingEntrySelect])
 
   useEffect(() => {
     if (storedValue) {
       setPurchaseBill(storedValue.billData)
       setPurchaseProducts(storedValue.prodData)
     }
+    if (window.localStorage.getItem("pendingPurchaseBill"))
+      setPendingEntrys(JSON.parse(window.localStorage.getItem("pendingPurchaseBill")))
   }, []);
 
   const handlekeypress = (event) => {
@@ -226,6 +262,12 @@ const PurchaseAdd = () => {
     <Layout>
       <div id="purchaseadd-container" className="layout-body borderbox">
         <p style={{ width: "100%", fontSize: "1.5rem", margin: "0px", fontWeight: "500", textAlign: "left", borderBottom: "2px solid #D6D8E7", paddingBottom: "5px", display: "flex", marginBottom: "2vh" }}>Purchase Entry</p>
+        {
+          pendingEntrys.length > 0 &&
+          <Card value={pendingEntrySelect} m="-2% 0% 0% 70%" po="absolute" w="15%" h="1%" name="pendingEntrySelect" label="Pending entries" onchange={(name, value) => setPendingEntrySelect(value)} type="select" options={[{ label: "Select pending bill", value: "" }, ...pendingEntrys.map((entry, index) => {
+            return { label: entry.billData.billNo + " " + entry.billData.vendorName, value: index }
+          })]} />
+        }
         <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", height: "15%", width: "100%" }}>
           <Card focus={true} require={true} value={purchaseBillDetail.vendorName} m="1.5% 0px" w="25%" h="15%" name={PURCHASEBILLINFO.VENDORID} label="Vendor Name" onchange={onchangeBillDetail} type="text" />
           <Card require={true} value={purchaseBillDetail.billNo} m="1.5% 1%" w="15%" h="15%" name={PURCHASEBILLINFO.BILLNUMBER} label="Bill No." onchange={onchangeBillDetail} type="text" />
@@ -234,7 +276,7 @@ const PurchaseAdd = () => {
         </div>
         {
           purchaseProducts.length > 0 ?
-            <ProductAddForm resetall={resetAllfield} oncancel={oncancel} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} onChange={onchangeproductlist} /> : <></>
+            <ProductAddForm resetall={resetAllfield} oncancel={oncancel} saveinLS={saveinLS} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} onChange={onchangeproductlist} /> : <></>
         }
         <div style={{ backgroundColor: "#e4e1f4", width: "20%", padding: "1%", alignSelf: "flex-end", height: "12%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
           <div style={{ height: "100%", width: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>

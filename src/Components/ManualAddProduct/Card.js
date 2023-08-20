@@ -2,7 +2,7 @@ import KEY from "../../Constants/keyCode";
 
 const Card = (props) => {
   let { keypress = () => { }, require = false, disable = false, w = "25%", h = "15%", ph = "", m = "1.5%", pd = "1.5%", fs = "1rem",
-    label = "", name = "", value = "", max = "", min = 0, type = "text", onchange, focus = false, options = [] } = props
+    label = "", name = "", value = "", po = "relative", max = "", min = 0, type = "text", onchange, focus = false, options = [] } = props
 
   const checkForEnterKey = (event) => {
     if (event.keyCode === KEY.ENTER) {
@@ -41,7 +41,7 @@ const Card = (props) => {
   }
 
   return (
-    <div className="manualadd-inputs-div" style={{ height: h, width: w, margin: m, padding: pd }}>
+    <div className="manualadd-inputs-div" style={{ height: h, width: w, margin: m, padding: pd, position: po }}>
       <p style={{
         padding: "0px 2%",
         position: "absolute",

@@ -4,7 +4,7 @@ import Body from "./Body";
 import Header from "./Header";
 import KEY from "../../Constants/keyCode";
 
-const ProductAddForm = ({ resetall, oncancel, mode, onSubmit, onChange, addField, deleteField, purchaseProducts }) => {
+const ProductAddForm = ({ resetall, oncancel, mode, onSubmit, saveinLS, onChange, addField, deleteField, purchaseProducts }) => {
 
   const handleKeyUp = (event) => {
     switch (event.keyCode) {
@@ -36,6 +36,7 @@ const ProductAddForm = ({ resetall, oncancel, mode, onSubmit, onChange, addField
           mode === "add" ?
             <>
               <button onClick={addField} style={{ border: "none", backgroundColor: "#8e7fef", fontSize: "1.2rem", cursor: "pointer", color: "#ffffff", height: "5vh", width: "9vw", borderRadius: "0.4vw" }}>+ Add field</button>
+              <button onClick={saveinLS} style={{ border: "none", backgroundColor: "#8c8c8c", fontSize: "1.2rem", cursor: "pointer", color: "#ffffff", height: "5vh", width: "12vw", borderRadius: "0.4vw" }}>Temporary save</button>
               <button onClick={resetall} style={{ border: "none", backgroundColor: "#8c8c8c", fontSize: "1.2rem", cursor: "pointer", color: "#ffffff", height: "5vh", width: "9vw", borderRadius: "0.4vw" }}>Reset all</button>
             </> :
             <button tabIndex={-1} onClick={oncancel} style={{ border: "none", backgroundColor: "#a5a5a5", fontSize: "1.2rem", cursor: "pointer", color: "#ffffff", height: "5vh", width: "9vw", borderRadius: "0.4vw" }}>Cancel</button>
