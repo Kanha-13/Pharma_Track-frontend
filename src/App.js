@@ -38,17 +38,29 @@ import CompanyAdd from "./Containers/CompanyAdd";
 import CompanyInfo from "./Containers/CompanyInfo";
 import VendorBillPayment from "./Containers/VendorBillPayment";
 import PatientBillpayment from "./Containers/PatientBillPayment";
+import { wakeupserver } from "./apis/wakeup";
 
 const Login = lazy(() => import("./Containers/Login"));
 const Dashboard = lazy(() => import("./Containers/Dashboard"));
 
 const App = () => {
   const appContainer = useRef();
+  const wake_up_server= async()=>{
+    try {
+      await wakeupserver();
+    } catch (error) {
+      console.log(error)
+      alert("Server not available! Please try latter...")
+    }
+  }
 
   useEffect(() => {
     appContainer.current.style.setProperty('--app-bg', COLORS.APP_BG);
   }, [appContainer])
 
+  useEffect(()=>{
+    wake_up_server()
+  },[])
   return (
     <div id="app-container" ref={appContainer}>
       <StateStore>
@@ -98,4 +110,3 @@ const App = () => {
   );
 }
 export default App;
-{/* <Route path="/*" element={<Error />} />  */ }

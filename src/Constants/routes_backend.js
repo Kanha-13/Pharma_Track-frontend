@@ -1,4 +1,6 @@
 export const API = {
+  WAKE_UP_SERVER: "/wakeup",
+
   //session
   LOGIN_API: "/userLogin",
   SIGNUP_API: "/userSignUp",
