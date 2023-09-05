@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Card from "../ManualAddProduct/Card";
 import { BillPaymentMode } from "../../Constants/Purchase";
+import InputDate from "../CustomDateInput/DateInput";
 
 const BillPayCheckOut = ({ onsubmit, oncancel, billType }) => {
   const [paymentMode, setPaymentMode] = useState("");
@@ -15,7 +16,7 @@ const BillPayCheckOut = ({ onsubmit, oncancel, billType }) => {
   return (
     <div onClick={(e) => e.stopPropagation()} style={{ padding: "1% 2%", top: "25%", right: "25%", border: "1px solid #5e48e8", position: "absolute", width: "40vw", height: "35vh", borderRadius: "0.4vw", backgroundColor: "#ffffff", display: "flex", flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" }}>
       <p style={{ height: "3vh", width: "100%", borderBottom: "1px solid #d6d8e7", paddingBottom: "5px" }}>Payment Info</p>
-      <Card focus={true} require={true} m="1vh 0px" w="25%" h="15%" pd="0px 1%" name={"paymentDate"} label="Payment Date" value={paymentDate} onchange={(name, value) => setPaymentDate(value)} type="date" />
+      <InputDate require={true} m="1.5% 1%" w="30%" h="6%" pd="2%" name={"paymentDate"} label="Payment Date" value={paymentDate} onchange={(name, value) => setPaymentDate(value)} type="fulldate" />
       {billType === "CHALAN" && <Card require={true} m="1vh 0px" w="25%" h="15%" pd="0px 1%" name={"newBillDate"} label="New Bill Date" value={newBillDate} onchange={(name, value) => setBillDate(value)} type="date" />}
       <Card require={true} m="1vh 0px" w="25%" h="15%" pd="0px 1%" name="paymentMode" label="Payment Mode" value={paymentMode} onchange={(name, value) => setPaymentMode(value)} type="select" options={BillPaymentMode} />
       <Card require={true} m="1vh 0px" w="25%" h="15%" pd="0px 1%" name="paymentId" label="Payment Id" ph="payment id" value={paymentId} onchange={(name, value) => setPaymentId(value)} type="text" />

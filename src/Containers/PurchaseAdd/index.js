@@ -115,7 +115,8 @@ const PurchaseAdd = () => {
           let ls_data = window.localStorage.getItem("pendingPurchaseBill")
           if (ls_data) {
             ls_data = JSON.parse(ls_data)
-            ls_data = ls_data.filter((d) => d.billData.billNo !== purchaseBillDetail.billNo)
+            if (Array.isArray(ls_data))
+              ls_data = ls_data.filter((d) => d.billData.billNo !== purchaseBillDetail.billNo)
           }
           window.localStorage.setItem("pendingPurchaseBill", JSON.stringify(ls_data))
         }
@@ -160,6 +161,7 @@ const PurchaseAdd = () => {
       setPurchaseProducts(calc_data)
       delete res_data.productsDetail
       res_data.purDate = getyyyymmdd(res_data.purDate)
+      res_data.paymentDate = getyyyymmdd(res_data.paymentDate)
       const vendor = await getvendorname(res_data.vId)
       setPurchaseBill({ ...res_data, vendorName: vendor })
     } catch (error) {
@@ -233,7 +235,9 @@ const PurchaseAdd = () => {
       setPurchaseProducts(storedValue.prodData)
     }
     if (window.localStorage.getItem("pendingPurchaseBill"))
-      setPendingEntrys(JSON.parse(window.localStorage.getItem("pendingPurchaseBill")))
+      var parse_data = JSON.parse(window.localStorage.getItem("pendingPurchaseBill"))
+    if (Array.isArray(parse_data))
+      setPendingEntrys(parse_data)
   }, []);
 
   const handlekeypress = (event) => {
@@ -269,10 +273,12 @@ const PurchaseAdd = () => {
           })]} />
         }
         <div style={{ display: "flex", flexDirection: "row", flexWrap: "wrap", height: "15%", width: "100%" }}>
-          <Card focus={true} require={true} value={purchaseBillDetail.vendorName} m="1.5% 0px" w="25%" h="15%" name={PURCHASEBILLINFO.VENDORID} label="Vendor Name" onchange={onchangeBillDetail} type="text" />
-          <Card require={true} value={purchaseBillDetail.billNo} m="1.5% 1%" w="15%" h="15%" name={PURCHASEBILLINFO.BILLNUMBER} label="Bill No." onchange={onchangeBillDetail} type="text" />
-          <InputDate require={true} value={purchaseBillDetail.purDate} m="1.5% 1%" w="15%" h="2%" pd="2%" name={PURCHASEBILLINFO.PURCHASEDATE} label="Purchase Date" onchange={onchangeBillDetail} type="fulldate" />
+          <Card focus={true} require={true} value={purchaseBillDetail.vendorName} m="1.5% 0px" w="17%" h="15%" name={PURCHASEBILLINFO.VENDORID} label="Vendor Name" onchange={onchangeBillDetail} type="text" />
+          <Card require={true} value={purchaseBillDetail.billNo} m="1.5% 1%" w="9%" h="15%" name={PURCHASEBILLINFO.BILLNUMBER} label="Bill No." onchange={onchangeBillDetail} type="text" />
+          <InputDate require={true} value={purchaseBillDetail.purDate} m="1.5% 1%" w="11%" h="2%" pd="2%" name={PURCHASEBILLINFO.PURCHASEDATE} label="Purchase Date" onchange={onchangeBillDetail} type="fulldate" />
           <Card require={true} value={purchaseBillDetail.paymentType} m="1.5% 1%" w="10%" h="15%" name={PURCHASEBILLINFO.PAYMENTTYPE} label="Payment Type" onchange={onchangeBillDetail} type="select" options={PaymentTypesLits} />
+          {purchaseBillDetail.paymentId && <Card value={purchaseBillDetail.paymentId} m="1.5% 1%" w="10%" h="15%" name={PURCHASEBILLINFO.PAYMENT_ID} label="Payment Id" onchange={() => { }} type="text" />}
+          {purchaseBillDetail.paymentDate && <InputDate require={true} value={purchaseBillDetail.paymentDate} m="1.5% 1%" w="10%" h="2%" pd="2%" name={PURCHASEBILLINFO.PAYMENT_DATE} label="Payment Date" onchange={() => { }} type="fulldate" />}
         </div>
         {
           purchaseProducts.length > 0 ?

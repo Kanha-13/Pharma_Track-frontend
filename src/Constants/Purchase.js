@@ -18,7 +18,11 @@ export const PaymentTypesLits = [
   { label: "Select", value: "" },
   { label: "Chalan", value: "CHALAN" },
   { label: "Cash", value: "CASH" },
-  { label: "Credit", value: "CREDIT" }
+  { label: "Credit", value: "CREDIT" },
+  { label: "UPI", value: "UPI" },
+  { label: "NEFT", value: "NEFT" },
+  { label: "RTGS", value: "RTGS" },
+  { label: "Net Banking", value: "Net_Banking" }
 ]
 
 export const PurchaseHistoryListHeader = [

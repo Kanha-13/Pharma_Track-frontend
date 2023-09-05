@@ -26,8 +26,10 @@ export const PURCHASEBILLINFO = {
   BILLNUMBER: "billNo",
   VENDORNAME: "vendorName",
   TOTALAMOUNT: "totalAmt",
-  TOTALVALUE:"totalValue",
-  TOTALTAX:"totalTax",
+  TOTALVALUE: "totalValue",
+  TOTALTAX: "totalTax",
+  PAYMENT_ID: "paymentId",
+  PAYMENT_DATE:"paymentDate"
 }
 
 export const purchaseproductdetail = {
@@ -36,5 +38,5 @@ export const purchaseproductdetail = {
 }
 
 export const purchasebilldetail = {
-  vendorName: "", vId: "", purDate: "", billNo: "", totalAmt: "0", paymentType: "", totalValue: "0", totalTax: "0"
+  vendorName: "", vId: "", purDate: "", billNo: "", totalAmt: "0", paymentType: "", totalValue: "0", totalTax: "0", paymentId: "", paymentDate: ""
 }
