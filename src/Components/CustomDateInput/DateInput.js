@@ -77,7 +77,7 @@ const InputDate = ({ value, name, type, onchange, w = "25%", h = "15%", label, m
             {
                 type != "month" ?
                     <>
-                        <input style={{ textAlign: "center", width: "25%", fontSize: fs }} value={dd} placeholder="dd" required={true} onChange={(e) => handlechange(e.target.value, "dd")} className="custom-input-fields" onKeyDown={checkForEnterKey} />
+                        <input name={name} style={{ textAlign: "center", width: "25%", fontSize: fs }} value={dd} placeholder="dd" required={true} onChange={(e) => handlechange(e.target.value, "dd")} className="custom-input-fields" onKeyDown={checkForEnterKey} />
                         <span>/</span>
                     </> : <></>
             }

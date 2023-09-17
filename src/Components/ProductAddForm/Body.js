@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getyyyymm } from "../../utils/DateConverter";
 import Card from "../ManualAddProduct/Card";
 import ProductsList from "../ProductsList/ProductsList";
 import { getProductWithInitials } from "../../apis/products";
