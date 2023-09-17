@@ -95,6 +95,10 @@ const PurchaseAdd = () => {
 
   const addPurchase = async () => {
     try {
+      if (purchaseBillDetail.paymentType === "CASH") {
+        purchaseBillDetail.paymentDate = purchaseBillDetail.purDate
+        purchaseBillDetail.paymentId = "cash"
+      }
       const addingVid = purchaseProducts.map((prod) => {
         return { ...prod, vId: purchaseBillDetail.vId }
       })
@@ -128,8 +132,7 @@ const PurchaseAdd = () => {
       }
     } catch (error) {
       console.log(error)
-      // alert("Unable to add purchase entry!")
-      seterr(error)
+      seterr(`${error.response.data.error}` || "Unable to add purchase entry!")
     }
   }
 
@@ -161,7 +164,8 @@ const PurchaseAdd = () => {
       setPurchaseProducts(calc_data)
       delete res_data.productsDetail
       res_data.purDate = getyyyymmdd(res_data.purDate)
-      res_data.paymentDate = getyyyymmdd(res_data.paymentDate)
+      if (res_data.paymentDate)
+        res_data.paymentDate = getyyyymmdd(res_data.paymentDate)
       const vendor = await getvendorname(res_data.vId)
       setPurchaseBill({ ...res_data, vendorName: vendor })
     } catch (error) {

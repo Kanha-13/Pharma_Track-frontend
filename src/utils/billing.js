@@ -68,3 +68,12 @@ export const numbersInWords = (n = 0) => {
   let result = translate(n)
   return result.trim()
 }
+
+export const validatesalesbill = (billInfo = {}, carts = []) => {
+
+  if (!Object.keys(carts[0]).length) return { success: false, error: "Cart empty!!" }
+  if (!billInfo.patientName) return { success: false, error: "Patient Name Required!!" }
+  if (!billInfo.amtPaid) return { success: false, error: "Amount paid Required!!" }
+
+  return { success: true, error: false }
+}

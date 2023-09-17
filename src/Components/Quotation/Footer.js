@@ -3,7 +3,7 @@ import KEY from "../../Constants/keyCode"
 import Card from "../ManualAddProduct/Card"
 import ChooseCN from "./ChooseCN"
 import { getCNInfo } from "../../apis/billing"
-import { calcProfit } from "../../utils/billing"
+import { calcProfit, validatesalesbill } from "../../utils/billing"
 
 const Footer = ({ isCN, resetproducts, addField, carts = [], oncheckout, onsetCNInfo }) => {
   const [patientName, setPatient] = useState("")
@@ -42,9 +42,6 @@ const Footer = ({ isCN, resetproducts, addField, carts = [], oncheckout, onsetCN
 
   const onSumbmit = (e) => {
     e.preventDefault()
-    if (!patientName)
-      return alert("Patient Name Required!!")
-    alert("happy shopping")
 
     if (carts.length) {
       const profit = calcProfit(carts)
@@ -62,6 +59,9 @@ const Footer = ({ isCN, resetproducts, addField, carts = [], oncheckout, onsetCN
         creditAmt: creditAmt,
         profit: profit - (roundOff * -1)
       }
+      const { success, error } = validatesalesbill(billDetail, carts);
+      if (error)
+        return alert(error)
       if (isCN) {
         billDetail.amtRefund = amtPaid
         delete billDetail.amtPaid
@@ -84,6 +84,12 @@ const Footer = ({ isCN, resetproducts, addField, carts = [], oncheckout, onsetCN
       alert("Unable to get cn info!")
     }
     setIsMergeCN(false)
+  }
+
+  const onchangeamtpaid = (value) => {
+    if (value === "") setamtPaid("")
+    let isnum = /^\d+$/.test(value);
+    if (isnum) setamtPaid(value)
   }
 
   useEffect(() => {
@@ -171,7 +177,7 @@ const Footer = ({ isCN, resetproducts, addField, carts = [], oncheckout, onsetCN
           <h5 style={{ height: "20%", margin: "0px" }}>{roundOff || 0}</h5>
           {creditAmt ? <h5 style={{ height: "20%", margin: "0px" }}>{creditAmt || 0}</h5> : <></>}
           <h5 style={{ height: "20%", margin: "0px", marginTop: "0px", }}>{grandTotal || 0}</h5>
-          <Card min={0} w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt." value={amtPaid || 0} onchange={(name, value) => setamtPaid(value)} type="number" />
+          <Card w="50%" h="3%" pd="1.3vh 0.5vw" m="0px" name={""} label="" ph="Amt." value={amtPaid} onchange={(name, value) => onchangeamtpaid(value)} type="text" />
 
         </div>
         <div style={{ width: "100%", height: "4vh", marginTop: "3vh", display: "flex", justifyContent: "space-between" }} >
