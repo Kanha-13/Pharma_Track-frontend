@@ -9,8 +9,8 @@ import Loading from '../Loading/Loading';
 const Signin = ({ onSwitch }) => {
   const [loading, setLoading] = useState(false);
   const [isDisabled, setisDisabled] = useState(false);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("example@example.com");
+  const [password, setPassword] = useState("123");
   const navigate = useNavigate();
 
   const onloginclick = async (e) => {

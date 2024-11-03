@@ -7,7 +7,7 @@ import { ROUTES } from "../../Constants/routes_frontend";
 const OTP = ({ onSwitch, data = {} }) => {
   const navigate = useNavigate();
   const [isDisabled, setisDisabled] = useState(false);
-  const [otp, setOTP] = useState("")
+  const [otp, setOTP] = useState("123456")
 
 
   const changeEmail = () => {
