@@ -34,3 +34,8 @@ export const purchaseBillPayment = async (data) => {
   const res = await axios_instance.post(API.BILL_PAYMENT_PURCHASE, data)
   return res.data
 }
+
+export const addPurchaseCN = async (data) => {
+  const res = await axios_instance.post(API.ADD_PURCHASE_CN, data)
+  return res.data
+}

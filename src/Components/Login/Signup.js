@@ -6,10 +6,10 @@ import Loading from "../Loading/Loading";
 const Signup = ({ onSwitch, prefill }) => {
   const [loading, setLoading] = useState(false);
   const [isDisabled, setisDisabled] = useState(false);
-  const [userName, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [role, setRole] = useState("");
+  const [userName, setName] = useState("test");
+  const [email, setEmail] = useState("test@example.com");
+  const [password, setPassword] = useState("123");
+  const [role, setRole] = useState("Owner");
 
   const onsignup = async (e) => {
     e.preventDefault()

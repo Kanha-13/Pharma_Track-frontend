@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useStore } from "../../Store/store";
 import { getVendor, getVendorsQuery } from "../../apis/vendors";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ACTION } from "../../Store/constants";
 import { PaymentTypesLits } from "../../Constants/Purchase";
 import { PURCHASEBILLINFO, PURCHASEPRODUCTINFO, purchasebilldetail, purchaseproductdetail } from "../../Schema/purchase";
@@ -26,7 +26,6 @@ import ErrorModal from "../../Components/ErrorModal/ErrorModal";
 const PurchaseAdd = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate()
-  const location = useLocation()
   const [storedValue, setValue] = useLocalStorage("pendingPurchaseAdd")
   const { dispatch, vendors, products } = useStore();
   const [purchaseBillDetail, setPurchaseBill] = useState(purchasebilldetail)
@@ -37,6 +36,7 @@ const PurchaseAdd = () => {
   const [errMsg, seterr] = useState(false)
   const [pendingEntrys, setPendingEntrys] = useState([])
   const [pendingEntrySelect, setPendingEntrySelect] = useState(null)
+  const [cnData, setCNData] = useState({ totalAmt: 0, cnId: "" })
 
   const fetchVendorsList = async (value) => {
     try {
@@ -68,7 +68,8 @@ const PurchaseAdd = () => {
           else if (name === PURCHASEPRODUCTINFO.QNT || name === PURCHASEPRODUCTINFO.SC || name === PURCHASEPRODUCTINFO.RATE || name === PURCHASEPRODUCTINFO.CD || name === PURCHASEPRODUCTINFO.FREE) {
             let { netvalue, nettax, netamt, netrateperunit } = getNet(name, purchaseProducts[index], value)
             let { totalvalue, totaltax, totalamt } = getTotal(purchaseProducts, index, netamt, netvalue, nettax)
-            setPurchaseBill({ ...purchaseBillDetail, totalAmt: totalamt, totalValue: totalvalue, totalTax: totaltax })
+            let creditAmt = cnData.totalAmt || purchaseBillDetail.cnAmt
+            setPurchaseBill({ ...purchaseBillDetail, totalAmt: totalamt - creditAmt, totalValue: totalvalue, totalTax: totaltax })
 
             return { ...detail, [name]: value, netValue: netvalue, netAmt: netamt, netRate: netrateperunit, netTax: nettax }
           }
@@ -95,6 +96,10 @@ const PurchaseAdd = () => {
 
   const addPurchase = async () => {
     try {
+      if (purchaseBillDetail.paymentType === "CASH") {
+        purchaseBillDetail.paymentDate = purchaseBillDetail.purDate
+        purchaseBillDetail.paymentId = "cash"
+      }
       const addingVid = purchaseProducts.map((prod) => {
         return { ...prod, vId: purchaseBillDetail.vId }
       })
@@ -128,8 +133,7 @@ const PurchaseAdd = () => {
       }
     } catch (error) {
       console.log(error)
-      // alert("Unable to add purchase entry!")
-      seterr(error)
+      seterr(`${error.response.data.error}` || "Unable to add purchase entry!")
     }
   }
 
@@ -161,7 +165,8 @@ const PurchaseAdd = () => {
       setPurchaseProducts(calc_data)
       delete res_data.productsDetail
       res_data.purDate = getyyyymmdd(res_data.purDate)
-      res_data.paymentDate = getyyyymmdd(res_data.paymentDate)
+      if (res_data.paymentDate)
+        res_data.paymentDate = getyyyymmdd(res_data.paymentDate)
       const vendor = await getvendorname(res_data.vId)
       setPurchaseBill({ ...res_data, vendorName: vendor })
     } catch (error) {
@@ -232,6 +237,7 @@ const PurchaseAdd = () => {
   useEffect(() => {
     if (storedValue) {
       setPurchaseBill(storedValue.billData)
+      setCNData({ totalAmt: storedValue.billData.cnAmt || 0, cnId: storedValue.billData.purchaseCNId || "" })
       setPurchaseProducts(storedValue.prodData)
     }
     if (window.localStorage.getItem("pendingPurchaseBill"))
@@ -254,6 +260,12 @@ const PurchaseAdd = () => {
       default:
         break;
     }
+  }
+
+  const updatecndata = (data) => {
+    setCNData(data)
+    setPurchaseBill({ ...purchaseBillDetail, purchaseCNId: data.cnId, cnAmt: data.totalAmt })
+    setValue({ billData: { ...purchaseBillDetail, purchaseCNId: data.cnId, cnAmt: data.totalAmt }, prodData: purchaseProducts });
   }
 
   useEffect(() => {
@@ -282,17 +294,19 @@ const PurchaseAdd = () => {
         </div>
         {
           purchaseProducts.length > 0 ?
-            <ProductAddForm resetall={resetAllfield} oncancel={oncancel} saveinLS={saveinLS} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} onChange={onchangeproductlist} /> : <></>
+            <ProductAddForm cndata={cnData} setCNData={updatecndata} resetall={resetAllfield} oncancel={oncancel} saveinLS={saveinLS} mode={mode} onSubmit={onsubmit} addField={addField} deleteField={deleteField} purchaseProducts={purchaseProducts} onChange={onchangeproductlist} /> : <></>
         }
-        <div style={{ backgroundColor: "#e4e1f4", width: "20%", padding: "1%", alignSelf: "flex-end", height: "12%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
+        <div style={{ backgroundColor: "#e4e1f4", width: "20%", padding: "0.5%", alignSelf: "flex-end", height: "15%", display: "flex", alignItems: "center", justifyContent: 'flex-end' }}>
           <div style={{ height: "100%", width: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
             <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Sub total: </p>
             <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Tax: </p>
+            <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>CN Amt.: </p>
             <p style={{ fontSize: "1.2rem", margin: "0px", width: "100%", textAlign: "left" }}>Grand total: </p>
           </div>
           <div style={{ height: "100%", width: "50%", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "space-between" }}>
             <input style={{ border: "none", backgroundColor: "transparent", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalValue} />
             <input style={{ border: "none", backgroundColor: "transparent", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalTax} />
+            <input style={{ border: "none", backgroundColor: "transparent", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.cnAmt} />
             <input style={{ border: "none", backgroundColor: "transparent", width: "90%", fontSize: "1.2rem" }} readOnly value={purchaseBillDetail.totalAmt} />
           </div>
         </div>
